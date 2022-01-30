@@ -1,4 +1,4 @@
-export const getToken = () => {
+export const fetchToken = () => {
     return localStorage.getItem('jwt');
 }
 

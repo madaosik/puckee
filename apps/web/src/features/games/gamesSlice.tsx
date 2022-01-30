@@ -2,14 +2,13 @@ import { createAsyncThunk, createSlice, createEntityAdapter } from '@reduxjs/too
 // import { GiConsoleController } from 'react-icons/gi'
 import { API_BASE, client } from 'puckee-common/api'
 import { IGame } from 'puckee-common/types'
-import { getToken } from '../../utils/auth'
+import { fetchToken } from '../../utils/auth'
 
 const gamesAdapter = createEntityAdapter<IGame>()
 
 export const fetchGames = createAsyncThunk('games/fetchAllGames', async () => {
-    const customConfig = {headers: {'Authorization': `Bearer ${getToken()}`}}
-    const response = await client.get(API_BASE + '/game', customConfig)
-    // const response = await client.get('http://172.18.0.3:80/api/event')
+    const customConfig = {headers: {'Authorization': `Bearer ${fetchToken()}`}}
+    const response = await client.get(`${API_BASE}/game`, customConfig)
     return response.data
 })
 

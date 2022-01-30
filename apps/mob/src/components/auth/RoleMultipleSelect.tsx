@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import SelectBox, { Item } from 'react-native-multi-selectbox-typescript';
 import { xorBy } from 'lodash'
 import { theme } from '../../utils/theme';
-import { AthleteRole } from '../../types';
+import { AthleteRole } from 'puckee-common/types';
 
 type Props = {
   updateParentRoles: (items: Item[]) => void

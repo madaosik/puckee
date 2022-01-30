@@ -6,23 +6,24 @@ import {
 } from '@reduxjs/toolkit'
 import { RootState } from '../../redux/store'
 
-import { client } from '../../api/client'
-import { IGame } from '../../types'
-import { API_BASE } from '@env';
+import { client } from 'puckee-common/api'
+import { IGame } from 'puckee-common/types'
+import { API_BASE } from 'puckee-common/api';
 import { format, addDays } from 'date-fns';
+import { fetchToken } from '../../utils/auth';
 
 const gamesAdapter = createEntityAdapter<IGame>()
-
 
 // Thunk (Async Dispatch)
 export const fetchGames = createAsyncThunk('games/fetchGames', async () => {
   // const today = format(Date.now(), "yyyy-MM-dd")
   // const nextWeekDay = format(addDays(Date.now(), 7) , "yyyy-MM-dd")
   // const response = await client.get(`${API_BASE}/game/date?start_date=${today}&end_date=${nextWeekDay}`)
-  const response = await client.get(`${API_BASE}/game`)
+  const customConfig = {headers: {'Authorization': `Bearer ${await fetchToken()}`}}
+  console.log(customConfig)
+  const response = await client.get(`${API_BASE}/game`, customConfig)
   return response.data
 })
-
 
 const gamesSlice = createSlice({
   name: 'games',

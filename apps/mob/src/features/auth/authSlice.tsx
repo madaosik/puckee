@@ -7,12 +7,14 @@ import { storeToken, removeToken } from '../../utils/auth';
 
 import { API_BASE } from 'puckee-common/api';
 
+
 export type Credentials = {
     email: string,
     password: string
 }
 
 export const login = createAsyncThunk('auth/login', async (cred: Credentials) => {
+    console.log(`logging in to ${API_BASE}/auth/login`)
     const response = await client.post(`${API_BASE}/auth/login`, cred);
     await storeToken(response.data.access_token);
     return response.data;

@@ -6,7 +6,7 @@ import { Text, View } from '../../components/main/Themed';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { signOut } from '../../features/auth/authSlice';
 import { NavProps } from '../auth';
-import { AthleteRole } from '../../types';
+import { AthleteRole } from 'puckee-common/types';
 import PerformanceLevelPucks from '../../components/main/PerformanceLevelPucks';
 
 export default function ProfileScreen({ navigation }: NavProps) {
