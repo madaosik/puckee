@@ -1,0 +1,5 @@
+node_modules
+*/node_modules
+*/cache/
+apps/mob/.expo/web/cache
+apps/web/.expo/web/cache

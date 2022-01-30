@@ -1,0 +1,13 @@
+{
+  "name": "puckee",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:madaosik/puckee.git",
+  "author": "Adam Lanicek <adam@lanicektransport.cz>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

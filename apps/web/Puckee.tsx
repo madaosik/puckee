@@ -1,0 +1,25 @@
+import React from 'react'
+// import {
+//   BrowserRouter as Router,
+// } from 'react-router-dom'
+
+import { Navbar } from './src/app/Navbar'
+import Routes from './src/routes'
+// import { Login } from '../src/pages'
+
+function Puckee() {
+  return (
+    <div>
+      <Navbar />
+      <div className="App">
+        {/* <Switch> */}
+          <Routes/>
+          {/* <Route exact path="/" render={() => ( <GamesList/> )} />
+          <Redirect to="/" /> */}
+        {/* </Switch> */}
+      </div>
+    </div>
+  )
+}
+
+export default Puckee
