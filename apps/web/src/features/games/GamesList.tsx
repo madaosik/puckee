@@ -1,11 +1,12 @@
 import React, { useEffect } from "react"
-import { useAppSelector, useAppDispatch } from '../../app/store'
-import { selectAllGames, fetchGames } from "./gamesSlice"
+import { useAppSelector, useAppDispatch } from 'puckee-common/redux'
+import { selectAllGames, fetchGames } from 'puckee-common/features/games'
 // import { Button } from "../../components"
 // import { signOut } from "../auth/authSlice"
 import { GameExcerpt } from "./GameExcerpt"
 
 import { Spinner } from '../../components/Spinner'
+import { fetchToken } from "../../utils/auth"
 
 export const GamesList = () => {
     const dispatch = useAppDispatch()
@@ -22,7 +23,7 @@ export const GamesList = () => {
 
     useEffect(() => {
         if (gameStatus === 'idle') {
-            dispatch(fetchGames())
+            dispatch(fetchGames(fetchToken()))
         }
     }, [gameStatus, dispatch])
     

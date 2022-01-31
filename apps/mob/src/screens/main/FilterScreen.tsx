@@ -6,7 +6,7 @@ import PerformanceLevelPucks from '../../components/main/PerformanceLevelPucks';
 
 import { Text, View } from '../../components/main/Themed';
 import { toggleMyAttFilter, toggleMyOrgFilter, toggleBySkillFilter, setReqSkillLevelValue } from '../../features/games/gamesSlice';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from 'puckee-common/redux';
 import { theme } from '../../utils/theme'
 
 export default function ModalScreen() {

@@ -3,26 +3,39 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { client } from 'puckee-common/api'
 // import { useAppDispatch } from '../../redux/store';
 // import { Athlete } from 'puckee-common/types';
-import { storeToken, removeToken } from '../../utils/auth';
-
+// import { storeToken, removeToken } from '../../utils/auth';
+import { Credentials } from '../../types';
 import { API_BASE } from 'puckee-common/api';
-
-
-export type Credentials = {
-    email: string,
-    password: string
-}
+// import GameDetailsChat from '../../../../apps/mob/src/features/games/GameDetailsChat';
+// import * as SecureStore from 'expo-secure-store';
+// import history from '../../routes/history';
+import history from 'puckee-web/src/routes/history'
 
 export const login = createAsyncThunk('auth/login', async (cred: Credentials) => {
     console.log(`logging in to ${API_BASE}/auth/login`)
     const response = await client.post(`${API_BASE}/auth/login`, cred);
-    await storeToken(response.data.access_token);
     return response.data;
 });
 
-export const signOut = createAsyncThunk('auth/signOut', async () => {
-    await removeToken()
-});
+// export const signOut = createAsyncThunk('auth/signOut', async () => {
+    // await SecureStore.deleteItemAsync('secure_token')
+// });
+
+// export const loginLocalStorage = createAsyncThunk('auth/login', async (cred: Credentials) => {
+//     const response = await client.post(API_BASE + '/auth/login', cred);
+//     await localStorage.setItem('access_token', response.data.access_token);
+//     // setToken(response.data.access_token)
+//     history.push('/home');
+//     return response.data;
+// });
+
+// export const signUp = createAsyncThunk('auth/signup', async () => {
+//     return "cus"
+// })
+
+// export const signOut = createAsyncThunk('auth/signOut', async () => {
+    // removeToken();
+// }); 
 
 const initialState = {
     token: null,
@@ -38,12 +51,12 @@ const authSlice = createSlice({
         // [signOut.pending.type]: (state, action) => {
         //     state.status = 'loading'
         // },
-        [signOut.fulfilled.type]: (state, action) => {
-            state.status = 'succeeded';
+        // [signOut.fulfilled.type]: (state, action) => {
+            // state.status = 'succeeded';
             // state.userData = {};
-            state.token = null;
+            // state.token = null;
             // state.userData = {}
-        },
+        // },
         [login.pending.type]: (state, action) => {
             state.status = 'loading'
         },

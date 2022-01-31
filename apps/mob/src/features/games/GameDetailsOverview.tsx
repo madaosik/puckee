@@ -7,12 +7,12 @@ import { MaterialCommunityIcons, Entypo, MaterialIcons, FontAwesome5 } from '@ex
 import { Button as PaperButton, Dialog, Portal, RadioButton } from 'react-native-paper'
 
 import { selectGameById } from './gamesSlice'
-import { useAppSelector } from '../../redux/store'
+import { useAppSelector } from 'puckee-common/redux'
 import { Text, View } from '../../components/main/Themed';
-import { IAthlete, IGame } from '../../types';
+import { IAthlete, IGame } from 'puckee-common/types';
 import { GameStackScreenProps } from '../../types/navigation';
 import { GameDetailsNavigationBar } from './GameDetailsNavigationBar';
-import { API_BASE } from '@env';
+import { API_BASE } from 'puckee-common/api';
 import { Snackbar } from 'react-native-paper';
 
 const viewLightColor = "#555"

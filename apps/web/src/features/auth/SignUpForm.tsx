@@ -1,7 +1,7 @@
 import React, {useState, Component, useEffect} from 'react';
 // import { getToken } from '../../src/utils/auth';
 import { Button, FormInput } from '../../components';
-import { useAppSelector, useAppDispatch } from '../../app/store'
+import { useAppSelector } from 'puckee-common/redux'
 // import history from '../../utils/history';
 
 // import history from '../routes/history';

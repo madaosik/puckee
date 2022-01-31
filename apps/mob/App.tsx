@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper'
-import store from './src/redux/store';
+import { store } from 'puckee-common/redux';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import useCachedResources from './src/hooks/useCachedResources';

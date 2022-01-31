@@ -3,10 +3,11 @@ import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import { Header, Background, Button, TextInput } from '../../components/auth';
 import { theme } from '../../utils/theme';
 import { NavProps } from '.';
-import { Credentials } from '../../features/auth/authSlice';
-import { emailValidator, passwordValidator } from '../../utils/auth';
-import { useAppSelector, useAppDispatch } from '../../redux/store';
-import { login } from '../../features/auth/authSlice';
+import { emailValidator, passwordValidator, storeToken } from '../../utils/auth';
+import { useAppSelector, useAppDispatch } from 'puckee-common/redux';
+import { login } from 'puckee-common/features/auth';
+import { Credentials } from 'puckee-common/types';
+import { unwrapResult } from '@reduxjs/toolkit'
 
 const LoginScreen = ({ navigation }: NavProps) => {
   const [email, setEmail] = useState({ value: '', error: '' });
@@ -25,8 +26,12 @@ const LoginScreen = ({ navigation }: NavProps) => {
     }
     const cred: Credentials = {email: email.value, password: password.value}
     dispatch(login(cred))
-
+        .then(unwrapResult)
+        .catch(e => console.error('Unable to unwrap the response: ' + e))
+        .then(response => storeToken(response.access_token))
+        .finally(() => console.log('Successfully logged in!'))
   };
+  
   useEffect(() => {
     if (status == 'succeeded' && token) {
       navigation.navigate('LoggedIn')

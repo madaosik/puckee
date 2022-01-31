@@ -4,8 +4,8 @@ import { StyleSheet } from 'react-native';
 import _ from 'lodash';
 
 import { View, Text } from '../../components/main/Themed';
-import { useAppSelector } from '../../redux/store';
-import { IAthlete, IGame } from '../../types';
+import { useAppSelector } from 'puckee-common/redux';
+import { IAthlete, IGame } from 'puckee-common/types';
 import { GameStackScreenProps } from '../../types/navigation';
 import { GameDetailsNavigationBar } from './GameDetailsNavigationBar';
 import { selectGameById } from './gamesSlice';

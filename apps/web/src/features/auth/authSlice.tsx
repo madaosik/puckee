@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { setToken, removeToken } from '../../utils/auth';
 import { API_BASE, client } from 'puckee-common/api'
-import history from '../../routes/history';
 import { IAthlete } from 'puckee-common/types';
 import { Athlete } from 'puckee-common/types';
 // import * as SecureStore from 'expo-secure-store'
@@ -33,12 +32,9 @@ export type Credentials = {
 }
 
 export const login = createAsyncThunk('auth/login', async (cred: Credentials) => {
-    // console.log("logging in to: " + env.API_BASE)
-    // console.log("http://172.18.0.3:5000/api/auth/login")
     const response = await client.post(API_BASE + '/auth/login', cred);
     setToken(response.data.access_token)
-    // setToken(response.data.access_token);
-    history.push('/home');
+    // history.push('/home');
     return response.data;
 });
 

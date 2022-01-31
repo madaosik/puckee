@@ -3,8 +3,8 @@ import { StyleSheet  } from 'react-native';
 import { Button } from '../../components/auth';
 
 import { Text, View } from '../../components/main/Themed';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { signOut } from '../../features/auth/authSlice';
+import { useAppDispatch, useAppSelector } from 'puckee-common/redux';
+import { signOut } from 'puckee-common/features/auth'
 import { NavProps } from '../auth';
 import { AthleteRole } from 'puckee-common/types';
 import PerformanceLevelPucks from '../../components/main/PerformanceLevelPucks';

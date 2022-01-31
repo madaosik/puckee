@@ -2,14 +2,14 @@ import { format } from 'date-fns';
 import React, { useEffect } from 'react';
 import { StyleSheet, SectionList, Pressable } from 'react-native';
 import { Text, View } from '../../components/main/Themed';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { GameDay } from '../../types/game';
+import { useAppDispatch, useAppSelector } from 'puckee-common/redux';
 
-import { IGame } from "../../Types/index";
-import { GameStackScreenProps } from '../../Types/navigation';
+import { IGame, GameDay, AccessToken } from "puckee-common/types";
+import { GameStackScreenProps } from '../../types/navigation';
 import { theme } from '../../utils/theme';
 import { GameExcerpt } from './GameExcerpt';
-import { fetchGames, selectAllGames, selectGamesByAttendeeId, selectGamesByOrganizerId, selectGamesBySkillLevel } from './gamesSlice';
+import { fetchGames, selectAllGames, selectGamesByAttendeeId, selectGamesByOrganizerId, selectGamesBySkillLevel } from 'puckee-common/features/games';
+import { fetchToken } from '../../utils/auth';
 
 
 const renderSectionHeader = ({section: {title}}: {section: any}) => (
@@ -48,7 +48,9 @@ export default function GamesList({ route, navigation }: GameStackScreenProps<'G
 
   useEffect(() => {
     if (gameStatus === 'idle') {
-      dispatch(fetchGames())
+      let access_token : AccessToken = null
+      fetchToken()
+        .then(access_token => dispatch(fetchGames(access_token)))
     }
   }, [gameStatus, dispatch])
 

@@ -1,4 +1,4 @@
-import { useAppDispatch, useAppSelector } from "../../app/store";
+import { useAppDispatch, useAppSelector } from "puckee-common/redux";
 import { Athlete } from "puckee-common/types";
 import { signOut } from "./authSlice";
 

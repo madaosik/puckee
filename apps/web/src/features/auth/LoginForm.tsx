@@ -1,35 +1,30 @@
 import React, {useState} from 'react';
 // import { getToken } from '../../src/utils/auth';
 import { Button, FormInput } from '../../components';
-import { useAppSelector, useAppDispatch } from '../../app/store'
-// import history from '../../utils/history';
+import { useAppSelector, useAppDispatch } from 'puckee-common/redux'
+import history from '../../routes/history';
 
 // import history from '../routes/history';
-import { Credentials } from './authSlice'
-import { login } from './authSlice';
-import env from 'react-dotenv'
+import { Credentials } from 'puckee-common/types'
+import { login } from 'puckee-common/features/auth/authSlice';
+import { unwrapResult } from '@reduxjs/toolkit'
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useAppDispatch();
-    const {status} = useAppSelector((state) => state.auth);
+    const { status } = useAppSelector((state) => state.auth);
 
-    // if(token || getToken()){
-        // history.push('/home');
-    // }
-    // console.log('nazdar')
     const handleLogin = (e: React.FormEvent) => {
-        // console.log('api base: ' + env.API_BASE)
         e.preventDefault()
         const cred: Credentials = {email: email, password: password}
-        // setTimeout(cus, 5000);
         dispatch(login(cred))
+            .then(unwrapResult)
+            .then(token => { localStorage.setItem('access_token', token.access_token) })
+        
+        history.push('/home')
     }
 
-    function cus () {
-        console.log("nazdar")
-    }
     return (
         <div className="loginForm">
             <form onSubmit={handleLogin}>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 // import { Button } from '../components'
-import { useAppSelector } from './store'
+import { useAppSelector } from 'puckee-common/redux'
 // import { signOut } from '../features/auth/authSlice'
 // import { IAthlete } from '../types'
 // import { Athlete } from '../types/Athlete'

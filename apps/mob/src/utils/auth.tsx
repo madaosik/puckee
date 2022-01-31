@@ -1,13 +1,12 @@
 import * as SecureStore from 'expo-secure-store';
-
-type Token = string | null | void;
+import { AccessToken } from 'puckee-common/types';
 
 export const storeToken = async (token: string) => {
   await SecureStore.setItemAsync('secure_token', token)
-    .catch(e => console.error("Could not save secure access token: " + e));
+                    .catch(e => console.error("Could not save secure access token: " + e));
 };
 
-export const fetchToken = async () : Promise<Token> => {
+export const fetchToken = async () : Promise<AccessToken> => {
   return SecureStore.getItemAsync('secure_token')
       .catch(e => console.error("Could not retrieve secure access token: " + e));
 };
