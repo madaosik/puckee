@@ -1,19 +1,12 @@
 import { MdSchedule, MdLocationPin, MdPeopleOutline, MdPerson } from 'react-icons/md'
 import { FaHockeyPuck } from "react-icons/fa";
 import { GiCrestedHelmet } from "react-icons/gi";
-import { IGame } from "../../types"
+import { IGame } from "puckee-common/types"
+import { levelPucksSet } from "puckee-common/utils/levelPucks"
 
 export const GameExcerpt = (game: IGame) => {
-    const startTime = new Date(game.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
-    
-    const gameLevel = [] as any;
-    for(let i=0; i<6; i++) {
-        if (i<game.exp_level) {
-            gameLevel.push(<FaHockeyPuck size={24} color="black" key={game.id + ":level " + i}/>);
-        } else {
-            gameLevel.push(<FaHockeyPuck size={24} color="lightgrey" key={game.id + ":level " + i}/>);
-        }
-    }
+    const startTime = new Date(game.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })    
+    const gameLevel = levelPucksSet( {perfLevel: game.exp_level, puckSize: 24, iconKey: game.id.toString()} )
 
     const goalies = [] as any;
     let i=0;

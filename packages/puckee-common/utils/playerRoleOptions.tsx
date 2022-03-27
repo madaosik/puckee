@@ -1,7 +1,7 @@
 import { AthleteRole } from "../types";
 import { AthleteRoleOption } from "../types/Athlete";
 
-const playerRoleOptions = () => {
+export const playerRoleOptions = () => {
     var roleStrings: string[] = Object.keys(AthleteRole)
                             .filter((key: any) => !isNaN(Number(AthleteRole[key])))
                             .filter(key => (key != "INVALID") && (key != "User"))

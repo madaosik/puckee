@@ -48,7 +48,6 @@ export default function GamesList({ route, navigation }: GameStackScreenProps<'G
 
   useEffect(() => {
     if (gameStatus === 'idle') {
-      let access_token : AccessToken = null
       fetchToken()
         .then(access_token => dispatch(fetchGames(access_token)))
     }
