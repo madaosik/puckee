@@ -11,9 +11,9 @@ import { Serializable } from ".";
 export enum AthleteRole {
   INVALID,
   User,
-  Player,
-  Goalie,
-  Referee
+  Hráč,
+  Brankář,
+  Rozhodčí
 }
 
 export type AthleteRoleOption = {value: number, label: string} | unknown

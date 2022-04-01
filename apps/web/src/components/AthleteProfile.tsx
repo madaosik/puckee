@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "puckee-common/redux";
 import { Athlete } from "puckee-common/types";
-// import { signOut } from "./authSlice";
+import React from "react";
 
 const AthleteProfile = () => {
 
@@ -26,9 +26,9 @@ const AthleteProfile = () => {
                 </div>
                 <div className="userProfileSignout">
                     {/* <div className="userProfileColumnValues"> */}
-                    <button type="button" onClick={() => dispatch(signOut())}>
+                    {/* <button type="button" onClick={() => dispatch(signOut())}>
                         Odhlášení
-                    </button>
+                    </button> */}
                 </div>
                 {/* </div> */}
             </div>

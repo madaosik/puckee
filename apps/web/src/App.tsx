@@ -10,14 +10,14 @@ import Routes from './routes'
 function App() {
   return (
     <div>
-      <Navbar />
-      <div className="App">
+      {/* <Navbar /> */}
+      {/* <div className="App"> */}
         {/* <Switch> */}
           <Routes/>
           {/* <Route exact path="/" render={() => ( <GamesList/> )} />
           <Redirect to="/" /> */}
         {/* </Switch> */}
-      </div>
+      {/* </div> */}
     </div>
   )
 }

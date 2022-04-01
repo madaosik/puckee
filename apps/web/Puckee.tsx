@@ -10,7 +10,7 @@ import Routes from './src/routes'
 function Puckee() {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="App">
         {/* <Switch> */}
           <Routes/>

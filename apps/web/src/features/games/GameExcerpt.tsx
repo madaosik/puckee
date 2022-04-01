@@ -3,6 +3,7 @@ import { FaHockeyPuck } from "react-icons/fa";
 import { GiCrestedHelmet } from "react-icons/gi";
 import { IGame } from "puckee-common/types"
 import { levelPucksSet } from "puckee-common/utils/levelPucks"
+import React from 'react';
 
 export const GameExcerpt = (game: IGame) => {
     const startTime = new Date(game.start).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })    
@@ -12,6 +13,7 @@ export const GameExcerpt = (game: IGame) => {
     let i=0;
     if(game.goalies !== undefined) {
         game.goalies.forEach(g => {
+            console.log(game.id + "-goalie-" + i)
             goalies.push(<GiCrestedHelmet size={24} color="#000000" key={game.id + ":goalie " + i}/>);
             i += 1;
         })
@@ -26,14 +28,14 @@ export const GameExcerpt = (game: IGame) => {
         <div className="game-attributes">
             <div className='row'>
                 <div className='column'>
-                    <p><span><MdSchedule/></span>{startTime}</p>
-                    <p><span><MdLocationPin/></span>{game.location}</p>
-                    <p><span><MdPerson/></span>{game.organizers[0].name}</p>
+                  <span><MdSchedule/></span><p>{startTime}</p>
+                  <span><MdLocationPin/></span><p>{game.location}</p>
+                  <span><MdPerson/></span><p>{game.organizers[0].name}</p>
                 </div>
                 <div className='column'>
-                    <p><span><MdPeopleOutline/></span><span>{game.players.length}/{game.total_places}</span></p>
-                    <p><span>{goalies}</span></p>
-                    <p><span>{gameLevel}</span></p>
+                  <span><MdPeopleOutline/></span><span>{game.players.length}/{game.total_places}</span>
+                  <span>{goalies}</span>
+                  <span>{gameLevel}</span>
                 </div>
                 <div className='detailColumn'>
                     <button type="button">Detail</button>

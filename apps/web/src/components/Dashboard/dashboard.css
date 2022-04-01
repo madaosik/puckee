@@ -1,0 +1,23 @@
+.content-row.dashboard-first {
+    height: calc((var(--top-bar-dashboard-height) - var(--top-bar-std-height)) * 0.95);
+    display: flex;
+    flex-flow: row;
+}
+
+.content-row.dashboard-second {
+    flex: 1 0 auto;
+    background-color: white;
+    margin-top: 20px;
+}
+
+.dashboard-myNearestGames {
+    flex: 5;
+    margin-right: 5px;
+}
+
+.dashboard-calendar {
+    flex: 2;
+    margin-left: 5px;
+    background-color: white;
+    border-radius: 10px;
+}

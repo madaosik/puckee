@@ -1,6 +1,7 @@
 import React from 'react'
 import { Router } from "react-router-dom";
 import './index.css'
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { store } from 'puckee-common/redux'
 import { Provider } from 'react-redux'
 

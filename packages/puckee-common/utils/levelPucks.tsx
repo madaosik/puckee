@@ -14,10 +14,12 @@ export const levelPucksSet = ( {perfLevel, puckSize, iconKey}: LevelPucksProps )
     
     for(let i=0; i < 6; i++) {
         if(i < perfLevel) {
-            levelPucks.push(<MaterialCommunityIcons  name="hockey-puck" size={puckSize} color="#000000" key={iconKey + ":level " + i}/>);
+            levelPucks.push(<MaterialCommunityIcons  name="hockey-puck" size={puckSize} color="#000000" key={iconKey + ":activePuck " + i}/>);
+            // console.log(iconKey + "-activePuck-" + i)
         } else {
-            levelPucks.push(<MaterialCommunityIcons  name="hockey-puck" size={puckSize} color="#dcdcdc" key={iconKey + ":level" + i}/>);
-        }
+            levelPucks.push(<MaterialCommunityIcons  name="hockey-puck" size={puckSize} color="#dcdcdc" key={iconKey + ":inactivePuck" + i}/>);
+            // console.log(iconKey + "-inactivePuck-" + i)
+          }
       }
     
     return levelPucks

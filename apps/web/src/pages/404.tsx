@@ -1,6 +1,8 @@
+import React from "react";
+
 const NoMatch = () => {
 
-    return <div>Stránka nenalezena!</div>;
+    return <h1>Stránka nenalezena!</h1>;
 }
 
 export default NoMatch;

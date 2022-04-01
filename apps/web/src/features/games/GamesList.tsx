@@ -5,7 +5,7 @@ import { selectAllGames, fetchGames } from 'puckee-common/features/games'
 // import { signOut } from "../auth/authSlice"
 import { GameExcerpt } from "./GameExcerpt"
 
-import { Spinner } from '../../components/Spinner'
+import { Spinner } from '../../components/Spinner/Spinner'
 import { fetchToken } from "../../utils/auth"
 
 export const GamesList = () => {
@@ -59,7 +59,7 @@ export const GamesList = () => {
         // console.log(daySections);
         // console.log(daySections);
         content = games.map(game => (
-            <GameExcerpt { ...game } />
+            <GameExcerpt key={game.id} { ...game } />
         ))
     } else if (gameStatus === 'failed') {
         content = <div>{error}</div>

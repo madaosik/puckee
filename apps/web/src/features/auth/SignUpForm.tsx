@@ -68,21 +68,36 @@ export default function SignUpForm() {
     return (
         <div className="loginForm">
             <form onSubmit={handleSignUp}>
-                <FormInput 
-                    onChange={(e: React.FormEvent<HTMLInputElement>) => setName(e.currentTarget.value)}
-                    placeholder="Jméno" type="text" value={name}/>
-                <FormInput 
-                    onChange={(e: React.FormEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)}
-                    placeholder="E-mail" type="email" value={email}/>
-                <FormInput
-                    onChange={(e: React.FormEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)}
-                    placeholder="Heslo" type="password" value={password}/>
-                <AnimatedMultiSelect/>
-                <SkillPucks perfLevel={perfLevel} puckSize={30} iconKey={'signUpPuck'} className="signUpPucks"/>
+                <h3 style={{ marginBottom: "1rem" }}>Registrace</h3>
+                <div className="form-group">
+                    <label>Jméno a příjmení</label>
+                    <FormInput 
+                        onChange={(e: React.FormEvent<HTMLInputElement>) => setName(e.currentTarget.value)}
+                        placeholder="Jméno" type="text" value={name}/>
+                </div>
+                <div className="form-group">
+                    <label>E-mail</label>
+                    <FormInput 
+                        onChange={(e: React.FormEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)}
+                        placeholder="E-mail" type="email" value={email}/>
+                </div>
+                <div className="form-group">
+                    <label>Heslo</label>
+                    <FormInput
+                        onChange={(e: React.FormEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)}
+                        placeholder="Heslo" type="password" value={password}/>
+                </div>
+                <div className="form-group">
+                    <label>Chci se účastnit jako</label>
+                    <AnimatedMultiSelect/>
+                </div>
+                <div className="form-group">
+                    <SkillPucks perfLevel={perfLevel} puckSize={30} iconKey={'signUpPuck'} className="signUpPucks"/>
                 {/* <Slider defaultValue={50} aria-label="Default" valueLabelDisplay="auto" /> */}
+                </div>
                 { status === 'loading' ? <div className="loading"><span>Přihlašování...</span></div>
                 : 
-                <Button type="submit" caption="Registruj!"/>}
+                <Button className="btn btn-primary float-right" type="submit" caption="Registruj!"/>}
             </form>
         </div>
     )
