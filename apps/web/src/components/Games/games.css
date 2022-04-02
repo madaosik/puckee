@@ -1,0 +1,99 @@
+/* NewGame styles */
+
+:root {
+    --newGame-basic-info-size: 650px;
+    --newGame-players-basic-size: 500px;
+}
+
+.content-row.newGame-basics {
+    /* flex: 0; */
+    height: var(--newGame-basic-info-size);
+    display: flex;
+    flex-direction: row;
+    /* background-color: aqua; */
+    justify-content: space-between;
+}
+
+.newGame-section {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-row.newGame-attendees {
+    /* flex: 1 0 auto; */
+    height: var(--newGame-players-basic-size);
+    margin-top: 10px;
+    /* background-color: yellow; */
+    justify-content: space-between;
+}
+
+.main {
+    width: var(--main-content-proportion);
+}
+
+.side {
+    width: var(--right-side-bar-proportion)
+}
+
+.newGame-helpers {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+}
+
+.newGame-recentlyOrganized {
+    height: calc((var(--newGame-basic-info-size) - 50px)/2 - 5px);
+    margin-bottom: 10px;
+    /* background-color: blueviolet; */
+}
+
+.newGame-financialEstimate {
+    height: calc((var(--newGame-basic-info-size) - 50px)/2 - 5px);
+    /* background-color: red; */
+}
+
+.newGame-attendees {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.players {
+    background-color: yellow;
+}
+
+.content-row.newGame-attendees.goalies, .content-row.newGame-attendees.referees {
+    height: 300px;
+}
+
+.content-row.newGame-addGame {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.addGame-buttonPart {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.newGame-helpers.availableGroups{
+    margin-top: 50px;
+    height: calc((var(--newGame-basic-info-size) - 50px)/2 - 5px);
+}
+
+.content-inner-row.heading.helper {
+    background-color: white;
+    color: #A4A4A9;
+    font-weight: bolder;
+}
+
+.content-inner-row.data.helper {
+    background-color: #F5F6F6;
+    color: darkgray;
+}

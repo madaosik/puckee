@@ -2,18 +2,26 @@ import React, {useState} from 'react';
 // import { getToken } from '../../src/utils/auth';
 import { Button, FormInput } from '../../components';
 import { useAppSelector, useAppDispatch } from 'puckee-common/redux'
-import history from '../../routes/history';
+// import history from '../../../App'
 
-// import history from '../routes/history';
+import history from '../../routes/history';
 import { Credentials } from 'puckee-common/types'
 import { login } from 'puckee-common/features/auth/authSlice';
 import { unwrapResult } from '@reduxjs/toolkit'
+import { useHistory, useLocation } from 'react-router-dom';
+
+interface LocationState {
+    from: {
+      pathname: string;
+    };
+  }
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useAppDispatch();
     const { status } = useAppSelector((state) => state.auth);
+    const previousState = useLocation<LocationState>().state
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault()
@@ -21,8 +29,13 @@ const LoginForm = () => {
         dispatch(login(cred))
             .then(unwrapResult)
             .then(token => { localStorage.setItem('access_token', token.access_token) })
-        
-        history.push('/dashboard')
+            // .then(() => redirect = true)
+
+        if (previousState.from.pathname == '/' || previousState.from.pathname == '/sign-in') {
+            history.push('/dashboard')
+        } else {
+            history.push(previousState.from.pathname)
+        }
     }
 
     return (
@@ -40,6 +53,8 @@ const LoginForm = () => {
         //         <Button type="submit" caption="Jdu!"/>}
         //     </form>
         // </div>
+        // { redirect ? <Redirect to="/dashboard"/>
+        // :
         <form onSubmit={handleLogin}>
             <h3 style={{ marginBottom: "1rem" }}>Jdeš do hry?</h3>
             <div className="form-group">
@@ -70,6 +85,7 @@ const LoginForm = () => {
                 Forgot <a href="#">password?</a>
             </p> */}
         </form>
+        // }
     )
 }
 

@@ -4,7 +4,7 @@ export const MyNearestGames : React.FC = () => {
     return (
         <div className="content-inner-box">
             <div className="content-inner-row heading">
-                <h4>Moje nejbližší utkání</h4>
+                <h4>Tvoje nejbližší utkání</h4>
             </div>
             <div className="content-inner-row data">
                 <p>Data</p>

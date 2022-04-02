@@ -1,0 +1,23 @@
+.userProfileUpper {
+    margin-bottom: 5px;
+}
+
+.leftContentColumn.userProfileUpper {
+    width: 50%;
+    /* background-color: aqua; */
+    justify-content: space-between;
+}
+
+.rightContentColumn.userProfileUpper {
+    width: 50%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.userData {
+    height: 49%;
+}
+
+.playedGames {
+    height: 49%;
+}

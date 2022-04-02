@@ -1,4 +1,5 @@
 import React from "react"
+import LoremIpsum from "react-lorem-ipsum"
 
 export const MightInterestYou : React.FC = () => {
     return (
@@ -7,7 +8,7 @@ export const MightInterestYou : React.FC = () => {
                 <h4>Mohlo by Tě zajímat</h4>
             </div>
             <div className="content-inner-row data">
-                <p>Data</p>
+                <LoremIpsum p={6} />
             </div>
         </div>
     )

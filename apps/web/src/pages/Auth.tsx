@@ -6,15 +6,16 @@
 // import { signOut } from "../features/auth/authSlice"
 import LoginForm from "../features/auth/LoginForm"
 import SignUpForm from "../features/auth/SignUpForm";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, useLocation } from "react-router-dom";
 import { MdPerson, MdOutlineSportsHockey } from 'react-icons/md'
 import { FaHockeyPuck } from "react-icons/fa";
 import React from "react"
 // import SignUpForm from "../features/auth/SignUpForm";
+// import history from '../routes/history'
 
 const Auth = () => {
-    // const dispatch = useAppDispatch()
-
+    // const previousState = useLocation<LocationState>().state
+    // history.push('/sign-in', {from: previousState.from.pathname })
     return (
         <Router>
             <nav className="navbar navbar-expand-lg navbar-blue">

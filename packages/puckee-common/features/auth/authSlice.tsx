@@ -9,8 +9,7 @@ import { API_BASE } from 'puckee-common/api';
 // import GameDetailsChat from '../../../../apps/mob/src/features/games/GameDetailsChat';
 // import * as SecureStore from 'expo-secure-store';
 // import history from '../../routes/history';
-import history from 'puckee-web/src/routes/history'
-
+// import history from 'puckee-web/src/routes/history'
 
 export const login = createAsyncThunk('auth/login', async (cred: Credentials) => {
     console.log(`logging in to ${API_BASE}/auth/login`)
@@ -34,9 +33,9 @@ export const login = createAsyncThunk('auth/login', async (cred: Credentials) =>
 //     return "cus"
 // })
 
-// export const signOut = createAsyncThunk('auth/signOut', async () => {
-    // removeToken();
-// }); 
+export const signOut = createAsyncThunk('auth/signOut', async () => {
+    localStorage.removeItem('jwt');
+}); 
 
 const initialState = {
     token: null,
@@ -49,15 +48,15 @@ const authSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: {
-        // [signOut.pending.type]: (state, action) => {
-        //     state.status = 'loading'
-        // },
-        // [signOut.fulfilled.type]: (state, action) => {
-            // state.status = 'succeeded';
-            // state.userData = {};
-            // state.token = null;
-            // state.userData = {}
-        // },
+        [signOut.pending.type]: (state, action) => {
+            state.status = 'loading'
+        },
+        [signOut.fulfilled.type]: (state, action) => {
+            state.status = 'succeeded';
+            state.userData = {};
+            state.token = null;
+            state.userData = {}
+        },
         [login.pending.type]: (state, action) => {
             state.status = 'loading'
         },

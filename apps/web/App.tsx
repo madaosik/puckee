@@ -4,9 +4,12 @@ import './index.css'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import { store } from 'puckee-common/redux'
 import { Provider } from 'react-redux'
+// import { createBrowserHistory } from "history";
 
 import history from './src/routes/history'
 import Puckee from './Puckee';
+
+// const history = createBrowserHistory()
 
 function App () {
   return (

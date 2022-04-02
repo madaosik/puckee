@@ -1,6 +1,8 @@
 @import url("src/components/Dashboard/dashboard.css");
 @import url("src/components/Games/games.css");
 @import url("src/components/Players/players.css");
+@import url("src/components/UserProfile/userProfile.css");
+@import url("src/components/Groups/groups.css");
 @import url("src/components/Spinner/spinner.css");
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
 
@@ -17,7 +19,7 @@
   --app-color-lightest: #e8e7f8;
   --app-color-bckg: #EBF0F3;
   --app-color-primary-btns: #007bff;
-  --app-color-box-headers: 	#C8C8C8;
+  --app-color-box-headers: 	#dbdbdb;
   
   /* Different top bar sizes */
   --top-bar-std-height: 80px;
@@ -49,9 +51,11 @@ body {
   font-family: 'Fira Sans', sans-serif;
 }
 
-
 /* ------------------------------------------------------- */
 /* Main grid setup */
+ 
+/* minmax(min-content, max-content) */
+
   .main-app {
     display: grid;
     grid-template-columns: var(--grid-template-columns)
@@ -71,7 +75,7 @@ body {
 
   .topBar {
     background-color: var(--app-color-darkest);
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 100%;
     z-index: 0
@@ -89,10 +93,28 @@ body {
     height: var(--top-bar-dashboard-height)
   }
 
-  .item.one {
-    grid-area: header-start / menubar-start / header-end / content-end;
-    z-index: 1;
+  .rounded {
+    border-radius: 10px;
   }
+
+  .padded {
+    padding: 10px;
+  }
+
+  .item.one {
+    grid-area: header-start / menubar-end / header-end / content-end;
+    z-index: 1;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    /* background-color: yellow; */
+    margin: 0px 0px 0px 10px;
+  }
+
+  /* .header-row {
+    grid-area: header-start / menubar-end
+  } */
+
   .item.two {
     grid-area: header-start / menubar-start / menu-end / menubar-end;
     margin: 20px 0px 0px 0px;
@@ -185,6 +207,7 @@ body {
   .content-inner-row.heading {
     height: 50px;
     border-radius: 10px 10px 0px 0px;
+    font-weight: bold;
     justify-content: center;
     background-color: var(--app-color-box-headers);
     display: flex;
@@ -202,6 +225,9 @@ body {
     border-radius: 0px 0px 10px 10px;
   }
 
+  .fixed-size {
+    flex: 1 0 auto;
+  }
 /* Content boxes styles end */
 /* ------------------------------------------------------- */
 
@@ -232,11 +258,13 @@ body {
       flex-flow: column;
       justify-content: space-between;
       margin-right: 10px;
+      /* background-color: #007bff; */
     }
 
     .rightContentColumn {
       width: var(--right-side-bar-proportion);
-      height: 100%
+      /* height: 100%; */
+      /* background-color: red; */
     }
 
     .titleRow {
@@ -257,9 +285,9 @@ body {
 
     .addBtnSection {
       display: flex;
-      flex-flow: column;
+      flex-flow: row;
       height: 50px;
-      justify-content: center;
+      justify-content: flex-end;
       margin-bottom: 10px;
     }
 
@@ -271,7 +299,7 @@ body {
     }
 
     .content-inner-box.filters {
-      height: 57%;
+      height: 600px;
     }
 
 /* Search screens layout end */

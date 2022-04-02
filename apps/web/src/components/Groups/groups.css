@@ -1,0 +1,28 @@
+.content-row.groupsHeading {
+    height: 50px;
+    /* background-color: blue; */
+    margin-bottom: 10px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.content-row.groupsContent {
+    flex: 1 0 auto;
+    background-color: white;
+}
+
+.groups-title-row {
+    width: var(--main-content-proportion);
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.groups-add-btn-section {
+    display: flex;
+    justify-content: flex-end;
+    width: var(--right-side-bar-proportion)
+}

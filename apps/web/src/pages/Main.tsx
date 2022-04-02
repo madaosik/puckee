@@ -5,7 +5,8 @@ import { GamesList } from "../features/games/GamesList"
 // import { useAppDispatch } from "../app/store"
 // import { Button } from "../components"
 // import { signOut } from "../features/auth/authSlice"
-import { VerticalMenu, HeaderRow } from '../components'
+import { VerticalMenu } from '../components'
+import { Header, HeaderProps } from "../components/HeaderRow"
 
 export enum TopBarType {
     Standard,
@@ -14,11 +15,12 @@ export enum TopBarType {
 }
 
 interface MainWindowProps {
+    headerProps?: HeaderProps
     content: JSX.Element,
     topBarType: TopBarType
 }
 
-const Main = ( {content, topBarType}: MainWindowProps) => {
+const Main = ( {headerProps, content, topBarType}: MainWindowProps) => {
     var topBarStyle: string
     var mainAppStyle: string
     if (topBarType == TopBarType.Standard) {
@@ -37,7 +39,7 @@ const Main = ( {content, topBarType}: MainWindowProps) => {
             <div className={topBarStyle}></div>
             <div className="container-xxl">
                 <div className={mainAppStyle}>
-                    <HeaderRow/>
+                    <Header {...headerProps}/>
                     <VerticalMenu/>
                     {/* <GamesList/> */}
                     <div className="main-content">

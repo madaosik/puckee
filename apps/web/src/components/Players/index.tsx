@@ -1,4 +1,5 @@
 import React from "react"
+import LoremIpsum from "react-lorem-ipsum"
 import Button from "../Button"
 import { PlayerFilters } from "./PlayerFilters"
 
@@ -14,7 +15,7 @@ const Players : React.FC = () => {
                         <h5>Hráči</h5>
                     </div>
                     <div className="content">
-                        <p>Výpis hráčů</p>
+                        <LoremIpsum p={10} />
                     </div>
                 </div>
                 <div className="rightContentColumn no-btn">
