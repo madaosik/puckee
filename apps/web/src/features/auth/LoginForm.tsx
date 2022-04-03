@@ -10,7 +10,7 @@ import { login } from 'puckee-common/features/auth/authSlice';
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useHistory, useLocation } from 'react-router-dom';
 
-interface LocationState {
+export interface LocationState {
     from: {
       pathname: string;
     };
@@ -29,8 +29,7 @@ const LoginForm = () => {
         dispatch(login(cred))
             .then(unwrapResult)
             .then(token => { localStorage.setItem('access_token', token.access_token) })
-            // .then(() => redirect = true)
-
+        
         if (previousState.from.pathname == '/' || previousState.from.pathname == '/sign-in') {
             history.push('/dashboard')
         } else {

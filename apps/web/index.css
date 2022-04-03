@@ -171,6 +171,29 @@ body {
 /* Main grid setup end */
 /* ------------------------------------------------------- */
 
+/* Header styles */
+
+.pageHeader {
+  font-weight: bold;
+  color: white;
+  font-size: 24pt;
+  flex: 5;
+  /* backgroundColor: 'red';*/
+}
+
+/* heading:hover {
+  color: var(--app-color-primary-btns);
+} */
+
+.userProfileToken {
+  color: white;
+  flex: 1;
+  /* // backgroundColor: 'aqua'; */
+  display: flex;
+  justify-content: flex-end;
+}
+/* Header styles end */
+/* ------------------------------------------------------- */
 
 /* ------------------------------------------------------- */
 /* Content container and boxes generic styles */

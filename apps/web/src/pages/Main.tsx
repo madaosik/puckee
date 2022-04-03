@@ -6,7 +6,7 @@ import { GamesList } from "../features/games/GamesList"
 // import { Button } from "../components"
 // import { signOut } from "../features/auth/authSlice"
 import { VerticalMenu } from '../components'
-import { Header, HeaderProps } from "../components/HeaderRow"
+import { Header, HeaderProps } from "../components/Header"
 
 export enum TopBarType {
     Standard,
