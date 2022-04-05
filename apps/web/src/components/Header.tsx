@@ -6,7 +6,7 @@ import SplitButton from 'react-bootstrap/SplitButton'
 import { useAppDispatch, useAppSelector } from "puckee-common/redux/store"
 import { Athlete } from "puckee-common/types"
 import { signOut } from "puckee-common/features/auth/authSlice"
-import { LocationState } from "../features/auth/LoginForm"
+import { LocationState } from "./Auth/LoginForm"
 
 
 export interface HeaderProps {
@@ -21,15 +21,16 @@ export const Header = ( props : HeaderProps ) => {
     
     return (
         <div className="item one">
-            {props.headerContent ?
-                <div className="pageHeader"> 
+            {props.headerContent &&
+                <div className="pageHeader with-icon"> 
                     <Link to={props.backPath}>
-                        <MdKeyboardArrowLeft size={70} color={"#FFFFFF"}/>
+                        <MdKeyboardArrowLeft size={70} className="backIcon"
+                            // onMouseOut={ (target) => target.}
+                            // onMouseOver={ ({target}) => target.style.color="white" }
+                        />
                     </Link>
                     {props.headerContent}
                 </div>
-                :
-                <></>
                 }
                 <UserBadge userName={user.name}/>
         </div>
@@ -54,9 +55,11 @@ const UserBadge = ( { userName } : UserBadgeType ) => {
                     align="end"
                     key={'primary'}
                     id={`dropdown-split-variants-primary`}
-                    variant={'secondary'}
+                    variant={'primary'}
                     title={userName}
-                >   <Link to={"/profile"} style={{ textDecoration: 'none' }}></Link>
+                    className="nazdar"
+                >   
+                    {/* <Link to={"/profile"} style={{ textDecoration: 'none' }}></Link> */}
                     <Dropdown.Item as={NavLink} to="/profile" eventKey="1" active>
                         Profil
                     </Dropdown.Item>

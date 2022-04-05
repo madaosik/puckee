@@ -1,6 +1,6 @@
 export interface Serializable<T> {
     serialize(input: T): Object
-    deserialize(input: Object): T
+    deserialize(input: Object): T | undefined
 }
 
 export type AccessToken = string | null | void

@@ -10987,6 +10987,11 @@ md5hex@1.0.0:
   resolved "https://registry.yarnpkg.com/md5hex/-/md5hex-1.0.0.tgz#ed74b477a2ee9369f75efee2f08d5915e52a42e8"
   integrity sha1-7XS0d6Luk2n3Xv7i8I1ZFeUqQug=
 
+mdb-ui-kit@^3.11.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/mdb-ui-kit/-/mdb-ui-kit-3.11.0.tgz#0205c070f04d8e4966906b1fe9e1dae62152b185"
+  integrity sha512-rUUzdS7UB7a8iw+/7HrQnitGzq+0ZBYeHAzGJnU4Tl8jssiFl95F3Kmf1cPcAtKd+o5jMJokDRR4mSFKt1p2ig==
+
 mdn-data@2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/mdn-data/-/mdn-data-2.0.14.tgz#7113fc4281917d63ce29b43446f701e68c25ba50"

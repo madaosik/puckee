@@ -10,14 +10,14 @@ import { useAppSelector } from 'puckee-common/redux'
 import Loading from '../pages/Loading';
 import { resetCustomConfigPaths } from '../../node_modulesOLD/@expo/config/build';
 import { TopBarType } from "../pages/Main";
-import { HeaderProps } from '../components/HeaderRow';
+import { HeaderProps } from '../components/Header';
 
 interface PrivateRouteProps extends RouteProps {
     // tslint:disable-next-line:no-any
     component: any
     // header: React.ReactNode
     content: React.ReactNode
-    topBarType: TopBarType
+    topBarType?: TopBarType
     headerProps?: HeaderProps
     // isSignedIn: boolean;
 }

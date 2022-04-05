@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Router } from "react-router-dom";
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap-icons/font/bootstrap-icons.css';
+// import 'bootstrap-icons/font/bootstrap-icons.css';
 import App from './App'
 import { store } from 'puckee-common/redux'
 import { Provider } from 'react-redux'

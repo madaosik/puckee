@@ -8,17 +8,21 @@ import {
 } from "react-router-dom";
 
 import { TopBarType } from "../pages/Main";
+import LoginForm from "../components/Auth/LoginForm";
+import SignUpForm from "../components/Auth/SignUpForm";
+import SignUpDetailsForm from "../components/Auth/SignUpDetailsForm";
 
 const Routes = () => {
     return (
         <Switch>
-            <Route exact path={['/sign-in', '/sign-up']}>
-                <Auth/>
+            <Route exact path={['/sign-in']}>
+                <Auth content={<LoginForm/>}/>
             </Route>
-            {/* <Route exact path={['/signup']}>
-                <SignUp />
-            </Route> */}
+            <Route exact path={['/sign-up']}>
+                <Auth content={<SignUpForm/>}/>
+            </Route>
 
+            <PrivateRoute exact path={['/sign-up-details']} component={Auth} content={<SignUpDetailsForm/>}/>
             <PrivateRoute exact path={['/dashboard', '/']} component={Main} 
                 content={<Dashboard/>} topBarType={TopBarType.Dashboard} />
             <PrivateRoute exact path="/games" component={Main}

@@ -1,11 +1,14 @@
 @import url("src/components/Dashboard/dashboard.css");
 @import url("src/components/Games/games.css");
+@import url("src/components/Auth/auth.css");
 @import url("src/components/Players/players.css");
 @import url("src/components/UserProfile/userProfile.css");
 @import url("src/components/Groups/groups.css");
 @import url("src/components/Spinner/spinner.css");
 @import url('https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800');
 
+
+/* @import '~mdb-ui-kit/css/mdb.min.css'; */
 * {
   box-sizing: border-box;
   margin: 0px;
@@ -181,9 +184,25 @@ body {
   /* backgroundColor: 'red';*/
 }
 
+.pageHeader.with-icon .backIcon {
+  color: white;
+}
+
+.pageHeader.with-icon .backIcon:hover {
+  color: var(--app-color-primary-btns);
+}
+
+/* .pageHeader:hover { */
+  /* color: red; */
+/* } */
+
 /* heading:hover {
   color: var(--app-color-primary-btns);
 } */
+
+.changeColor:hover {
+  color: red;
+}
 
 .userProfileToken {
   color: white;
@@ -192,6 +211,15 @@ body {
   display: flex;
   justify-content: flex-end;
 }
+
+/* .userProfileToken #dropdown-split-variants-primary{ */
+  /* background-color: red; */
+/* } */
+
+/* .btn-userBadge .btn-fill { */
+  /* background-color: yellow; */
+  /* color: red; */
+/* } */
 /* Header styles end */
 /* ------------------------------------------------------- */
 
@@ -409,4 +437,8 @@ label {
 
 .forgot-password a {
   color: #167bff;
+}
+
+.form-group label {
+  color: #969696;
 }

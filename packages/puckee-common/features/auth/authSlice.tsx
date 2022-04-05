@@ -17,6 +17,17 @@ export const login = createAsyncThunk('auth/login', async (cred: Credentials) =>
     return response.data;
 });
 
+export const signUp = createAsyncThunk('auth/signUp', async (cred: Credentials) => {
+    console.log(`signing up to ${API_BASE}/auth/signup`)
+    const response = await client.post(`${API_BASE}/auth/signup`, cred)
+    // var responseData
+    // client.post(`${API_BASE}/auth/signup`, cred)
+    //     .catch(e => console)
+    //     .then((response) => responseData = response.data)
+    // console.log(response.body.message)
+    return response.data;
+});
+
 // export const signOut = createAsyncThunk('auth/signOut', async () => {
     // await SecureStore.deleteItemAsync('secure_token')
 // });
@@ -67,6 +78,18 @@ const authSlice = createSlice({
             state.userData = action.payload.athlete
         },
         [login.rejected.type]: (state, action) => {
+            state.status = 'failed'
+        },
+        [signUp.pending.type]: (state, action) => {
+            state.status = 'loading'
+        },
+        [signUp.fulfilled.type]: (state, action) => {
+            // const {accessToken, user} = action.payload;
+            state.token = action.payload.access_token
+            state.status = 'succeeded'
+            state.userData = action.payload.athlete
+        },
+        [signUp.rejected.type]: (state, action) => {
             state.status = 'failed'
         },
         // [fetchUserData.pending.type]: (state, action) => {

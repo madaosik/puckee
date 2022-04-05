@@ -1,5 +1,14 @@
 export const API_BASE = 'http://172.18.0.3:5000/api'
 
+class APIError {
+  message: string
+
+  constructor(message: string) {
+    // super(...args)
+    this.message = message
+  }
+}
+
 export async function client(endpoint: RequestInfo, options?: RequestInit) {
     const { body, ...customConfig } = options ?? {}
     var headers: Record<string, string> = { 'Content-Type': 'application/json' }
@@ -31,7 +40,7 @@ export async function client(endpoint: RequestInfo, options?: RequestInit) {
           url: response.url,
         }
       }
-      throw new Error(response.statusText)
+      throw new APIError(response.status.toString() + ' ' + data.message)
     } catch (err: any) {
       return Promise.reject(err.message ? err.message : data)
     }

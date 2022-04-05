@@ -11,12 +11,14 @@ import { Serializable } from ".";
 export enum AthleteRole {
   INVALID,
   User,
-  Hráč,
-  Brankář,
-  Rozhodčí
+  Player,
+  Goalie,
+  Referee
 }
 
-export type AthleteRoleOption = {value: number, label: string} | unknown
+export type SelectedAthleteRole = {value: number, label: string}
+export type AthleteRoleOption = SelectedAthleteRole | unknown
+
 
 export interface IAthlete {
   id: number | undefined,
@@ -55,7 +57,11 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
       accessToken: ''
 }
   }
-  deserialize = (data: any): Athlete => {
+  deserialize = (data: any): Athlete | undefined => {
+      if (Object.keys(data).length == 0) {
+        return undefined
+      }
+      
       this.id = data.id
       this.email = data.email
       this.name = data.name
