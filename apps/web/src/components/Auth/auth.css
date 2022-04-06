@@ -74,9 +74,10 @@
     min-height: 35vh;
 } 
 
-.signUp-login-wrapper {
+.signup-accessData-wrapper {
     display: flex;
     flex-flow: column;
+    min-width: 35vh;
 }
 
 .content-inner-row.data.signUp-personalInfo {

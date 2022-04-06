@@ -51,7 +51,7 @@ export default function SignUpDetailsForm() {
 
     interface RoleSkillProps {
         currentSkill: number,
-        role: AthleteRole,
+        role?: AthleteRole,
         updateSkillCb: (value: number) => void
     }
 

@@ -97,3 +97,90 @@
     background-color: #F5F6F6;
     color: darkgray;
 }
+
+.newGame-basicInfo-rootBox {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.newGame-players-rootBox {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+.newGame-basicInfo-row {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    height: 33%;
+    border-bottom: 1px solid var(--app-color-box-headers);
+}
+
+.newGame-basicInfo-col {
+    width: 49%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+}
+
+.newGame-basicInfo-row.last {
+    border-bottom: 0px;
+    flex-flow: row;
+    justify-content: space-around;
+}
+
+.newGame-basicInfo-row.last.pucks {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.newGame-basicInfo-skillPucks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.newGame-basicInfo-pucksHeading {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+
+.newGame-basicInfo-pucks {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+}
+
+.noFormLabel {
+    color: darkgray;
+}
+
+.newGame-basicInfo-row.detailed {
+    border-bottom: 0px;
+}
+
+/* Players, goalies and referees layout */
+
+.newGame-players-leftCol {
+    width: 18%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.newGame-players-rightCol {
+    width: 82%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.player-split-upper {
+    min-height: 70%;
+}

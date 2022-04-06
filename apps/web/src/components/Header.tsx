@@ -19,29 +19,42 @@ export const Header = ( props : HeaderProps ) => {
     const user = new Athlete().deserialize(userData)
     const previousState = useLocation<LocationState>().state
     
+    const printNavHeader = () => {
+        return (
+            <div>
+                <Link to={props.backPath}>
+                    <MdKeyboardArrowLeft size={70} className="backIcon"/>
+                </Link>
+                {props.headerContent}
+            </div>
+        )
+    }
+
     return (
         <div className="item one">
-            {props.headerContent &&
-                <div className="pageHeader with-icon"> 
-                    <Link to={props.backPath}>
-                        <MdKeyboardArrowLeft size={70} className="backIcon"
-                            // onMouseOut={ (target) => target.}
-                            // onMouseOver={ ({target}) => target.style.color="white" }
-                        />
-                    </Link>
-                    {props.headerContent}
-                </div>
-                }
-                <UserBadge userName={user.name}/>
+            <div className="content-header">
+                {/* <div className="pageHeader">  */}
+                    <div className="pageHeader with-icon">
+                        { props.headerContent && printNavHeader() }
+                    </div>
+                    {
+                        user.name ?
+                        <UserBadge userName={user.name}/>
+                        :
+                        <UserBadge userEmail={user.email}/>
+                    }
+                {/* </div> */}
+            </div>
         </div>
     )
 }
 
 interface UserBadgeType {
-    userName: string
+    userName?: string
+    userEmail?: string
 }
 
-const UserBadge = ( { userName } : UserBadgeType ) => {
+const UserBadge = ( { userName, userEmail } : UserBadgeType ) => {
     const dispatch = useAppDispatch()
     
     const logOutUser = () => {
@@ -49,24 +62,29 @@ const UserBadge = ( { userName } : UserBadgeType ) => {
     }
 
     return (
-        <div className="userProfileToken">
-            {
-                <SplitButton
-                    align="end"
-                    key={'primary'}
-                    id={`dropdown-split-variants-primary`}
-                    variant={'primary'}
-                    title={userName}
-                    className="nazdar"
-                >   
-                    {/* <Link to={"/profile"} style={{ textDecoration: 'none' }}></Link> */}
-                    <Dropdown.Item as={NavLink} to="/profile" eventKey="1" active>
-                        Profil
-                    </Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item eventKey="2" onClick={logOutUser}>Odhlásit se</Dropdown.Item>
-                </SplitButton>
-            }
+        <div className="pageHeader-userSection">
+            <div className="unverifiedUserReport">
+                {userEmail && "Neověřený uživatel"}
+            </div>
+            <div className="userProfileToken">
+                <div className="userBadgeButton">
+                    <SplitButton
+                        align="end"
+                        key={'primary'}
+                        id={`dropdown-split-variants-primary`}
+                        variant={'primary'}
+                        title={userName ? userName : userEmail}
+                        className="nazdar"
+                    >   
+                        {/* <Link to={"/profile"} style={{ textDecoration: 'none' }}></Link> */}
+                        <Dropdown.Item as={NavLink} to="/profile" eventKey="1" active>
+                            Profil
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item eventKey="2" onClick={logOutUser}>Odhlásit se</Dropdown.Item>
+                    </SplitButton>
+                </div>
+            </div>
         </div>
     )
 }
