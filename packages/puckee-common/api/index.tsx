@@ -40,7 +40,7 @@ export async function client(endpoint: RequestInfo, options?: RequestInit) {
           url: response.url,
         }
       }
-      throw new APIError(response.status.toString() + ' ' + data.message)
+      throw new APIError(data.message)
     } catch (err: any) {
       return Promise.reject(err.message ? err.message : data)
     }

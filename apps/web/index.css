@@ -442,3 +442,9 @@ label {
 .form-group label {
   color: #969696;
 }
+
+.formInputError {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: red;
+}
