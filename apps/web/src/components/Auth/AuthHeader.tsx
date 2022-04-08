@@ -4,14 +4,11 @@ import React from "react"
 import { FaHockeyPuck } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-interface AuthHeaderProps {
-    newUserEmail?: string
-}
-
-const AuthHeader = ( {newUserEmail} : AuthHeaderProps ) => {
-    const { userData } = useAppSelector((state) => state.auth);
-    // console.log(userData)
-    const user = new Athlete().deserialize(userData)
+const AuthHeader = () => {
+    
+    const { token, userData } = useAppSelector((state) => state.auth);
+    var user
+    token ? user = new Athlete().deserialize(userData) : user = undefined
 
     return (
         <nav className="navbar navbar-expand-lg navbar-blue">

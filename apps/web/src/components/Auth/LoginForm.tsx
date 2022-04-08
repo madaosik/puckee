@@ -1,37 +1,16 @@
 import React, {useState} from 'react';
-// import { getToken } from '../../src/utils/auth';
-import { Button, FormInput } from '..';
+import { FormInput, Button } from '../FormElements'
 import { useAppSelector, useAppDispatch } from 'puckee-common/redux'
-// import history from '../../../App'
-
 import history from '../../routes/history';
 import { Credentials } from 'puckee-common/types'
 import { login } from 'puckee-common/features/auth/authSlice';
-import { unwrapResult } from '@reduxjs/toolkit'
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 export interface LocationState {
     from: {
       pathname: string;
     };
   }
-
-
-// const handleLogin = (e: React.FormEvent, {email, password} : Credentials) => {
-//     e.preventDefault()
-//     const cred: Credentials = {email: email, password: password}
-//     dispatch(login(cred))
-//         .then(unwrapResult)
-//         .then(token => { localStorage.setItem('access_token', token.access_token) })
-    
-//     if(!previousState) {
-//         history.push('/dashboard')
-//     } else if (previousState.from.pathname == '/' || previousState.from.pathname == '/sign-in') {
-//         history.push('/dashboard')
-//     } else {
-//         history.push(previousState.from.pathname)
-//     }
-// }
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");

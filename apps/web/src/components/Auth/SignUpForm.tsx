@@ -1,12 +1,8 @@
-import React, {useState, Component, useEffect, useRef, MouseEventHandler} from 'react';
-// import { getToken } from '../../src/utils/auth';
-import { Button, FormInput } from '..';
+import React, {useState} from 'react';
+import { Button, FormInput } from '../FormElements';
 import { useAppDispatch, useAppSelector } from 'puckee-common/redux'
-// import history from '../../utils/history';
 
 import history from '../../routes/history';
-import { unwrapResult } from '@reduxjs/toolkit'
-import { Link } from 'react-router-dom';
 import { signUp } from 'puckee-common/features/auth/authSlice';
 import { Credentials } from 'puckee-common/types';
 
@@ -39,12 +35,8 @@ export default function SignUpForm() {
     const [password, setPassword] = useState("");
     const [passwordRepeated, setPasswordRepeated] = useState("");
     const [errors, setErrors] = useState(new SignUpFormError())
-    // const [emailError, setEmailError] = useState(<ErrorReport/>)
-    // const [passwordError, setPasswordError] = useState(<ErrorReport/>)
-    // const [passwordRepeatedError, setPasswordRepeatedError] = useState(<ErrorReport/>)
     const dispatch = useAppDispatch();
     const { status } = useAppSelector((state) => state.auth);
-    var errorReport : React.ReactNode
 
     const handleSignUp = (e: React.FormEvent) => {
         e.preventDefault()

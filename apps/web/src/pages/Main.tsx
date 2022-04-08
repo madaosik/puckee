@@ -1,10 +1,4 @@
 import React from "react"
-import { CSSProperties } from "react"
-import { Link } from "react-router-dom"
-import { GamesList } from "../features/games/GamesList"
-// import { useAppDispatch } from "../app/store"
-// import { Button } from "../components"
-// import { signOut } from "../features/auth/authSlice"
 import { VerticalMenu } from '../components'
 import { Header, HeaderProps } from "../components/Header"
 

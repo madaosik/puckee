@@ -1,5 +1,5 @@
 import React, {useState, Component, useEffect, useRef, MouseEventHandler} from 'react';
-import { Button, FormInput } from '..';
+import { Button, FormInput } from '../FormElements';
 import { useAppSelector } from 'puckee-common/redux'
 import Select, {ActionMeta} from 'react-select';
 import makeAnimated from 'react-select/animated';

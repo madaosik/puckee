@@ -20,3 +20,18 @@ export type GameDay = {
   title: string,
   data: IGame[]
 }
+
+export enum GameLocation {
+  "Sportcentrum Lužánky - NHL plocha",
+  "Sportcentrum Lužánky - Evropská plocha",
+  "Hokejová hala ZŠ Úvoz",
+  "Winning Group Arena",
+  "Zimní stadion Kuřim",
+  "Zimní stadion Rosice",
+  "Zimní stadion Velká Bíteš",
+  "Zimní stadion Blansko",
+  "Zimní stadion Vyškov"
+}
+
+export type SelectedGameLoc = {value: number, label: string}
+export type GameLocOption = SelectedGameLoc | unknown

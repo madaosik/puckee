@@ -117,44 +117,44 @@
     flex-flow: row;
     justify-content: space-between;
     height: 33%;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--app-color-box-headers);
 }
 
 .newGame-basicInfo-col {
-    width: 49%;
+    width: 48%;
     display: flex;
     flex-flow: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
+
+.newGame-basicInfo-col.flexStart {
+    justify-content: flex-start;
+}
+
+/* .newGame-basicInfo-col.flexStart.fullHeight {
+    justify-content: flex-start;
+    height: 100%;
+} */
+
 
 .newGame-basicInfo-row.last {
     border-bottom: 0px;
-    flex-flow: row;
-    justify-content: space-around;
-}
-
-.newGame-basicInfo-row.last.pucks {
-    display: flex;
     flex-flow: column;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
-.newGame-basicInfo-skillPucks {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.newGame-basicInfo-pucksHeading {
-    display: flex;
+.newGame-basicInfo-row.last.subRow {
+    border-bottom: 0px;
     flex-flow: row;
-    justify-content: center;
+    justify-content: space-between;
+    height: 48%;
+
 }
 
-.newGame-basicInfo-pucks {
-    display: flex;
-    flex-flow: row;
+.newGame-basicInfo-row.last.subRow.pucks {
     justify-content: center;
+
 }
 
 .noFormLabel {
@@ -163,6 +163,18 @@
 
 .newGame-basicInfo-row.detailed {
     border-bottom: 0px;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+}
+
+.newGame-basicInfo-row.detailed.input {
+    width: 46%;
+    height: 100%;
+}
+
+.newGame-basicInfo-col.flexStart textarea {
+    flex: 1 0 auto;
 }
 
 /* Players, goalies and referees layout */
@@ -184,3 +196,89 @@
 .player-split-upper {
     min-height: 70%;
 }
+
+.remarksFlex {
+    flex: 1 0 auto;
+}
+
+.form-group.no-mb {
+    margin-bottom: 0px;
+}
+
+.form-input-flex {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.expand {
+    /* display: ; */
+    flex: 1
+}
+
+.form-input-flex.horizontal {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    width: 33%;
+}
+
+label.form-input-label {
+    flex: 1;
+    margin-bottom: 5px;
+    color: darkgrey;
+}
+
+.form-input-input {
+    flex: 3;
+}
+
+/* .expPlayerCntBox {
+    display: flex;
+    flex-flow: row;
+    width: 30%;
+    justify-content: space-between;
+} */
+
+.newGame-basicInfo-col.verticalEnd {
+    justify-content: flex-end;
+    /* background-color: yellow; */
+    /* height: 100%; */
+    /* width: 100%; */
+}
+
+.newGame-basicInfo-estPlayerCntFlex {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+input.form-control.shadow.short {
+    width: 62px;
+}
+
+input.form-control.shadow.shorter {
+    width: 90px;
+}
+
+.flex-hCenter {
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.reduceToHalfFlex {
+    width: 50%;
+}
+
+ .columnCenterFlex {
+     display: flex;
+     flex-flow: column;
+     justify-content: center;
+ }
+
+ .flexExpand {
+     flex: 1 0 auto;
+ }

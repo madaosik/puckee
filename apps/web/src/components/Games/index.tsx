@@ -1,6 +1,6 @@
 import React from "react"
 import { Link, Redirect } from "react-router-dom"
-import Button from "../Button"
+import { Button } from "../FormElements"
 import { GameFilters } from "./GameFilters"
 import { LoremIpsum } from 'react-lorem-ipsum';
 import history from "../../routes/history";

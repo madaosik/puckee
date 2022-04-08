@@ -57,9 +57,9 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
       accessToken: ''
 }
   }
-  deserialize = (data: any): Athlete | undefined => {
+  deserialize = (data: any): Athlete => {
       if (Object.keys(data).length == 0) {
-        return undefined
+        
       }
       
       this.id = data.id
