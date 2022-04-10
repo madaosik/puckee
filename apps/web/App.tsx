@@ -10,13 +10,20 @@ import history from './src/routes/history'
 import Puckee from './Puckee';
 
 // const history = createBrowserHistory()
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { QueryClient, QueryClientProvider } from 'react-query'
+
+const queryClient = new QueryClient()
 
 function App () {
   return (
     <React.StrictMode>
       <Router history={history}>
         <Provider store={store}>
-          <Puckee />
+          <QueryClientProvider client={queryClient}>
+            <Puckee />
+            <ReactQueryDevtools initialIsOpen={true} />
+          </QueryClientProvider>
         </Provider>
       </Router>
     </React.StrictMode>

@@ -1,5 +1,15 @@
 import React from 'react'; 
 
+interface ErrorMsgProps {
+    msg?: string
+}
+
+export const ErrorReport = ({msg} : ErrorMsgProps) => {
+    return (
+        <div className="formInputError">{msg}</div>
+    )
+}
+
 export const FormInputLg = (props: any) => <input {...props} className="form-control form-control-lg shadow p-3 mb-5 bg-white rounded" />;
 
 export const FormInput  = ({ className, ...props } : any ) => {
@@ -31,7 +41,7 @@ interface ButtonProps {
 
 export const Button: React.FC<ButtonProps>= ({ caption, type, className, onClick, iconClass }): JSX.Element => {
     return ( 
-        <button className={className} type={type}>
+        <button className={className} type={type} onClick={onClick}>
                 {/* <i className="bi bi-plus-lg"></i> */}
                 {/* <i className={iconClass}></i> */}
             {/* <svg className={iconClass}></svg> */}

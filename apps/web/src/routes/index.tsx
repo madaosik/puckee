@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Auth, Main, NoMatch } from '../pages';
 import { Dashboard, Games, Groups, Players, UserProfile, NewGame } from "../components";
 import PrivateRoute from './PrivateRoute'
@@ -13,6 +13,16 @@ import SignUpForm from "../components/Auth/SignUpForm";
 import SignUpDetailsForm from "../components/Auth/SignUpDetailsForm";
 
 const Routes = () => {
+    const [newGameHeaderContent, setNewGameHeaderContent] = useState("Nové utkání")
+
+    const newGameHeaderCb = (value: string) => {
+        if (value === '') {
+            setNewGameHeaderContent("Nové utkání")
+        } else {
+            setNewGameHeaderContent(value)
+        }
+    }
+
     return (
         <Switch>
             <Route exact path={['/sign-in']}>
@@ -28,7 +38,7 @@ const Routes = () => {
             <PrivateRoute exact path="/games" component={Main}
                 content={<Games/>} topBarType={TopBarType.Search}/>
             <PrivateRoute exact path="/games/new" component={Main}
-                content={<NewGame/>} headerProps={{backPath: "/games", headerContent: "Nové utkání"}} topBarType={TopBarType.Standard}/>
+                content={<NewGame gameTitleCb={newGameHeaderCb} />} headerProps={{backPath: "/games", headerContent: newGameHeaderContent}} topBarType={TopBarType.Standard}/>
             <PrivateRoute exact path="/players" component={Main}
                 content={<Players/>} topBarType={TopBarType.Search}/>
             <PrivateRoute exact path="/profile" component={Main}

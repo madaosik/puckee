@@ -1,14 +1,19 @@
 import { IAthlete } from ".";
 
+
 export interface IGame {
     id: number,
-    name: string,
+    gameTitle: string,
+    remarks: string,
+    organizers: IAthlete[],
+    isPrivate: boolean,
+
     total_places: number,
     location: string,
     start: string,
     duration: string,
     players: IAthlete[],
-    organizers: IAthlete[],
+    
     goalies: IAthlete[],
     referees: IAthlete[],
     exp_level: number,
@@ -16,10 +21,13 @@ export interface IGame {
     last_update: string 
   }
 
+export type Game = { game: IGame } 
+
 export type GameDay = {
   title: string,
   data: IGame[]
 }
+
 
 export enum GameLocation {
   "Sportcentrum Lužánky - NHL plocha",
@@ -33,5 +41,7 @@ export enum GameLocation {
   "Zimní stadion Vyškov"
 }
 
-export type SelectedGameLoc = {value: number, label: string}
+
+
+export type SelectedGameLoc = {value: number, label: string, price: number}
 export type GameLocOption = SelectedGameLoc | unknown

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Button, FormInput } from '../FormElements';
+import { Button, ErrorReport, FormInput } from '../FormElements';
 import { useAppDispatch, useAppSelector } from 'puckee-common/redux'
 
 import history from '../../routes/history';
@@ -17,16 +17,6 @@ class SignUpFormError {
         this.password = <ErrorReport/>
         this.passwordRepeated = <ErrorReport/>
     }
-}
-
-interface ErrorMsgProps {
-    msg?: string
-}
-
-export const ErrorReport = ({msg} : ErrorMsgProps) => {
-    return (
-        <div className="formInputError">{msg}</div>
-    )
 }
 
 

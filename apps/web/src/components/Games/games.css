@@ -1,7 +1,7 @@
 /* NewGame styles */
 
 :root {
-    --newGame-basic-info-size: 650px;
+    --newGame-basic-info-size: 700px;
     --newGame-players-basic-size: 500px;
 }
 
@@ -180,14 +180,14 @@
 /* Players, goalies and referees layout */
 
 .newGame-players-leftCol {
-    width: 18%;
+    width: 16%;
     display: flex;
     flex-flow: column;
     justify-content: center;
 }
 
 .newGame-players-rightCol {
-    width: 82%;
+    width: 80%;
     display: flex;
     flex-flow: column;
     justify-content: space-between;
@@ -209,6 +209,7 @@
     display: flex;
     flex-flow: column;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .expand {
@@ -281,4 +282,12 @@ input.form-control.shadow.shorter {
 
  .flexExpand {
      flex: 1 0 auto;
+ }
+
+ .content-right {
+    text-align: right;
+ }
+
+ .content-center {
+     text-align: center;
  }
