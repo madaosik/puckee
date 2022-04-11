@@ -1,4 +1,5 @@
-import { AthleteRole } from "puckee-common/types"
+import { useAppSelector } from "puckee-common/redux"
+import { Athlete, AthleteRole } from "puckee-common/types"
 import { useEffect, useRef, useState } from "react"
 
 interface GameAttendanceRoleSelectorProps {
@@ -7,46 +8,51 @@ interface GameAttendanceRoleSelectorProps {
 }
 
 export const GameAttendanceRoleSelector = ( { confirmedRole, roleSelectionCb } : GameAttendanceRoleSelectorProps) => {   
-    console.log(confirmedRole)
-    const [currentRole, setCurrentRole] = useState(confirmedRole)
-    
-    const wrapperRef = useRef(null);
+    const { token, userData } = useAppSelector((state) => state.auth);
+    const user = new Athlete().deserialize(userData)
+    const userRoles = user.getRoles()
 
-    const cancelCallback = () => {
-        // setCurrentRole()
-        console.log(currentRole)
-        roleSelectionCb(currentRole)
-    }
+    // console.log
+    const [currentRole, setCurrentRole] = useState(confirmedRole)
+    const wrapperRef = useRef(null);
 
     const rememberSelected = (role: AthleteRole | undefined) => {
         setCurrentRole(role)
         roleSelectionCb(role)
     }
 
-    useOutsideAlerter(wrapperRef, cancelCallback);
+    // if (userRoles.length <= 2) {
+    //     console.log(userRoles.length)
+    //     userRoles.includes(AthleteRole.Player) && roleSelectionCb(AthleteRole.Player)
+    //     userRoles.includes(AthleteRole.Goalie) && roleSelectionCb(AthleteRole.Goalie)
+    //     userRoles.includes(AthleteRole.Referee) && roleSelectionCb(AthleteRole.Referee)
+    //     return (
+    //         <div ref={wrapperRef}>
+    //             <span onClick={() => rememberSelected(undefined)}> X  </span>
+    //         </div>)
+    // }
+
+    const cancelCallback = () => roleSelectionCb(currentRole)
+    useOutsideClickHandler(wrapperRef, cancelCallback)
+
+
 
     return (<div ref={wrapperRef}>
-                <span onClick={() => rememberSelected(AthleteRole.Player)}>  Hráč  </span>
-                <span onClick={() => rememberSelected(AthleteRole.Goalie)}>  Brankář  </span>
-                <span onClick={() => rememberSelected(AthleteRole.Referee)}> Rozhodčí  </span>
+                {user.hasRole(AthleteRole.Player) && <span onClick={() => rememberSelected(AthleteRole.Player)}>  Hráč  </span>}
+                {user.hasRole(AthleteRole.Goalie) && <span onClick={() => rememberSelected(AthleteRole.Goalie)}>  Brankář  </span>}
+                {user.hasRole(AthleteRole.Referee) && <span onClick={() => rememberSelected(AthleteRole.Referee)}> Rozhodčí  </span>}
                 <span onClick={() => rememberSelected(undefined)}> X  </span>
             </div>
     )
 }
 
-function useOutsideAlerter(ref : any, callBack: () => void) {
+function useOutsideClickHandler(ref : any, callBack: () => void) {
     useEffect(() => {
-        /**
-         * Alert if clicked on outside of element
-         */
         function handleClickOutside(event: any) {
           if (ref.current && !ref.current.contains(event.target)) {
-            // alert("You clicked outside of me!");
-            // console.log(currentRole)
             callBack()
           }
         }
-        // Bind the event listener
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
           // Unbind the event listener on clean up

@@ -88,6 +88,24 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
   roleNames = () => {
     return this.roles.map((role_id) => AthleteRole[role_id])
   }
+
+  getRoles = () : AthleteRole[] => {
+    var foundRoles : AthleteRole[] = []
+    this.roles.forEach (roleDict => foundRoles.push(roleDict.id))
+    return foundRoles
+  }
+
+  hasRole = (role: AthleteRole) : boolean => {
+    var found = false
+    console.log(role)
+    console.log(this.roles)
+    this.roles.forEach( athleteRole => {
+      if (athleteRole.id == role) {
+        found = true
+      }
+    })
+    return found
+  }
 }
 
 export const attendanceRole = (user: Athlete, game: IGame) : AthleteRole | undefined => {

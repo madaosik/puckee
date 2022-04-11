@@ -18,7 +18,7 @@ interface GameInListProps {
 }
 
 const GameInList = ( {game, icerink}: GameInListProps ) => {
-    const { token, userData } = useAppSelector((state) => state.auth);
+    const { userData } = useAppSelector((state) => state.auth);
     const user = new Athlete().deserialize(userData)
     const start_time = removeSeconds(game.start_time)
     const end_time = removeSeconds(game.end_time)

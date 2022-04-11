@@ -13,9 +13,6 @@ interface GameAttendanceRoleStatusProps {
 export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceRoleStatusProps) => {
     const [roleInSelection, setRoleInSelection] = useState(false)
     
-    const { token, userData } = useAppSelector((state) => state.auth);
-    const user = new Athlete().deserialize(userData)
-
     const setRole = (role: AthleteRole | undefined): void => {
         setRoleInSelection(false)
         roleSetter(role)
