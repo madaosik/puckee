@@ -1,12 +1,16 @@
 import { useAppSelector } from "puckee-common/redux"
-import { Athlete, IGame } from "puckee-common/types"
+import { Athlete, AthleteRole, attendanceRole, IGame } from "puckee-common/types"
 import { getDateFromString, removeSeconds } from "puckee-common/utils"
-import React from "react"
+import React, { useState } from "react"
 import { Link } from "react-router-dom"
 import { SkillPucks } from "../SkillPucks/SkillPucks"
 import { CgProfile}  from 'react-icons/cg'
 import { FiEdit2 } from 'react-icons/fi'
 import { IoMdArrowDropright } from 'react-icons/io'
+import { FinancialsInGameList } from "./FinancialsInGameList"
+import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
+import { MdAccessTime, MdLocationOn } from 'react-icons/md'
+
 
 interface GameInListProps {
     game: IGame
@@ -15,19 +19,18 @@ interface GameInListProps {
 
 const GameInList = ( {game, icerink}: GameInListProps ) => {
     const { token, userData } = useAppSelector((state) => state.auth);
-    var user
-    token ? user = new Athlete().deserialize(userData) : user = undefined
+    const user = new Athlete().deserialize(userData)
     const start_time = removeSeconds(game.start_time)
     const end_time = removeSeconds(game.end_time)
     const date = getDateFromString(game.date)
                     .toLocaleString('cs-CZ', {weekday: 'short', day:'numeric', month: 'numeric'})
 
-    console.log(user)
+    const [gameRole, setGameRole] = useState<AthleteRole | undefined>(attendanceRole(user, game))
 
     return (
         <div className="gameInList">
             <div className="gameInList-col profilePhoto">
-                <CgProfile size={50}/>
+                <CgProfile size={40}/>
             </div>
             <div className="gameInList-col nameAndExpSkill">
                 <div>
@@ -42,11 +45,15 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
                     }
                 </div>
             </div>
-            <div className="gameInList-col dateTime">
-                <div>
-                    {start_time + " - " + end_time + ', ' + date}
+            <div className="gameInList-col dateTimeLoc">
+                <div className="gameInList-col dateTimeLoc-row">
+                    <div className="gameInList-col dateTimeLoc-row icon"><MdAccessTime/></div>
+                    <div className="gameInList-col dateTimeLoc-row text">{start_time + " - " + end_time + ', ' + date}</div>
                 </div>
-                <div className="locationName">{icerink.name}</div>
+                <div className="gameInList-col dateTimeLoc-row">
+                    <div className="gameInList-col dateTimeLoc-row icon"><MdLocationOn/></div>
+                    <div className="gameInList-col dateTimeLoc-row text">{icerink.name}</div>
+                </div>
             </div>
             <div className="gameInList-col attendance">
                 <div className="gameInList-col attendanceCnt">
@@ -66,13 +73,14 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
                     <div>R</div>
                 </div>
                 <div className="gameInList-col attendanceMoney">
-                    <div>{game.est_price  + " Kč"}</div>
-                    <div>{"+" + game.goalie_renum  + " Kč"}</div>
-                    <div>{"+" + game.referee_renum + " Kč"}</div>
+                    <div><FinancialsInGameList role={AthleteRole.Player} value={game.est_price}/></div>
+                    <div><FinancialsInGameList role={AthleteRole.Goalie} value={game.goalie_renum}/></div>
+                    <div><FinancialsInGameList role={AthleteRole.Referee} value={game.referee_renum}/></div>
                 </div>
             </div>
-            <div className="gameInList-col">
-                <Link to={"#"}>Přihlásit se</Link>
+            <div className="gameInList-col attendanceStatus">
+                <GameAttendanceRoleStatus role={gameRole} roleSetter={setGameRole}/>
+                {/* <GameAttendanceShortcut attendanceSetter={setGameRole} role={gameRole}/> */}
             </div>
             <div className="gameInList-col detailArrow">
                 <Link to={"#"}><IoMdArrowDropright size={30}/></Link>

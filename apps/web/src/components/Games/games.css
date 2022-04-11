@@ -309,26 +309,60 @@ input.form-control.shadow.shorter {
 }
 
 .gameInList-col.profilePhoto{
-    width: 30px;
+    min-width: 50px;
+    /* background-color: brown; */
 }
 
 .gameInList-col {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     align-items: center;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .gameInList-col.nameAndExpSkill {
+    align-items: flex-start;
     width: 200px;
-    font-size: 0.95rem;
+    /* min-width: 200px; */
+    font-size: 0.85rem;
     font-weight: bold;
+    /* background-color: yellow; */
 }
 
-.gameInList-col.dateTime {
-    width: 145px;
-    align-items: left;
+.gameInList-col.dateTimeLoc {
+    /* width: 145px; */
+    min-width: 170px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+    /* background-color: red; */
+}
+
+.gameInList-col.dateTimeLoc-row {
+    display: flex;
+    flex-flow: row;
+    justify-content: flex-start;
+    /* align-items: flex-start; */
+    margin: 0px;
+    width: 100%;
+}
+
+.gameInList-col.dateTimeLoc-row.icon {   
+    /* width: 5%; */
+    margin-right: 0.1rem;
+    flex: 1
+}
+
+.gameInList-col.dateTimeLoc-row.text {
+    flex: 10
+}
+
+.gameLocation {
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .gameInList-attendanceRow {
@@ -341,7 +375,9 @@ input.form-control.shadow.shorter {
 .gameInList-col.attendance {
     display: flex;
     flex-flow: row;
-    width: 120px;
+    min-width: 140px;
+    width: 130px;
+    /* background-color: blue; */
 }
 
 .gameInList-col.attendanceCnt {
@@ -369,13 +405,37 @@ input.form-control.shadow.shorter {
 
 .gameInList-col.org {
     color: var(--app-color-primary-btns);
-    margin-left: 10px;
     flex: 1
 }
 
+.gameInList-col.attendanceStatus {
+    color: var(--app-color-primary-btns);
+    min-width: 100px;
+    /* flex: 1 */
+}
+
+.gameListAttending {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-evenly;
+    align-items: center;
+    color: black;
+}
+
+.gameListAttending-description {
+    font-weight: bold;
+    font-size: 1.0rem;
+    flex: 1;
+}
+
+.gameListAttending-statusIcon {
+    flex: 2;
+}
+
+
 .gameInList-col.detailArrow:hover {
     color: var(--app-color-darkest);
-    border: 1px solid var(--app-color-darkest);
+    /* border: 1px solid var(--app-color-darkest); */
 }
 
 .gameInList-col a {
@@ -386,6 +446,19 @@ input.form-control.shadow.shorter {
 
 .gameInList-col a:hover {
     text-decoration: underline;
+}
+
+.paymentRecord {
+    color: red;
+}
+
+.renumRecord {
+    color: green;
+}
+
+.attendingDesc {
+    color: black;
+    font-weight: bold;
 }
 
 /* .gameInList-skillPucks {
