@@ -1,27 +1,37 @@
-import { IAthlete } from ".";
+import { IAthlete, Serializable } from ".";
 
 
 export interface IGame {
     id: number,
-    gameTitle: string,
+    name: string,
+    exp_players_cnt: number,
+    exp_goalies_cnt: number,
+    exp_referees_cnt: number,
+    location_id: number,
+    est_price: number,
     remarks: string,
-    organizers: IAthlete[],
-    isPrivate: boolean,
+    date: string,
+    start_time: string,
+    end_time: string,
+    other_costs: number,
+    is_private: boolean,
 
+    goalie_renum: number,
+    referee_renum: number,
+    exp_skill: number,
+    creation_time: string,
+    last_updated: string
     total_places: number,
     location: string,
     start: string,
-    duration: string,
-    players: IAthlete[],
     
+    players: IAthlete[],
+    organizers: IAthlete[],
     goalies: IAthlete[],
     referees: IAthlete[],
-    exp_level: number,
-    time_created: string,
-    last_update: string 
   }
 
-export type Game = { game: IGame } 
+export type GameType = { game: IGame } 
 
 export type GameDay = {
   title: string,

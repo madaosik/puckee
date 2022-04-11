@@ -58,10 +58,6 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
 }
   }
   deserialize = (data: any): Athlete => {
-      if (Object.keys(data).length == 0) {
-        
-      }
-      
       this.id = data.id
       this.email = data.email
       this.name = data.name

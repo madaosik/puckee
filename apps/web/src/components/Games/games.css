@@ -291,3 +291,105 @@ input.form-control.shadow.shorter {
  .content-center {
      text-align: center;
  }
+
+.titleRow.games {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+ /* Game in list */
+.gameInList {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid darkgray;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.gameInList-col.profilePhoto{
+    width: 30px;
+}
+
+.gameInList-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 0.9rem;
+    align-items: center;
+}
+
+.gameInList-col.nameAndExpSkill {
+    width: 200px;
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+.gameInList-col.dateTime {
+    width: 145px;
+    align-items: left;
+}
+
+.gameInList-attendanceRow {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.gameInList-col.attendance {
+    display: flex;
+    flex-flow: row;
+    width: 120px;
+}
+
+.gameInList-col.attendanceCnt {
+    width: 40%;
+}
+
+.gameInList-col.attendanceRoleIcon {
+    width: 10%;
+}
+
+.gameInList-col.attendanceMoney {
+    width: 50%;
+}
+
+.gameInList-col.expSkillAndOrg {
+    display: flex;
+    flex-flow: row;
+}
+
+.gameInList-col.expSkill {
+    flex: 6;
+    display: flex;
+    flex-flow: row;
+}
+
+.gameInList-col.org {
+    color: var(--app-color-primary-btns);
+    margin-left: 10px;
+    flex: 1
+}
+
+.gameInList-col.detailArrow:hover {
+    color: var(--app-color-darkest);
+    border: 1px solid var(--app-color-darkest);
+}
+
+.gameInList-col a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--app-color-primary-btns);
+}
+
+.gameInList-col a:hover {
+    text-decoration: underline;
+}
+
+/* .gameInList-skillPucks {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+} */

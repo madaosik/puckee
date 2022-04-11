@@ -35,13 +35,14 @@ interface ButtonProps {
     caption: string,
     type?: any,
     className: string,
-    iconClass?: string
+    iconClass?: string,
+    disabled?: boolean,
     onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const Button: React.FC<ButtonProps>= ({ caption, type, className, onClick, iconClass }): JSX.Element => {
+export const Button: React.FC<ButtonProps>= ({ caption, type, disabled, className, onClick, iconClass }): JSX.Element => {
     return ( 
-        <button className={className} type={type} onClick={onClick}>
+        <button className={className} type={type} onClick={onClick} disabled={disabled}>
                 {/* <i className="bi bi-plus-lg"></i> */}
                 {/* <i className={iconClass}></i> */}
             {/* <svg className={iconClass}></svg> */}

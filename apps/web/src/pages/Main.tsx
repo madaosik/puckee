@@ -31,7 +31,7 @@ const Main = ( {headerProps, content, topBarType}: MainWindowProps) => {
     return  (
         <>
             <div className={topBarStyle}></div>
-            <div className="container-xxl">
+            <div className="container-xxl fixed">
                 <div className={mainAppStyle}>
                     <Header {...headerProps}/>
                     <VerticalMenu/>

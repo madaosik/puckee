@@ -54,6 +54,10 @@ body {
   font-family: 'Fira Sans', sans-serif;
 }
 
+/* .container-xxl.fixed { */
+  /* position: sticky; */
+  /* top: 0; */
+/* } */
 /* ------------------------------------------------------- */
 /* Main grid setup */
  
@@ -110,6 +114,8 @@ body {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
+    position: sticky;
+    /* top: 0px; */
     /* background-color: yellow; */
     margin: 0px 0px 0px 10px;
   }
@@ -124,7 +130,14 @@ body {
     display: flex;
     flex-direction: column;
     z-index: 1;
+    /* position: sticky; */
   }
+
+  /* For fixed position of left menubar */
+  /* .item.two.special {
+    position: sticky;
+    top: 20px;
+  } */
 
   .item {
     /* border: 10px solid #b0c5ff; */
@@ -338,6 +351,8 @@ body {
 
     .rightContentColumn {
       width: var(--right-side-bar-proportion);
+      position: sticky;
+      /* order: 1; */
       /* height: 100%; */
       /* background-color: red; */
     }
