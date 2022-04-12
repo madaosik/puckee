@@ -11,35 +11,47 @@ interface GameAttendanceRoleStatusProps {
 }
 
 export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceRoleStatusProps) => {
-    const [roleInSelection, setRoleInSelection] = useState(false)
-    
     const { userData } = useAppSelector((state) => state.auth);
     const user = new Athlete().deserialize(userData)
 
-    const uniqueUserRole = user.uniqueRole()
-
-    const toggleSelection = (value: boolean) => {
-        uniqueUserRole ? roleSetter(undefined) : setRoleInSelection(value)
-    }
-    
+    const [roleInSelection, setRoleInSelection] = useState(false)
     const setRole = (role: AthleteRole | undefined): void => {
         setRoleInSelection(false)
         roleSetter(role)
     }
+    const uniqueUserRole = user.uniqueRole()
+
+    // const toggleSelection = (value: boolean) => {
+    //     if (uniqueUserRole) {
+    //         roleSetter(undefined)
+    //     } else {
+    //         setRoleInSelection(value)
+    //     }
+    // }
     
-    const showAttendanceSelector = () => uniqueUserRole ? roleSetter(user.uniqueRole()) : setRoleInSelection(true)
+    const showAttendanceSelector = () => {
+        // If the current user has only one role, just assign it to him without showing the role selector
+        if (uniqueUserRole) {
+            setRoleInSelection(false)
+            roleSetter(user.uniqueRole())
+        } else {
+            setRoleInSelection(true)
+        }
+    }
 
     if (roleInSelection) {
         return <GameAttendanceRoleSelector confirmedRole={role} currentUser={user} roleSelectionCb={setRole}/>
     }
     
-    // Role is not currently being selected
-
-    // If there is a role assigned already, show the current assigned role with icon
+    // Role is currently not being selected
+    // If there is a role assigned already, show the currently assigned role with icon
+    // with a possibility to re-enter the selection process after click.
     if (role) 
     {
-        return <GameAttendanceRoleSelected selectToggle={toggleSelection} role={role}/>
+        // return <GameAttendanceRoleSelected selectToggle={toggleSelection} role={role}/>
+        return <GameAttendanceRoleSelected role={role}/>
     }
+    // If there is no role assigned, show the "Join button"
     else 
     {
         return <Link to={"#"} onClick={() => showAttendanceSelector()}>Přihlásit se</Link>

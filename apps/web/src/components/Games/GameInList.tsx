@@ -1,5 +1,5 @@
 import { useAppSelector } from "puckee-common/redux"
-import { Athlete, AthleteRole, attendanceRole, IGame } from "puckee-common/types"
+import { Athlete, AthleteRole, attendanceRole, IAthlete, IGame } from "puckee-common/types"
 import { getDateFromString, removeSeconds } from "puckee-common/utils"
 import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
@@ -17,16 +17,22 @@ interface GameInListProps {
     icerink: any
 }
 
-interface HoverableDivProps {
+interface HoverableGameAttendanceStatusProps {
+    game: IGame
+    user: Athlete
     classStr: string
-    roleSetter: (role: AthleteRole | undefined) => void
-    currentGameRole: AthleteRole | undefined
+    // roleSetter: (role: AthleteRole | undefined) => void
+    // currentGameRole: AthleteRole | undefined
 }
 
-const HoverableGameAttendanceStatus = ({ classStr, roleSetter, currentGameRole } : HoverableDivProps) => {
-    const [isHovered, setIsHovered] = useState(false)
 
-    const previousRole = useRef(currentGameRole)
+const HoverableGameAttendanceStatus = ({ classStr, game, user } : HoverableGameAttendanceStatusProps) => {
+    const [isHovered, setIsHovered] = useState(false)
+    const [gameRole, setGameRole] = useState<AthleteRole | undefined>(attendanceRole(user, game))
+
+    const updateGameStatus = (role: AthleteRole | undefined) => {
+        setGameRole(role)
+    }
 
     const hoverCb = () => {
         setIsHovered(true)
@@ -39,7 +45,7 @@ const HoverableGameAttendanceStatus = ({ classStr, roleSetter, currentGameRole }
     const roleStatusSelector = () => {
         return (
             <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>
-                <GameAttendanceRoleStatus role={currentGameRole} roleSetter={roleSetter}/>
+                <GameAttendanceRoleStatus role={gameRole} roleSetter={updateGameStatus}/>
             </div>
         )
     }
@@ -48,14 +54,8 @@ const HoverableGameAttendanceStatus = ({ classStr, roleSetter, currentGameRole }
     if(!isHovered) return roleStatusSelector()
 
     // Div is under hover 
-    if (currentGameRole) {
-        if (previousRole.current != currentGameRole) {
-            console.log("cus")
-            previousRole.current = currentGameRole
-            return roleStatusSelector()
-        } else {
-            return <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>Odhlásit se</div>
-        }
+    if (gameRole) { 
+        return <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>Odhlásit se</div>
     } else {
         return roleStatusSelector()
     }
@@ -69,19 +69,6 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
     const end_time = removeSeconds(game.end_time)
     const date = getDateFromString(game.date)
                     .toLocaleString('cs-CZ', {weekday: 'short', day:'numeric', month: 'numeric'})
-
-    const [gameRole, setGameRole] = useState<AthleteRole | undefined>(attendanceRole(user, game))
-    // const [attendanceJustUpdated, setAttendanceJustUpdated] = useState(false)
-
-    const updateGameStatus = (role: AthleteRole | undefined) => {
-        setGameRole(role)
-        // setAttStatusJustUpdated(true)
-    }
-
-    // const updateAttStatusFlag = (value: boolean) => {
-    //     console.log("setting to: " + value)
-    //     setAttStatusJustUpdated(value)
-    // }
 
     return (
         <div className="gameInList">
@@ -137,9 +124,11 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
             <HoverableGameAttendanceStatus
                     // attStatusJustUpdated={attStatusJustUpdated}
                     // statusUpdateCb={updateAttStatusFlag}
+                    game={game}
+                    user={user}
                     classStr="gameInList-col attendanceStatus"
-                    currentGameRole={gameRole}
-                    roleSetter={updateGameStatus}
+                    // currentGameRole={gameRole}
+                    // roleSetter={updateGameStatus}
             />
             {/* <div className="gameInList-col attendanceStatus" onMouseOver={attendanceStatusMouseOver} onMouseOut={attendanceStatusMouseOut} > */}
                 {/* <GameAttendanceRoleStatus role={gameRole} roleSetter={setGameRole}/> */}
