@@ -13,7 +13,7 @@ interface GameAttendanceRoleStatusProps {
 export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceRoleStatusProps) => {
     const { userData } = useAppSelector((state) => state.auth);
     const user = new Athlete().deserialize(userData)
-
+    console.log("rendering " + role)
     const [roleInSelection, setRoleInSelection] = useState(false)
     const setRole = (role: AthleteRole | undefined): void => {
         setRoleInSelection(false)
@@ -32,8 +32,7 @@ export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceR
     const showAttendanceSelector = () => {
         // If the current user has only one role, just assign it to him without showing the role selector
         if (uniqueUserRole) {
-            setRoleInSelection(false)
-            roleSetter(user.uniqueRole())
+            setRole(user.uniqueRole())
         } else {
             setRoleInSelection(true)
         }

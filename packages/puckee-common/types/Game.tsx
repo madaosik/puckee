@@ -38,6 +38,10 @@ export type GameDay = {
   data: IGame[]
 }
 
+export interface IGameParticipantsAPI {
+  athlete_id: number,
+  athlete_role: number
+}
 
 export enum GameLocation {
   "Sportcentrum Lužánky - NHL plocha",

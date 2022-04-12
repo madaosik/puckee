@@ -1,4 +1,3 @@
-import { useAppSelector } from "puckee-common/redux"
 import { Athlete, AthleteRole } from "puckee-common/types"
 import { useEffect, useRef, useState } from "react"
 
