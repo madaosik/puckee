@@ -44,7 +44,7 @@ const HoverableGameAttendanceStatus = ({ classStr, game, user } : HoverableGameA
 
     const roleStatusSelector = () => {
         return (
-            <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>
+            <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb}>
                 <GameAttendanceRoleStatus role={gameRole} roleSetter={updateGameStatus}/>
             </div>
         )
@@ -55,7 +55,7 @@ const HoverableGameAttendanceStatus = ({ classStr, game, user } : HoverableGameA
 
     // Div is under hover 
     if (gameRole) { 
-        return <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>Odhlásit se</div>
+        return <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb}>Odhlásit se</div>
     } else {
         return roleStatusSelector()
     }
