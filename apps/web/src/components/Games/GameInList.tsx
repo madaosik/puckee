@@ -18,23 +18,13 @@ interface GameInListProps {
 }
 
 interface HoverableDivProps {
-    // handleMouseOver: React.MouseEventHandler<HTMLDivElement>
-    // handleMouseOut: React.MouseEventHandler<HTMLDivElement>
     classStr: string
-    // content: JSX.Element
-    // isHoveringCb: (isHover: boolean) => void
-    // attStatusJustUpdated: boolean,
-    // statusResetCb: () => void,
-    // statusUpdateCb: (value: boolean) => void
     roleSetter: (role: AthleteRole | undefined) => void
     currentGameRole: AthleteRole | undefined
 }
 
-// let attendanceUpdated = false
-
 const HoverableGameAttendanceStatus = ({ classStr, roleSetter, currentGameRole } : HoverableDivProps) => {
     const [isHovered, setIsHovered] = useState(false)
-    // const [attStatusJustUpdated, setAttStatusJustUpdated] = useState(false)
 
     const previousRole = useRef(currentGameRole)
 
@@ -45,41 +35,25 @@ const HoverableGameAttendanceStatus = ({ classStr, roleSetter, currentGameRole }
     const unHoverCb = () => {
         setIsHovered(false)
     }
-    
-    // const clickCb = () => {
-    //     setAttStatusJustUpdated(true)
-    // }
 
-    useEffect(() => {
-        previousRole.current = currentGameRole
-    },[currentGameRole])
-
-    // console.log(previousRole)
-    // console.log(currentGameRole)
-    // console.log("--------")
-    if(previousRole.current != currentGameRole) 
-    {
-        // previousRole.current = currentGameRole
+    const roleStatusSelector = () => {
         return (
             <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>
                 <GameAttendanceRoleStatus role={currentGameRole} roleSetter={roleSetter}/>
             </div>
-            )
-    } else {
-        return (
-            <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>
-              {
-              !isHovered ?
-                  <GameAttendanceRoleStatus role={currentGameRole} roleSetter={roleSetter}/>
-                  :
-                  (currentGameRole) ?
-                      "Odhlásit se"
-                      :
-                      <GameAttendanceRoleStatus role={currentGameRole} roleSetter={roleSetter}/>
-                  }
-            </div>
-          )
+        )
     }
+
+    // Div is not under hover, render standard selector (either currently selected role or "Join" button)
+    if(!isHovered) return roleStatusSelector()
+
+    // Div is under hover 
+    if (currentGameRole) { 
+        return <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>Odhlásit se</div>
+    } else {
+        return roleStatusSelector()
+    }
+     
   }
 
 const GameInList = ( {game, icerink}: GameInListProps ) => {
