@@ -4,15 +4,20 @@ import { useEffect, useRef, useState } from "react"
 
 interface GameAttendanceRoleSelectorProps {
     confirmedRole: AthleteRole | undefined
+    currentUser: Athlete
     roleSelectionCb: (role: AthleteRole | undefined) => void
 }
 
-export const GameAttendanceRoleSelector = ( { confirmedRole, roleSelectionCb } : GameAttendanceRoleSelectorProps) => {   
-    const { token, userData } = useAppSelector((state) => state.auth);
-    const user = new Athlete().deserialize(userData)
-    const userRoles = user.getRoles()
+export const GameAttendanceRoleSelector = ( { confirmedRole, 
+                                              currentUser, 
+                                              roleSelectionCb } 
+                                              : GameAttendanceRoleSelectorProps) => {
 
-    // console.log
+    // If user has just one role assigned, it is actually not needed to render this component, so state of the
+    // parent component is updated accordingly
+    var uniqueUserRole = currentUser.uniqueRole()
+    uniqueUserRole && roleSelectionCb(uniqueUserRole)
+  
     const [currentRole, setCurrentRole] = useState(confirmedRole)
     const wrapperRef = useRef(null);
 
@@ -21,26 +26,16 @@ export const GameAttendanceRoleSelector = ( { confirmedRole, roleSelectionCb } :
         roleSelectionCb(role)
     }
 
-    // if (userRoles.length <= 2) {
-    //     console.log(userRoles.length)
-    //     userRoles.includes(AthleteRole.Player) && roleSelectionCb(AthleteRole.Player)
-    //     userRoles.includes(AthleteRole.Goalie) && roleSelectionCb(AthleteRole.Goalie)
-    //     userRoles.includes(AthleteRole.Referee) && roleSelectionCb(AthleteRole.Referee)
-    //     return (
-    //         <div ref={wrapperRef}>
-    //             <span onClick={() => rememberSelected(undefined)}> X  </span>
-    //         </div>)
-    // }
-
     const cancelCallback = () => roleSelectionCb(currentRole)
     useOutsideClickHandler(wrapperRef, cancelCallback)
 
-
-
     return (<div ref={wrapperRef}>
-                {user.hasRole(AthleteRole.Player) && <span onClick={() => rememberSelected(AthleteRole.Player)}>  Hráč  </span>}
-                {user.hasRole(AthleteRole.Goalie) && <span onClick={() => rememberSelected(AthleteRole.Goalie)}>  Brankář  </span>}
-                {user.hasRole(AthleteRole.Referee) && <span onClick={() => rememberSelected(AthleteRole.Referee)}> Rozhodčí  </span>}
+                {currentUser.hasRole(AthleteRole.Player) && 
+                    <span onClick={() => rememberSelected(AthleteRole.Player)}>  Hráč  </span>}
+                {currentUser.hasRole(AthleteRole.Goalie) &&
+                    <span onClick={() => rememberSelected(AthleteRole.Goalie)}>  Brankář  </span>}
+                {currentUser.hasRole(AthleteRole.Referee) &&
+                    <span onClick={() => rememberSelected(AthleteRole.Referee)}> Rozhodčí  </span>}
                 <span onClick={() => rememberSelected(undefined)}> X  </span>
             </div>
     )

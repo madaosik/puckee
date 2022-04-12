@@ -2,19 +2,18 @@ import { AthleteRole } from "puckee-common/types"
 
 interface GameAttendanceRoleSelectedProps {
     role: AthleteRole
-    selectTrigger: (toggle: boolean) => void
+    selectToggle: (toggle: boolean) => void
 }
 
-export const GameAttendanceRoleSelected = ( { role, selectTrigger} : GameAttendanceRoleSelectedProps) => {
-
+export const GameAttendanceRoleSelected = ( { role, selectToggle} : GameAttendanceRoleSelectedProps) => {
     return (
         <div className="gameListAttending">
-            <div className="gameListAttending-description" onClick={() => selectTrigger(true)}>JDU</div>
+            <div className="gameListAttending-description" onClick={() => selectToggle(true)}>JDU</div>
             <div className="gameListAttending-statusIcon">
                 {
-                    role == AthleteRole.Player ? <span onClick={() => selectTrigger(true)}>Hráč</span>
-                    : role == AthleteRole.Goalie ? <span onClick={() => selectTrigger(true)}>Brankář</span>
-                    : role == AthleteRole.Referee ? <span onClick={() => selectTrigger(true)}>Rozhodčí</span>
+                    role == AthleteRole.Player ? <span onClick={() => selectToggle(true)}>Hráč</span>
+                    : role == AthleteRole.Goalie ? <span onClick={() => selectToggle(true)}>Brankář</span>
+                    : role == AthleteRole.Referee ? <span onClick={() => selectToggle(true)}>Rozhodčí</span>
                     : <span></span>
                 }
             </div>

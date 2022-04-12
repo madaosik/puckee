@@ -97,8 +97,6 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
 
   hasRole = (role: AthleteRole) : boolean => {
     var found = false
-    console.log(role)
-    console.log(this.roles)
     this.roles.forEach( athleteRole => {
       if (athleteRole.id == role) {
         found = true
@@ -106,7 +104,18 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
     })
     return found
   }
+
+  uniqueRole = () : AthleteRole | undefined => {
+    if (this.roles.length > 2) return undefined
+
+    if (this.hasRole(AthleteRole.Player)) return AthleteRole.Player
+    if (this.hasRole(AthleteRole.Goalie)) return AthleteRole.Goalie
+    if (this.hasRole(AthleteRole.Referee)) return AthleteRole.Referee
+
+    throw new Error("Unknown role of player " + this.id)
+  }
 }
+
 
 export const attendanceRole = (user: Athlete, game: IGame) : AthleteRole | undefined => {
   var gameRole : AthleteRole | undefined = undefined

@@ -411,6 +411,7 @@ input.form-control.shadow.shorter {
 .gameInList-col.attendanceStatus {
     color: var(--app-color-primary-btns);
     min-width: 100px;
+    min-height: 100%;
     /* flex: 1 */
 }
 

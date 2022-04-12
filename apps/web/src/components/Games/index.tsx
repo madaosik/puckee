@@ -55,13 +55,6 @@ const Games : React.FC = () => {
         }
       }, [inView])
 
-    console.log("dataRInks: " + !!dataRinks)
-    console.log(status)
-    
-    // if (status === 'success') {
-        // console.log(data)
-    // }
-
     return (
             <div className="content-container">
                 <div className="content-row searchBar">

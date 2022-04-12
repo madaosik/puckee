@@ -13,22 +13,33 @@ interface GameAttendanceRoleStatusProps {
 export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceRoleStatusProps) => {
     const [roleInSelection, setRoleInSelection] = useState(false)
     
+    const { userData } = useAppSelector((state) => state.auth);
+    const user = new Athlete().deserialize(userData)
+
+    const uniqueUserRole = user.uniqueRole()
+
+    const toggleSelection = (value: boolean) => {
+        uniqueUserRole ? roleSetter(undefined) : setRoleInSelection(value)
+    }
+    
     const setRole = (role: AthleteRole | undefined): void => {
         setRoleInSelection(false)
         roleSetter(role)
     }
     
+    const showAttendanceSelector = () => uniqueUserRole ? roleSetter(user.uniqueRole()) : setRoleInSelection(true)
+
     return (
         <>
         {
         roleInSelection 
         ?
-            <GameAttendanceRoleSelector confirmedRole={role} roleSelectionCb={setRole}/>
+            <GameAttendanceRoleSelector confirmedRole={role} currentUser={user} roleSelectionCb={setRole}/>
         :
             role ?
-                <GameAttendanceRoleSelected selectTrigger={setRoleInSelection} role={role}/>
+                <GameAttendanceRoleSelected selectToggle={toggleSelection} role={role}/>
         :
-            <Link to={"#"} onClick={() => setRoleInSelection(true)}>Přihlásit se</Link>
+            <Link to={"#"} onClick={() => showAttendanceSelector()}>Přihlásit se</Link>
         }
         </>
     )
