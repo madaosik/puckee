@@ -48,8 +48,14 @@ const HoverableGameAttendanceStatus = ({ classStr, roleSetter, currentGameRole }
     if(!isHovered) return roleStatusSelector()
 
     // Div is under hover 
-    if (currentGameRole) { 
-        return <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>Odhlásit se</div>
+    if (currentGameRole) {
+        if (previousRole.current != currentGameRole) {
+            console.log("cus")
+            previousRole.current = currentGameRole
+            return roleStatusSelector()
+        } else {
+            return <div className={classStr} onMouseOver={hoverCb} onMouseOut={unHoverCb}>Odhlásit se</div>
+        }
     } else {
         return roleStatusSelector()
     }

@@ -29,18 +29,19 @@ export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceR
     
     const showAttendanceSelector = () => uniqueUserRole ? roleSetter(user.uniqueRole()) : setRoleInSelection(true)
 
-    return (
-        <>
-        {
-        roleInSelection 
-        ?
-            <GameAttendanceRoleSelector confirmedRole={role} currentUser={user} roleSelectionCb={setRole}/>
-        :
-            role ?
-                <GameAttendanceRoleSelected selectToggle={toggleSelection} role={role}/>
-        :
-            <Link to={"#"} onClick={() => showAttendanceSelector()}>Přihlásit se</Link>
-        }
-        </>
-    )
+    if (roleInSelection) {
+        return <GameAttendanceRoleSelector confirmedRole={role} currentUser={user} roleSelectionCb={setRole}/>
+    }
+    
+    // Role is not currently being selected
+
+    // If there is a role assigned already, show the current assigned role with icon
+    if (role) 
+    {
+        return <GameAttendanceRoleSelected selectToggle={toggleSelection} role={role}/>
+    }
+    else 
+    {
+        return <Link to={"#"} onClick={() => showAttendanceSelector()}>Přihlásit se</Link>
+    }
 }
