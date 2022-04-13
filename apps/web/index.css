@@ -386,6 +386,7 @@ body {
       background-color: white;
       border-radius: 10px;
       padding: var(--box-content-padding);
+      min-width: fit-content;
     }
 
     .content-inner-box.filters {
@@ -486,4 +487,31 @@ label {
     margin-top: 0.5rem;
     font-weight: bold;
     color: red;
+}
+
+/* List pages styles */
+
+ .itemInList {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-bottom: 1px solid darkgray;
+  margin-bottom: 10px;
+  padding: 10px;
+}
+
+.itemInList-col.profilePhoto{
+  min-width: 50px;
+  /* background-color: brown; */
+  flex: 1;
+}
+
+.itemInList-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 0.8rem;
+  align-items: center;
+  margin-left: 5px;
+  margin-right: 5px;
 }

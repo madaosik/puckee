@@ -5,6 +5,7 @@ import React, { useState } from "react"
 import { useMutation } from "react-query"
 import { re } from "../../../node_modulesOLD/semver/internal/re"
 import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
+import { queryClient } from "../../../App"
 
 interface HoverableGameAttendanceStatusProps {
     game: IGame
@@ -18,23 +19,53 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user } : Hoverab
     const [isHovered, setIsHovered] = useState(false)
     const [gameRole, setGameRole] = useState<AthleteRole | undefined>(attendanceRole(user, game))
 
-    const addRolemutation = useMutation((addRole : IGameParticipantsAPI) => {
-        return axios.post(`${API_BASE}/game/${game.id}/participants`, addRole)
-      })
 
-    // const removeRoleMutation = useMutation((deleteRole : IGameParticipantsAPI) => {
-    //     return axios.delete(`${API_BASE}/game/${game.id}/participants`, deleteRole)
-    // })
+    let config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+      }
+
+    const addRolemutation = useMutation((addRole : IGameParticipantsAPI) => {
+        console.log(`${API_BASE}/game/${game.id}/participants`)
+        console.log(JSON.stringify(addRole))
+        return axios.post(`${API_BASE}/game/${game.id}/participants`, JSON.stringify(addRole), config)
+      },
+        {
+            onSuccess: (response) => {
+                queryClient.invalidateQueries('games')
+                setGameRole(parseInt(response.data.role_id))
+            },
+            onError: (error) => {
+                console.error(error)
+            }
+        }
+    )
+
+    const removeRoleMutation = useMutation( () => {
+        return axios.delete(`${API_BASE}/game/${game.id}/participants/${user.id}`, config)
+    },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('games')
+                setGameRole(undefined)
+            },
+        onError: (error) => {
+            console.error(error)
+        }
+    })
 
     const updateGameStatus = (role: AthleteRole | undefined) => {
         if (role) {
-            addRolemutation.mutate({ athlete_id: game.id, athlete_role: role })
+            // console.log(role)
+            addRolemutation.mutate({ athlete_id: user.id, athlete_role: role })
         } 
-        // else {
-        //     removeRoleMutation.mutate({ athlete_id: game.id, athlete_role: role })
-        // }
-        setGameRole(role)
+        else {
+            removeRoleMutation.mutate()
+        }
     }
+        
 
     const hoverCb = () => {
         setIsHovered(true)
@@ -57,7 +88,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user } : Hoverab
 
     // Div is under hover 
     if (gameRole) { 
-        return <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb}>Odhlásit se</div>
+        return <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb} onClick={() => updateGameStatus(undefined)}>Odhlásit se</div>
     } else {
         return roleStatusSelector()
     }

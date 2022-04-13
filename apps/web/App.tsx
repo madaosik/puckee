@@ -13,7 +13,7 @@ import Puckee from './Puckee';
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-const queryClient = new QueryClient()
+export const queryClient = new QueryClient()
 
 function App () {
   return (

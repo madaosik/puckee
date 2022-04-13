@@ -298,50 +298,27 @@ input.form-control.shadow.shorter {
     justify-content: space-between;
 }
 
- /* Game in list */
-.gameInList {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    border-bottom: 1px solid darkgray;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-
-.gameInList-col.profilePhoto{
-    min-width: 50px;
-    /* background-color: brown; */
-}
-
-.gameInList-col {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: 0.8rem;
-    align-items: center;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.gameInList-col.nameAndExpSkill {
+.itemInList-col.nameAndExpSkill {
     align-items: flex-start;
-    width: 200px;
-    /* min-width: 200px; */
+    flex: 3;
+    /* width: 180px; */
+    min-width: 190px;
     font-size: 0.85rem;
     font-weight: bold;
     /* background-color: yellow; */
 }
 
-.gameInList-col.dateTimeLoc {
+.itemInList-col.dateTimeLoc {
     /* width: 145px; */
-    min-width: 170px;
+    /* min-width: 150px; */
     display: flex;
+    flex: 5;
     flex-flow: column;
     justify-content: space-evenly;
     /* background-color: red; */
 }
 
-.gameInList-col.dateTimeLoc-row {
+.itemInList-col.dateTimeLoc-row {
     display: flex;
     flex-flow: row;
     justify-content: flex-start;
@@ -350,13 +327,13 @@ input.form-control.shadow.shorter {
     width: 100%;
 }
 
-.gameInList-col.dateTimeLoc-row.icon {   
+.itemInList-col.dateTimeLoc-row.icon {   
     /* width: 5%; */
     margin-right: 0.1rem;
     flex: 1
 }
 
-.gameInList-col.dateTimeLoc-row.text {
+.itemInList-col.dateTimeLoc-row.text {
     flex: 10
 }
 
@@ -365,53 +342,56 @@ input.form-control.shadow.shorter {
     align-items: center;
 }
 
-.gameInList-attendanceRow {
+.itemInList-attendanceRow {
     display: flex;
     flex-flow: row;
     justify-content: space-between;
     width: 100%;
 }
 
-.gameInList-col.attendance {
+.itemInList-col.attendance {
     display: flex;
     flex-flow: row;
+    flex: 5;
     min-width: 140px;
-    width: 130px;
+    /* width: 130px; */
     /* background-color: blue; */
 }
 
-.gameInList-col.attendanceCnt {
+.itemInList-col.attendanceCnt {
     width: 40%;
 }
 
-.gameInList-col.attendanceRoleIcon {
+.itemInList-col.attendanceRoleIcon {
     width: 10%;
 }
 
-.gameInList-col.attendanceMoney {
+.itemInList-col.attendanceMoney {
     width: 50%;
 }
 
-.gameInList-col.expSkillAndOrg {
+.itemInList-col.expSkillAndOrg {
     display: flex;
     flex-flow: row;
 }
 
-.gameInList-col.expSkill {
+.itemInList-col.expSkill {
     flex: 6;
     display: flex;
     flex-flow: row;
 }
 
-.gameInList-col.org {
+.itemInList-col.org {
     color: var(--app-color-primary-btns);
     flex: 1
 }
 
-.gameInList-col.attendanceStatus {
+.itemInList-col.attendanceStatus {
     color: var(--app-color-primary-btns);
-    min-width: 100px;
+    min-width: 80px;
+    flex: 2;
     min-height: 100%;
+    /* background-color: aqua; */
     /* flex: 1 */
 }
 
@@ -433,19 +413,23 @@ input.form-control.shadow.shorter {
     flex: 2;
 }
 
+.itemInList-col.detailArrow {
+    flex:1;
+    /* background-color: violet; */
+}
 
-.gameInList-col.detailArrow:hover {
+.itemInList-col.detailArrow:hover {
     color: var(--app-color-darkest);
     /* border: 1px solid var(--app-color-darkest); */
 }
 
-.gameInList-col a {
+.itemInList-col a {
     text-decoration: none;
     font-weight: bold;
     color: var(--app-color-primary-btns);
 }
 
-.gameInList-col a:hover {
+.itemInList-col a:hover {
     text-decoration: underline;
 }
 
@@ -462,7 +446,7 @@ input.form-control.shadow.shorter {
     font-weight: bold;
 }
 
-/* .gameInList-skillPucks {
+/* .itemInList-skillPucks {
     display: flex;
     flex-direction: row;
     justify-content: center;

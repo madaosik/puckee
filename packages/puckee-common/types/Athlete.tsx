@@ -13,7 +13,8 @@ export enum AthleteRole {
   User,
   Player,
   Goalie,
-  Referee
+  Referee,
+  Organizer
 }
 
 export type SelectedAthleteRole = {value: number, label: string}
@@ -89,11 +90,11 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
     return this.roles.map((role_id) => AthleteRole[role_id])
   }
 
-  getRoles = () : AthleteRole[] => {
-    var foundRoles : AthleteRole[] = []
-    this.roles.forEach (roleDict => foundRoles.push(roleDict.id))
-    return foundRoles
-  }
+  // getRoles = () : AthleteRole[] => {
+  //   var foundRoles : AthleteRole[] = []
+  //   this.roles.forEach (roleDict => foundRoles.push(roleDict))
+  //   return foundRoles
+  // }
 
   hasRole = (role: AthleteRole) : boolean => {
     var found = false
@@ -103,6 +104,18 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
       }
     })
     return found
+  }
+
+  roleSkill = (role: AthleteRole) : number => {
+    if (!this.hasRole(role))
+      throw new Error(`Athlete ${this.id} does not have ${role} role, so no skill exists!`)
+    
+    var skill : number = 0
+    this.roles.forEach((roleDict) => {
+      if (roleDict.id == role)
+        skill = roleDict.skill_level
+    })
+    return skill
   }
 
   uniqueRole = () : AthleteRole | undefined => {

@@ -27,35 +27,35 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
                     .toLocaleString('cs-CZ', {weekday: 'short', day:'numeric', month: 'numeric'})
 
     return (
-        <div className="gameInList">
-            <div className="gameInList-col profilePhoto">
+        <div className="itemInList">
+            <div className="itemInList-col profilePhoto">
                 <CgProfile size={40}/>
             </div>
-            <div className="gameInList-col nameAndExpSkill">
+            <div className="itemInList-col nameAndExpSkill">
                 <div>
                     {game.name}
                 </div>
-                <div className="gameInList-col expSkillAndOrg">
-                    <SkillPucks className="gameInList-col expSkill" skillLevel={game.exp_skill} puckSize={18} iconKey={'game-' +game.id + '-puck'}/>
+                <div className="itemInList-col expSkillAndOrg">
+                    <SkillPucks className="itemInList-col expSkill" skillLevel={game.exp_skill} puckSize={18} iconKey={'game-' +game.id + '-puck'}/>
                     {game.organizers[0].id == user.id &&
-                            <div className="gameInList-col org">
+                            <div className="itemInList-col org">
                                 <FiEdit2 size={18}/>
                             </div>
                     }
                 </div>
             </div>
-            <div className="gameInList-col dateTimeLoc">
-                <div className="gameInList-col dateTimeLoc-row">
-                    <div className="gameInList-col dateTimeLoc-row icon"><MdAccessTime/></div>
-                    <div className="gameInList-col dateTimeLoc-row text">{start_time + " - " + end_time + ', ' + date}</div>
+            <div className="itemInList-col dateTimeLoc">
+                <div className="itemInList-col dateTimeLoc-row">
+                    <div className="itemInList-col dateTimeLoc-row icon"><MdAccessTime/></div>
+                    <div className="itemInList-col dateTimeLoc-row text">{start_time + " - " + end_time + ', ' + date}</div>
                 </div>
-                <div className="gameInList-col dateTimeLoc-row">
-                    <div className="gameInList-col dateTimeLoc-row icon"><MdLocationOn/></div>
-                    <div className="gameInList-col dateTimeLoc-row text">{icerink.name}</div>
+                <div className="itemInList-col dateTimeLoc-row">
+                    <div className="itemInList-col dateTimeLoc-row icon"><MdLocationOn/></div>
+                    <div className="itemInList-col dateTimeLoc-row text">{icerink.name}</div>
                 </div>
             </div>
-            <div className="gameInList-col attendance">
-                <div className="gameInList-col attendanceCnt">
+            <div className="itemInList-col attendance">
+                <div className="itemInList-col attendanceCnt">
                     <div>
                         {game.players.length + '/' + game.exp_players_cnt}
                     </div>
@@ -66,12 +66,12 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
                         {game.referees.length + '/' + game.exp_referees_cnt}
                     </div>
                 </div>
-                <div className="gameInList-col attendanceRoleIcon">
+                <div className="itemInList-col attendanceRoleIcon">
                     <div>H</div>
                     <div>G</div>
                     <div>R</div>
                 </div>
-                <div className="gameInList-col attendanceMoney">
+                <div className="itemInList-col attendanceMoney">
                     <div><FinancialsInGameList role={AthleteRole.Player} value={game.est_price}/></div>
                     <div><FinancialsInGameList role={AthleteRole.Goalie} value={game.goalie_renum}/></div>
                     <div><FinancialsInGameList role={AthleteRole.Referee} value={game.referee_renum}/></div>
@@ -82,15 +82,15 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
                     // statusUpdateCb={updateAttStatusFlag}
                     game={game}
                     user={user}
-                    classStr="gameInList-col attendanceStatus"
+                    classStr="itemInList-col attendanceStatus"
                     // currentGameRole={gameRole}
                     // roleSetter={updateGameStatus}
             />
-            {/* <div className="gameInList-col attendanceStatus" onMouseOver={attendanceStatusMouseOver} onMouseOut={attendanceStatusMouseOut} > */}
+            {/* <div className="itemInList-col attendanceStatus" onMouseOver={attendanceStatusMouseOver} onMouseOut={attendanceStatusMouseOut} > */}
                 {/* <GameAttendanceRoleStatus role={gameRole} roleSetter={setGameRole}/> */}
                 {/* <GameAttendanceShortcut attendanceSetter={setGameRole} role={gameRole}/> */}
             {/* </div> */}
-            <div className="gameInList-col detailArrow">
+            <div className="itemInList-col detailArrow">
                 <Link to={"#"}><IoMdArrowDropright size={30}/></Link>
             </div>
         </div>

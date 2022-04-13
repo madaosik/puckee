@@ -1,0 +1,76 @@
+.itemInList.playerList {
+    min-width: 100%;
+}
+
+.itemInList-col.athleteName {
+    flex: 2;
+    min-width: 70px;
+    /* background-color: yellow; */
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.itemInList-col.athleteSkills {
+    flex: 3;
+    display: flex;
+    flex-flow: column;
+    min-width: 200px;
+    /* border: 1px solid black; */
+    /* background-color: brown; */
+}
+
+.skillRows {
+    justify-content: space-between;
+    width: 100%;
+}
+
+.endorsersCnt {
+    flex: 1;
+    /* background-color: yellow; */
+    color: darkgray;
+    font-size: 0.7rem;
+    align-items: center;
+}
+
+.endorsersIcon {
+    flex: 2;
+    align-items: center;
+}
+
+.avgRating {
+    /* flex: 1; */
+    /* background-color: red; */
+    /* justify-content: flex-start; */
+    margin-right: 5px;
+}
+
+.rating {
+    flex: 8;
+}
+
+.evaluation {
+    flex: 2;
+}
+
+.skillPucks {
+    /* flex: 2 0 auto; */
+    justify-content: center;
+    /* background-color: green; */
+}
+
+.roleIcon {
+    flex: 2;
+    /* background-color: lightcyan; */
+}
+
+.itemInList-col.athleteAttendance {
+    flex: 3;
+    min-width: 200px;
+    background-color: blue;
+}
+
+.itemInList-col.athleteFollowStatus {
+    flex: 1;
+    min-width: 70px;
+    background-color: green;
+}
