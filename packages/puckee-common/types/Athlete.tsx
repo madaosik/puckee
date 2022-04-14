@@ -28,10 +28,16 @@ export interface IAthlete {
   password: string | undefined,
   roles: [{id: number, skill_level: number}] | [],
   is_followed?: boolean
+  followers: number
   last_login: string,
   last_update: string,
   accessToken: string | undefined
 }
+
+export interface IAthleteFollowAPI {
+  opt_out_mode: boolean
+}
+
 
 export class Athlete implements Serializable<Athlete>, IAthlete {
     id: number
@@ -42,6 +48,7 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
     last_update: string
     roles: [{id: number, skill_level: number}] | []
     is_followed?: boolean | undefined;
+    followers: number
     skill_level: number
     accessToken: string
 
@@ -68,6 +75,7 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
       this.skill_level = data.skill_level
       this.roles = data.roles
       this.is_followed = data.is_followed
+      this.followers = data.followers
       // console.log(data.roles)
       // data.roles.forEach( (role: IAthlete}) => {
       //   if (role.id == AthleteRole.Player) {

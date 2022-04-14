@@ -1,13 +1,14 @@
 import axios from "axios"
 import { API_BASE } from "puckee-common/api"
 import { Athlete, AthleteRole, IAthlete, IAthleteFollowAPI } from "puckee-common/types"
-import React from "react"
+import React, { useState } from "react"
 import { CgProfile } from "react-icons/cg"
 import { useMutation } from "react-query"
 import { queryClient } from "../../../App"
 import { AthleteListSkillRating } from "./AthleteListSkillRating"
 import { FollowButton } from "./FollowButton"
 import { FollowingButton } from "./FollowingButton"
+import { MdGroups } from 'react-icons/md'
 
 interface AthleteInListProps {
     currentUser: Athlete
@@ -16,6 +17,8 @@ interface AthleteInListProps {
 
 export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) => {
     const athlete = new Athlete().deserialize(athleteObj)
+    console.log(athlete.followers)
+    const [isFollowed, setIsFollowed] = useState(athleteObj.is_followed)
     
     let config = {
         headers: {
@@ -33,6 +36,7 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
                 queryClient.invalidateQueries('athletes')
             },
             onError: (error) => {
+                setIsFollowed(false)
                 console.error(error)
             }
         }
@@ -44,17 +48,21 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
         {
             onSuccess: () => {
                 queryClient.invalidateQueries('athletes')
+  
             },
         onError: (error) => {
+            setIsFollowed(true)
             console.error(error)
         }
     })
 
     const follow = () => {
+        setIsFollowed(true)
         addFollowRelMutation.mutate({opt_out_mode: false})
     }
     
     const unFollow = () => {
+        setIsFollowed(false)
         removeFollowRelMutation.mutate()
     }
 
@@ -78,10 +86,14 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
             <div className="itemInList-col athleteAttendance">
             </div>
             <div className="itemInList-col athleteFollowStatus">
+                <div className="d-flex flex-row followers">
+                    <div className="mr-10"><MdGroups style={{'color': 'darkgrey'}} size={18}/></div>
+                    <div>{athlete.followers}</div>
+                </div>
                 {athlete.is_followed ?
                     <FollowingButton unfollowCb={unFollow}/>
                     :
-                    <FollowButton followCb={follow}/>
+                    <FollowButton currentUser={currentUser} athlete={athlete} followCb={follow}/>
                 }
             </div>
         {/* <div className="itemInList-col detailArrow">

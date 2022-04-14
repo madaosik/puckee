@@ -72,6 +72,16 @@
 .itemInList-col.athleteFollowStatus {
     flex: 1;
     min-width: 70px;
+    /* height: 100%; */
     /* background-color: green; */
     color: black;
+    justify-content: space-between;
+}
+
+.followers {
+    justify-content: space-evenly;
+    width: 60%;
+    color: darkgrey;
+    margin-bottom: 5px;
+    /* background-color: aqua; */
 }
