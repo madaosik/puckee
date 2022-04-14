@@ -1,6 +1,7 @@
 import axios from "axios"
 import { API_BASE } from "puckee-common/api"
-import { IAthlete } from "puckee-common/types"
+import { useAppSelector } from "puckee-common/redux"
+import { Athlete, IAthlete } from "puckee-common/types"
 import React, { useEffect } from "react"
 import { useInView } from "react-intersection-observer"
 import LoremIpsum from "react-lorem-ipsum"
@@ -11,6 +12,9 @@ import { PlayerFilters } from "./AthleteFilters"
 import { AthleteInList } from "./AthleteInList"
 
 const Players : React.FC = () => {
+    const { userData } = useAppSelector((state) => state.auth)
+    const user = new Athlete().deserialize(userData)
+
     const { ref, inView } = useInView()
 
     const {
@@ -25,9 +29,10 @@ const Players : React.FC = () => {
       hasNextPage,
       hasPreviousPage,
     } = useInfiniteQuery(
-      'players',
+      'athletes',
       async ({ pageParam = 1 }) => {
-        const res = await axios.get(`${API_BASE}/athlete?page_id=` + pageParam + '&per_page=10')
+        const res = await axios.get(`${API_BASE}/athlete?page_id=${pageParam}&per_page=10&requesting_id=${user.id}`)
+        console.log(res.data)
         return res.data
       },
       {
@@ -61,7 +66,7 @@ const Players : React.FC = () => {
                                 {data.pages.map(page => (
                                     <React.Fragment key={page.next_id}>
                                         {page.data.map((athlete : IAthlete) => (
-                                            <AthleteInList athleteObj={athlete}/>
+                                            <AthleteInList currentUser={user} athleteObj={athlete}/>
                                         ))}
                                     </React.Fragment>
                                     ))}

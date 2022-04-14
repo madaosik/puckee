@@ -79,7 +79,8 @@ const Games : React.FC = () => {
                             </div>
                         <div className="content">
                             {status === 'loading' || status === 'idle' ? (
-                                <p>Loading...</p>
+                                // <p>N...</p>
+                                <Loading/>
                             ) : status === 'error' ? (
                                 <span>Error: {error.message}</span>
                             ) : (

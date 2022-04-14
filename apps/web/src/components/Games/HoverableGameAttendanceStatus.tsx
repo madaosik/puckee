@@ -28,8 +28,6 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user } : Hoverab
       }
 
     const addRolemutation = useMutation((addRole : IGameParticipantsAPI) => {
-        console.log(`${API_BASE}/game/${game.id}/participants`)
-        console.log(JSON.stringify(addRole))
         return axios.post(`${API_BASE}/game/${game.id}/participants`, JSON.stringify(addRole), config)
       },
         {
@@ -44,7 +42,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user } : Hoverab
     )
 
     const removeRoleMutation = useMutation( () => {
-        return axios.delete(`${API_BASE}/game/${game.id}/participants/${user.id}`, config)
+        return axios.delete(`${API_BASE}/game/${game.id}/participants/${user.id}`)
     },
         {
             onSuccess: () => {

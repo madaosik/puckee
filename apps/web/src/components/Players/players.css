@@ -66,11 +66,12 @@
 .itemInList-col.athleteAttendance {
     flex: 3;
     min-width: 200px;
-    background-color: blue;
+    /* background-color: blue; */
 }
 
 .itemInList-col.athleteFollowStatus {
     flex: 1;
     min-width: 70px;
-    background-color: green;
+    /* background-color: green; */
+    color: black;
 }

@@ -1,24 +1,63 @@
-import { assertJSXSpreadChild } from "@babel/types"
-import { roundToNearestMinutes } from "date-fns"
-import { useAppSelector } from "puckee-common/redux"
-import { Athlete, AthleteRole, IAthlete } from "puckee-common/types"
+import axios from "axios"
+import { API_BASE } from "puckee-common/api"
+import { Athlete, AthleteRole, IAthlete, IAthleteFollowAPI } from "puckee-common/types"
 import React from "react"
 import { CgProfile } from "react-icons/cg"
-import { IoMdArrowDropright } from "react-icons/io"
-import { Link } from "react-router-dom"
-import { SkillPucks } from "../SkillPucks/SkillPucks"
+import { useMutation } from "react-query"
+import { queryClient } from "../../../App"
 import { AthleteListSkillRating } from "./AthleteListSkillRating"
-
+import { FollowButton } from "./FollowButton"
+import { FollowingButton } from "./FollowingButton"
 
 interface AthleteInListProps {
+    currentUser: Athlete
     athleteObj: IAthlete
 }
 
-export const AthleteInList = ( {athleteObj}: AthleteInListProps ) => {
-    console.log(athleteObj)
+export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) => {
     const athlete = new Athlete().deserialize(athleteObj)
-    const athleteRoles = athlete.roles
     
+    let config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        }
+      }
+
+    const endpoint = `${API_BASE}/athlete/${currentUser.id}/follow/${athlete.id}`
+    const addFollowRelMutation = useMutation((newFollowRel : IAthleteFollowAPI) => {
+        return axios.post(endpoint, JSON.stringify(newFollowRel), config)
+      },
+        {
+            onSuccess: (response) => {
+                queryClient.invalidateQueries('athletes')
+            },
+            onError: (error) => {
+                console.error(error)
+            }
+        }
+    )
+
+    const removeFollowRelMutation = useMutation( () => {
+        return axios.delete(endpoint)
+    },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('athletes')
+            },
+        onError: (error) => {
+            console.error(error)
+        }
+    })
+
+    const follow = () => {
+        addFollowRelMutation.mutate({opt_out_mode: false})
+    }
+    
+    const unFollow = () => {
+        removeFollowRelMutation.mutate()
+    }
+
     return (
         <div className="itemInList playersList">
             <div className="itemInList-col profilePhoto">
@@ -39,6 +78,11 @@ export const AthleteInList = ( {athleteObj}: AthleteInListProps ) => {
             <div className="itemInList-col athleteAttendance">
             </div>
             <div className="itemInList-col athleteFollowStatus">
+                {athlete.is_followed ?
+                    <FollowingButton unfollowCb={unFollow}/>
+                    :
+                    <FollowButton followCb={follow}/>
+                }
             </div>
         {/* <div className="itemInList-col detailArrow">
             <Link to={"#"}><IoMdArrowDropright size={30}/></Link>
