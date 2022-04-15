@@ -5,9 +5,11 @@ import { OptOutSwitch } from "./OptOutSwitch"
 interface FollowingButtonProps {
     sectionClass?: string
     unfollowCb: () => void
+    optOutModeActive: boolean
+    followModeSwitchCb: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const FollowingButton = ( { sectionClass, unfollowCb }: FollowingButtonProps ) => {
+export const FollowingButton = ( { sectionClass, unfollowCb, optOutModeActive, followModeSwitchCb }: FollowingButtonProps ) => {
     const [isHovered, setIsHovered] = useState(false)
 
     // const handleChange = (event: any) => {
@@ -24,7 +26,7 @@ export const FollowingButton = ( { sectionClass, unfollowCb }: FollowingButtonPr
                             // <Button caption={"Nesledovat"} className={"btn btn-primary danger"}/>
                         }
                     </div>
-                    <OptOutSwitch/>
+                    <OptOutSwitch active={optOutModeActive} switchCb={followModeSwitchCb}/>
             </div>
     )
 }

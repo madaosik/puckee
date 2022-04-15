@@ -2,7 +2,6 @@ import axios from "axios"
 import { API_BASE } from "puckee-common/api"
 import { Athlete, AthleteRole, IAthlete, IAthleteFollowAPI } from "puckee-common/types"
 import React, { useState } from "react"
-import { CgProfile } from "react-icons/cg"
 import { IoPersonCircleOutline } from "react-icons/io5"
 import { useMutation } from "react-query"
 import { queryClient } from "../../../App"
@@ -18,8 +17,9 @@ interface AthleteInListProps {
 
 export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) => {
     const athlete = new Athlete().deserialize(athleteObj)
-    console.log(athlete.followers)
-    const [isFollowed, setIsFollowed] = useState(athleteObj.is_followed)
+    const followStatus = athlete.follow
+    const [isFollowed, setIsFollowed] = useState(followStatus ? true : false)
+    const [optOutMode, setOptOutMode] = useState(followStatus? followStatus.opt_out_mode : false)
     
     let config = {
         headers: {
@@ -51,9 +51,23 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
                 queryClient.invalidateQueries('athletes')
   
             },
-        onError: (error) => {
-            setIsFollowed(true)
-            console.error(error)
+            onError: (error) => {
+                setIsFollowed(true)
+                console.error(error)
+        }
+    })
+
+    const changeFollowModeMutation = useMutation ( (updatedFollowRel : IAthleteFollowAPI) => {
+        return axios.put(endpoint, JSON.stringify(updatedFollowRel), config)
+    },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('athletes')
+
+            },
+            onError: (error, updatedFollowRel) => {
+                setIsFollowed(!updatedFollowRel.opt_out_mode)
+                console.error(error)
         }
     })
 
@@ -63,8 +77,14 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
     }
     
     const unFollow = () => {
+        setOptOutMode(false)
         setIsFollowed(false)
         removeFollowRelMutation.mutate()
+    }
+
+    const changeFollowMode = (e: React.ChangeEvent<HTMLInputElement>) : void => {
+        setOptOutMode(e.target.checked)
+        changeFollowModeMutation.mutate( {opt_out_mode: e.target.checked} )
     }
 
     return (
@@ -91,8 +111,8 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
                     <div className="mr-10"><MdGroups style={{'color': 'darkgrey'}} size={18}/></div>
                     <div>{athlete.followers}</div>
                 </div>
-                {athlete.is_followed ?
-                    <FollowingButton unfollowCb={unFollow} sectionClass="d-flex flex-column justify-content-center"/>
+                {isFollowed ?
+                    <FollowingButton optOutModeActive={optOutMode} unfollowCb={unFollow} followModeSwitchCb={changeFollowMode} sectionClass="d-flex flex-column justify-content-center"/>
                     // <FollowingButton unfollowCb={unFollow} sectionClass="container"/>
                     :
                     <FollowButton currentUser={currentUser} athlete={athlete} followCb={follow}/>

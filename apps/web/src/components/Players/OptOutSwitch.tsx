@@ -4,9 +4,11 @@ import { FormControl, FormControlLabel, FormGroup } from '@mui/material'
 import { createTheme, makeStyles, styled, ThemeProvider } from '@mui/material/styles'
 
 interface OptOutSwitchProps {
+    active: boolean
+    switchCb: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const OptOutSwitch = ( { }: OptOutSwitchProps ) => {
+export const OptOutSwitch = ( { active, switchCb }: OptOutSwitchProps ) => {
     // const useStyles = makeStyles(theme => ({
     //     // container: {
     //     //   display: 'flex',
@@ -29,7 +31,7 @@ export const OptOutSwitch = ( { }: OptOutSwitchProps ) => {
                     <ThemeProvider theme={theme}>
                         <FormControlLabel
                         value="end"
-                        control={<Switch color="success" size="small" />}
+                        control={<Switch color="success" size="small" onChange={switchCb} checked={active}/>}
                         label={<Typography variant="body2" color="textSecondary">auto-účast</Typography>}
                         labelPlacement="end"
                         style={{ marginLeft: '0', marginRight: '0'}}
