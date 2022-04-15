@@ -11,13 +11,13 @@ import { LocationState } from "./Auth/LoginForm"
 
 export interface HeaderProps {
     backPath?: string,
-    headerContent?: string
+    headerContent?: JSX.Element
 }
 
 export const Header = ( props : HeaderProps ) => {
     const { userData } = useAppSelector((state) => state.auth);
     const user = new Athlete().deserialize(userData)
-    const previousState = useLocation<LocationState>().state
+    // const previousState = useLocation<LocationState>().state
     
     const printNavHeader = () => {
         return (

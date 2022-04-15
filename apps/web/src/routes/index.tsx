@@ -13,14 +13,10 @@ import SignUpForm from "../components/Auth/SignUpForm";
 import SignUpDetailsForm from "../components/Auth/SignUpDetailsForm";
 
 const Routes = () => {
-    const [newGameHeaderContent, setNewGameHeaderContent] = useState("Nové utkání")
+    const [headerContent, setHeaderContent] = useState<JSX.Element>(<></>)
 
-    const newGameHeaderCb = (value: string) => {
-        if (value === '') {
-            setNewGameHeaderContent("Nové utkání")
-        } else {
-            setNewGameHeaderContent(value)
-        }
+    const newGameHeaderCb = (element: JSX.Element) => {
+        setHeaderContent(element)
     }
 
     return (
@@ -38,7 +34,7 @@ const Routes = () => {
             <PrivateRoute exact path="/games" component={Main}
                 content={<Games/>} topBarType={TopBarType.Search}/>
             <PrivateRoute exact path="/games/new" component={Main}
-                content={<NewGame gameTitleCb={newGameHeaderCb} />} headerProps={{backPath: "/games", headerContent: newGameHeaderContent}} topBarType={TopBarType.Standard}/>
+                content={<NewGame gameTitleCb={newGameHeaderCb} />} headerProps={{backPath: "/games", headerContent: headerContent}} topBarType={TopBarType.Standard}/>
             <PrivateRoute exact path="/players" component={Main}
                 content={<Players/>} topBarType={TopBarType.Search}/>
             <PrivateRoute exact path="/profile" component={Main}

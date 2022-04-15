@@ -27,7 +27,7 @@ class NewGameFormError {
 
 
 interface NewGameProps {
-    gameTitleCb: (title: string) => void
+    gameTitleCb: (title: JSX.Element) => void
 }
 
 const NewGame  = ( {gameTitleCb} : NewGameProps) => {
@@ -67,6 +67,10 @@ const NewGame  = ( {gameTitleCb} : NewGameProps) => {
         window.scrollTo(0, 0)
       },[errorsToShow])
 
+    useEffect(() => {
+        gameTitleCb(<>Nové utkání</>)
+    }, [])
+
     const handleSelectionUpdate = (option: readonly GameLocOption[] | unknown, actionMeta: ActionMeta<GameLocOption>) => {
         setSelectedLoc(option)
     }
@@ -79,7 +83,12 @@ const NewGame  = ( {gameTitleCb} : NewGameProps) => {
 
     const updateGameTitle = (value: string) => {
         setGameTitle(value)
-        gameTitleCb(value)
+        if (value == '') {
+            gameTitleCb(<>Nové utkání</>)
+        } else {
+            gameTitleCb(<>{value}</>)
+        }
+        
     }
 
     const updateEndTime = (value: string) => {
