@@ -7,7 +7,6 @@ interface AuthWindowProps {
 }
 
 const Auth = ( { content } : AuthWindowProps) => {
-    console.log(content.key)
     return (
         <>
             <AuthHeader/>

@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 
 const AuthHeader = () => {
     
-    const { token, userData } = useAppSelector((state) => state.auth);
-    var user
-    token ? user = new Athlete().deserialize(userData) : user = undefined
-
+    // const { token, userData } = useAppSelector((state) => state.auth);
+    // var user
+    // token ? user = new Athlete().deserialize(userData) : user = undefined
+    const user = undefined
     return (
         <nav className="navbar navbar-expand-lg navbar-blue">
             <div className="container">

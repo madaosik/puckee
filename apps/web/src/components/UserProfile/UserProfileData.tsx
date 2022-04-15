@@ -1,11 +1,11 @@
-import { useAppSelector } from "puckee-common/redux/store";
-import { Athlete } from "puckee-common/types";
+import { useAuth } from "puckee-common/auth"
+import { Athlete } from "puckee-common/types"
 import React from "react"
 
 export const UserProfileData : React.FC = () => {
-    const { userData } = useAppSelector((state) => state.auth);
-    // console.log(userData)
-    const user = new Athlete().deserialize(userData)
+    const auth = useAuth()
+    const user = new Athlete().deserialize(auth.userData.athlete)
+    
     return (
         <div className="content-inner-box">
             <div className="content-inner-row data">

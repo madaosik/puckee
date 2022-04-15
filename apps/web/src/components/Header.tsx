@@ -1,31 +1,31 @@
 import React, { useState } from "react"
 import { MdKeyboardArrowLeft } from "react-icons/md"
-import { NavLink, Link, useLocation } from "react-router-dom"
+import { NavLink, Link, useNavigate } from "react-router-dom"
 import Dropdown from 'react-bootstrap/Dropdown'
 import SplitButton from 'react-bootstrap/SplitButton'
-import { useAppDispatch, useAppSelector } from "puckee-common/redux/store"
-import { Athlete } from "puckee-common/types"
-import { signOut } from "puckee-common/features/auth/authSlice"
-import { LocationState } from "./Auth/LoginForm"
+import { Athlete, IAthlete } from "puckee-common/types"
+import { useAuth } from "puckee-common/auth"
 
 
 export interface HeaderProps {
-    backPath?: string,
+    // backPath?: string,
     headerContent?: JSX.Element
 }
 
-export const Header = ( props : HeaderProps ) => {
-    const { userData } = useAppSelector((state) => state.auth);
-    const user = new Athlete().deserialize(userData)
+export const Header = ( { headerContent } : HeaderProps ) => {
+    // const { userData } = useAppSelector((state) => state.auth);
+    // const user = new Athlete().deserialize(userData)
     // const previousState = useLocation<LocationState>().state
-    
+    const auth = useAuth()
+
+    const user: IAthlete = auth.userData.athlete
     const printNavHeader = () => {
         return (
             <div>
-                <Link to={props.backPath}>
+                <Link to={"/"}>
                     <MdKeyboardArrowLeft size={70} className="backIcon"/>
                 </Link>
-                {props.headerContent}
+                {headerContent}
             </div>
         )
     }
@@ -35,7 +35,7 @@ export const Header = ( props : HeaderProps ) => {
             <div className="content-header">
                 {/* <div className="pageHeader">  */}
                     <div className="pageHeader with-icon">
-                        { props.headerContent && printNavHeader() }
+                        { headerContent && printNavHeader() }
                     </div>
                     {
                         user.name ?
@@ -55,11 +55,8 @@ interface UserBadgeType {
 }
 
 const UserBadge = ( { userName, userEmail } : UserBadgeType ) => {
-    const dispatch = useAppDispatch()
-    
-    const logOutUser = () => {
-        dispatch(signOut())
-    }
+    const auth = useAuth()
+    const navigate = useNavigate()
 
     return (
         <div className="pageHeader-userSection">
@@ -81,7 +78,11 @@ const UserBadge = ( { userName, userEmail } : UserBadgeType ) => {
                             Profil
                         </Dropdown.Item>
                         <Dropdown.Divider />
-                        <Dropdown.Item eventKey="2" onClick={logOutUser}>Odhlásit se</Dropdown.Item>
+                        <Dropdown.Item eventKey="2" 
+                            onClick={() => auth.signout(() => navigate("/login"))}
+                        >
+                            Odhlásit se
+                        </Dropdown.Item>
                     </SplitButton>
                 </div>
             </div>
@@ -89,24 +90,5 @@ const UserBadge = ( { userName, userEmail } : UserBadgeType ) => {
     )
 }
 
-// const styles = {
-//     heading: {
-//         fontWeight: 'bold',
-//         color: 'white',
-//         fontSize: 28,
-//         flex: '5',
-//         // backgroundColor: 'red'
-//     },
-//     heading:hover {
-//         color: 'var(--app-color-primary-btns')
-//     }
-//     userProfileToken: {
-//         color: 'white',
-//         flex: '1',
-//         // backgroundColor: 'aqua',
-//         display: 'flex',
-//         justifyContent: 'flex-end'
-//     }
-// }
 
 

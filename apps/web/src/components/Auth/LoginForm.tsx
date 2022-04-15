@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import { FormInput, Button } from '../FormElements'
-import { useAppSelector, useAppDispatch } from 'puckee-common/redux'
+// import { useAppSelector, useAppDispatch } from 'puckee-common/redux'
 import history from '../../routes/history';
 import { Credentials } from 'puckee-common/types'
-import { login } from 'puckee-common/features/auth/authSlice';
-import { useLocation } from 'react-router-dom';
+// import { login } from 'puckee-common/features/auth/authSlice';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from 'puckee-common/auth'
 
 export interface LocationState {
     from: {
@@ -15,27 +16,33 @@ export interface LocationState {
 const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const dispatch = useAppDispatch();
-    const { status } = useAppSelector((state) => state.auth);
-    const previousState = useLocation<LocationState>().state
+    const auth = useAuth()
+    const navigate = useNavigate()
+    let from = location.state?.from?.pathname || "/";
+    // const dispatch = useAppDispatch();
+    // const { status } = useAppSelector((state) => state.auth);
+    // const previousState = useLocation<LocationState>().state
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault()
         const cred: Credentials = {email: email, password: password}
-        dispatch(login(cred))        
-            .unwrap()
-            .then(token => { 
-                localStorage.setItem('access_token', token.access_token)
-                if(!previousState)
-                {
-                    history.push('/dashboard')
-                } else if (previousState.from.pathname == '/' || previousState.from.pathname == '/sign-in') {
-                    history.push('/dashboard')
-                } else {
-                    history.push(previousState.from.pathname)
-                }
-            })
-            .catch((error) => console.log(error))
+        auth.signin(cred, () => {
+            navigate(from, { replace: true })
+        })
+        // dispatch(login(cred))        
+        //     .unwrap()
+        //     .then(token => { 
+        //         localStorage.setItem('access_token', token.access_token)
+        //         if(!previousState)
+        //         {
+        //             history.push('/dashboard')
+        //         } else if (previousState.from.pathname == '/' || previousState.from.pathname == '/sign-in') {
+        //             history.push('/dashboard')
+        //         } else {
+        //             history.push(previousState.from.pathname)
+        //         }
+        //     })
+        //     .catch((error) => console.log(error))
         }
 
     return (
@@ -75,4 +82,4 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm;
+export default LoginForm

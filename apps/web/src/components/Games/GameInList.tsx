@@ -11,6 +11,7 @@ import { FinancialsInGameList } from "./FinancialsInGameList"
 import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
 import { MdAccessTime, MdLocationOn } from 'react-icons/md'
 import { HoverableGameAttendanceStatus } from "./HoverableGameAttendanceStatus"
+import { useAuth } from "puckee-common/auth"
 
 
 interface GameInListProps {
@@ -19,8 +20,8 @@ interface GameInListProps {
 }
 
 const GameInList = ( {game, icerink}: GameInListProps ) => {
-    const { userData } = useAppSelector((state) => state.auth);
-    const user = new Athlete().deserialize(userData)
+    const auth = useAuth()
+    const user = new Athlete().deserialize(auth.userData.athlete)
     const start_time = removeSeconds(game.start_time)
     const end_time = removeSeconds(game.end_time)
     const date = getDateFromString(game.date)

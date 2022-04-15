@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { useAppSelector } from "puckee-common/redux/store"
 import { GameAttendanceRoleSelector } from "./GameAttendanceRoleSelector"
 import { GameAttendanceRoleSelected } from "./GameAttendanceRoleSelected"
+import { useAuth } from "puckee-common/auth"
 
 interface GameAttendanceRoleStatusProps {
     role: AthleteRole | undefined
@@ -11,9 +12,8 @@ interface GameAttendanceRoleStatusProps {
 }
 
 export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceRoleStatusProps) => {
-    const { userData } = useAppSelector((state) => state.auth);
-    const user = new Athlete().deserialize(userData)
-    console.log("rendering " + role)
+    const auth = useAuth()
+    const user = new Athlete().deserialize(auth.userData.athlete)
     const [roleInSelection, setRoleInSelection] = useState(false)
     const setRole = (role: AthleteRole | undefined): void => {
         setRoleInSelection(false)

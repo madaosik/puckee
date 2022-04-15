@@ -1,5 +1,6 @@
 import axios from "axios"
 import { API_BASE } from "puckee-common/api"
+import { useAuth } from "puckee-common/auth"
 import { useAppSelector } from "puckee-common/redux"
 import { Athlete, IAthlete } from "puckee-common/types"
 import React, { useEffect } from "react"
@@ -12,8 +13,8 @@ import { PlayerFilters } from "./AthleteFilters"
 import { AthleteInList } from "./AthleteInList"
 
 const Players : React.FC = () => {
-    const { userData } = useAppSelector((state) => state.auth)
-    const user = new Athlete().deserialize(userData)
+    const auth = useAuth()
+    const user = new Athlete().deserialize(auth.userData.athlete)
 
     const { ref, inView } = useInView()
 
