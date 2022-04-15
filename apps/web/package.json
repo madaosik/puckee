@@ -10,7 +10,10 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
     "@mswjs/data": "^0.5.0",
+    "@mui/material": "^5.6.1",
     "@reduxjs/toolkit": "^1.6.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

@@ -3,7 +3,11 @@
 }
 
 .itemInList-col.athleteName {
-    flex: 2;
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     min-width: 70px;
     /* background-color: yellow; */
     font-size: 0.85rem;
@@ -11,7 +15,7 @@
 }
 
 .itemInList-col.athleteSkills {
-    flex: 3;
+    flex: 6;
     display: flex;
     flex-flow: column;
     min-width: 200px;
@@ -64,18 +68,23 @@
 }
 
 .itemInList-col.athleteAttendance {
-    flex: 3;
+    flex: 6;
     min-width: 200px;
     /* background-color: blue; */
 }
 
 .itemInList-col.athleteFollowStatus {
-    flex: 1;
-    min-width: 70px;
+    flex: 3;
+    /* min-width: 70px; */
+    /* max-width: 80px; */
     /* height: 100%; */
-    /* background-color: green; */
+    /* background-color: cyan; */
     color: black;
     justify-content: space-between;
+}
+
+.followBtnSection {
+    width: 80px;
 }
 
 .followers {

@@ -3,6 +3,7 @@ import { API_BASE } from "puckee-common/api"
 import { Athlete, AthleteRole, IAthlete, IAthleteFollowAPI } from "puckee-common/types"
 import React, { useState } from "react"
 import { CgProfile } from "react-icons/cg"
+import { IoPersonCircleOutline } from "react-icons/io5"
 import { useMutation } from "react-query"
 import { queryClient } from "../../../App"
 import { AthleteListSkillRating } from "./AthleteListSkillRating"
@@ -69,7 +70,7 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
     return (
         <div className="itemInList playersList">
             <div className="itemInList-col profilePhoto">
-                <CgProfile size={40}/>
+                <IoPersonCircleOutline size={40}/>
             </div>
             <div className="itemInList-col athleteName">
                 {athlete.name}
@@ -91,7 +92,8 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
                     <div>{athlete.followers}</div>
                 </div>
                 {athlete.is_followed ?
-                    <FollowingButton unfollowCb={unFollow}/>
+                    <FollowingButton unfollowCb={unFollow} sectionClass="d-flex flex-column justify-content-center"/>
+                    // <FollowingButton unfollowCb={unFollow} sectionClass="container"/>
                     :
                     <FollowButton currentUser={currentUser} athlete={athlete} followCb={follow}/>
                 }

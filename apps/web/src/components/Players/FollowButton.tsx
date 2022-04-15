@@ -2,6 +2,7 @@ import { Athlete } from "puckee-common/types"
 import React from "react"
 import { Button } from "../FormElements"
 
+
 interface FollowButtonProps {
     currentUser: Athlete
     athlete: Athlete
@@ -19,6 +20,6 @@ export const FollowButton = ( { currentUser, athlete, followCb }: FollowButtonPr
     }
 
     return (
-            <Button caption={"Sledovat"} className={"btn btn-sm btn-outline-primary rounded"} onClick={followCb}/>
+            <Button caption={"Sledovat"} className={"btn btn-sm btn-block btn-outline-primary rounded"} onClick={followCb}/>
     )
 }

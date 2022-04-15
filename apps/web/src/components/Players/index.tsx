@@ -28,6 +28,7 @@ const Players : React.FC = () => {
       fetchPreviousPage,
       hasNextPage,
       hasPreviousPage,
+      refetch
     } = useInfiniteQuery(
       'athletes',
       async ({ pageParam = 1 }) => {
