@@ -39,7 +39,7 @@ const NewGame  = () => {
 
     const [errors, setErrors] = useState(new NewGameFormError())
 
-    const [gameTitle, setGameTitle] = useState("")
+    const [gameTitle, setGameTitle] = useState("Nové utkání")
     const [remarks, setRemarks] = useState("")
     const [organizers, setPassword] = useState<Athlete[]>([user])
     const [privateGame, setPrivateGame] = useState<boolean>(false)
@@ -70,20 +70,11 @@ const NewGame  = () => {
         window.scrollTo(0, 0)
       },[errorsToShow])
 
-    const handleSelectionUpdate = (option: readonly GameLocOption[] | unknown, actionMeta: ActionMeta<GameLocOption>) => {
-        setSelectedLoc(option)
-    }
-
+    const handleSelectionUpdate = (option: readonly GameLocOption[] | unknown, actionMeta: ActionMeta<GameLocOption>) => setSelectedLoc(option)
     const [skillIndex, setSkillIndex] = useState<number>(0)
 
-    const updateSkillCb = (newValue: number) => {
-        setSkillIndex(newValue)
-    }
-
-    const updateGameTitle = (value: string) => {
-        setGameTitle(value)        
-    }
-
+    const updateSkillCb = (newValue: number) => setSkillIndex(newValue)
+    const updateGameTitle = (value: string) => value != "" ? setGameTitle(value) : setGameTitle("Nové utkání")
     const updateEndTime = (value: string) => {
         //TODO Add one hour to the start time by default
         setEndTime(value)
@@ -123,9 +114,13 @@ const NewGame  = () => {
         setErrors(errorsToShow)
 
     }
+
+    const newGameHeader = () => {
+        return <>{gameTitle}</>
+    }
     return (
         <>
-            <Header />
+            <Header headerContent={newGameHeader()} />
             <VerticalMenu/>
             <div className="main-content">
                 <div className="content-container">
