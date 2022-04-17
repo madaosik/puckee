@@ -1,13 +1,12 @@
-import React, {useState, Component, useEffect, useRef, MouseEventHandler} from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import { Button, FormInput } from '../FormElements';
 import Select, {ActionMeta} from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { playerRoleOptions } from 'puckee-common/utils';
-import { AthleteRoleOption, AthleteRole, SelectedAthleteRole, Athlete } from 'puckee-common/types'
+import { AthleteRoleOption, AthleteRole, SelectedAthleteRole } from 'puckee-common/types'
 import { SkillPucksSlider } from '../SkillPucks/SkillPucksSlider';
 import { SkillDescription } from '../SkillPucks/SkillDescription';
 import { Link } from 'react-router-dom';
-
 
 export default function SignUpDetailsForm() {
     const [name, setName] = useState("");

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { Dashboard, Games, Groups, NewGame, Athletes, UserProfile } from './src/components'
-import SignInForm from './src/components/Auth/SignInForm'
+import React from 'react'
+import { Dashboard, Games, Groups, Athletes, UserProfile } from './src/components'
+import { NewGame } from './src/components/Games'
+import { SignInForm, SignUpForm, SignUpDetailsForm } from './src/components/Auth'
 import { AuthLayout, StdLayout, SearchLayout, DashboardLayout } from './src/pages/Layouts'
 import { Route, Routes } from 'react-router-dom'
 import { AuthProvider, RequireAuth } from 'puckee-common/auth'
-import SignUpDetailsForm from './src/components/Auth/SignUpDetailsForm'
-import SignUpForm from './src/components/Auth/SignUpForm'
+
 
 function Puckee() {
   return (

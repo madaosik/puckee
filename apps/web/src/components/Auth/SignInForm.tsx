@@ -1,17 +1,8 @@
 import React, {useState} from 'react';
 import { FormInput, Button, ErrorReport } from '../FormElements'
-// import { useAppSelector, useAppDispatch } from 'puckee-common/redux'
-// import history from '../../routes/history';
 import { Credentials } from 'puckee-common/types'
-// import { login } from 'puckee-common/features/auth/authSlice';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'puckee-common/auth'
-
-// export interface LocationState {
-//     from: {
-//       pathname: string;
-//     };
-//   }
 
 export class SignInFormError {
     email: React.ReactNode
