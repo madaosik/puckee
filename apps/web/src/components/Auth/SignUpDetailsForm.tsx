@@ -1,6 +1,5 @@
 import React, {useState, Component, useEffect, useRef, MouseEventHandler} from 'react';
 import { Button, FormInput } from '../FormElements';
-import { useAppSelector } from 'puckee-common/redux'
 import Select, {ActionMeta} from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { playerRoleOptions } from 'puckee-common/utils';
@@ -13,10 +12,8 @@ import { Link } from 'react-router-dom';
 export default function SignUpDetailsForm() {
     const [name, setName] = useState("");
     const [birthYear, setBirthYear] = useState("")
-    const {status} = useAppSelector((state) => state.auth);
     const roleOptions = playerRoleOptions()
     const [selectedRoles, setSelectedRoles] = useState<AthleteRoleOption[] | unknown>([roleOptions[0]])
-    // const [selectedRoles, setSelectedRoles] = useState<AthleteRoleOption[] | unknown>([])
 
     const prevPerfLevelPlayerRef= useRef<number>()
     const prevPerfLevelGoalieRef = useRef<number>()

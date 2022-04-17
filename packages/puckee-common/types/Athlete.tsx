@@ -1,13 +1,5 @@
 import { IGame, Serializable } from ".";
 
-// export const emptyAthlete = () : IAthlete => ({
-//   id: undefined,
-//   email: '',
-//   name: '',
-//   lastLogin: ''
-
-// })
-
 export enum AthleteRole {
   INVALID,
   User,
@@ -131,10 +123,11 @@ export class Athlete implements Serializable<Athlete>, IAthlete {
 
   uniqueRole = () : AthleteRole | undefined => {
     if (this.roles.length > 2) return undefined
-
+  
     if (this.hasRole(AthleteRole.Player)) return AthleteRole.Player
     if (this.hasRole(AthleteRole.Goalie)) return AthleteRole.Goalie
     if (this.hasRole(AthleteRole.Referee)) return AthleteRole.Referee
+    if (this.hasRole(AthleteRole.User)) return AthleteRole.User
 
     throw new Error("Unknown role of player " + this.id)
   }

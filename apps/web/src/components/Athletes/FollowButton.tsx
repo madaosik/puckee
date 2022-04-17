@@ -1,10 +1,10 @@
-import { Athlete } from "puckee-common/types"
+import { Athlete, IAthlete } from "puckee-common/types"
 import React from "react"
 import { Button } from "../FormElements"
 
 
 interface FollowButtonProps {
-    currentUser: Athlete
+    currentUser: IAthlete
     athlete: Athlete
     followCb: () => void
 }
@@ -14,6 +14,7 @@ export const FollowButton = ( { currentUser, athlete, followCb }: FollowButtonPr
 
     var hide : boolean
     currentUser.id == athlete.id ? hide=true : hide=false
+    // console.log(currentUser.id + ' ' + athlete.id )
 
     if (hide) {
         return <></>

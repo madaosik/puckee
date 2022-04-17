@@ -1,7 +1,7 @@
 @import url("src/components/Dashboard/dashboard.css");
 @import url("src/components/Games/games.css");
 @import url("src/components/Auth/auth.css");
-@import url("src/components/Players/players.css");
+@import url("src/components/Athletes/athletes.css");
 @import url("src/components/UserProfile/userProfile.css");
 @import url("src/components/Groups/groups.css");
 @import url("src/components/Spinner/spinner.css");
@@ -31,7 +31,7 @@
 
   /* Grid columns variables */
   --grid-template-columns: [h-window-start] 1fr
-                            [menubar-start] minmax(30px,200px)
+                            [menubar-start] minmax(150px,200px)
                             [menubar-end content-start] 30fr
                             [content-end] 1fr
                             [h-window-end];

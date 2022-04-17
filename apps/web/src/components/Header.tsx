@@ -5,19 +5,14 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import SplitButton from 'react-bootstrap/SplitButton'
 import { Athlete, IAthlete } from "puckee-common/types"
 import { useAuth } from "puckee-common/auth"
-
+import { queryClient } from "../../App"
 
 export interface HeaderProps {
-    // backPath?: string,
     headerContent?: JSX.Element
 }
 
-export const Header = ( { headerContent } : HeaderProps ) => {
-    // const { userData } = useAppSelector((state) => state.auth);
-    // const user = new Athlete().deserialize(userData)
-    // const previousState = useLocation<LocationState>().state
+export const Header = ( { headerContent } : HeaderProps) => {
     const auth = useAuth()
-
     const user: IAthlete = auth.userData.athlete
     const printNavHeader = () => {
         return (
@@ -33,17 +28,15 @@ export const Header = ( { headerContent } : HeaderProps ) => {
     return (
         <div className="item one">
             <div className="content-header">
-                {/* <div className="pageHeader">  */}
-                    <div className="pageHeader with-icon">
-                        { headerContent && printNavHeader() }
-                    </div>
-                    {
-                        user.name ?
-                        <UserBadge userName={user.name}/>
-                        :
-                        <UserBadge userEmail={user.email}/>
-                    }
-                {/* </div> */}
+                <div className="pageHeader with-icon">
+                    { headerContent && printNavHeader() }
+                </div>
+                {
+                    user.name ?
+                    <UserBadge userName={user.name}/>
+                    :
+                    <UserBadge userEmail={user.email}/>
+                }
             </div>
         </div>
     )
@@ -79,7 +72,7 @@ const UserBadge = ( { userName, userEmail } : UserBadgeType ) => {
                         </Dropdown.Item>
                         <Dropdown.Divider />
                         <Dropdown.Item eventKey="2" 
-                            onClick={() => auth.signout(() => navigate("/login"))}
+                            onClick={() => auth.signout(() => navigate("/sign-in") )}
                         >
                             Odhlásit se
                         </Dropdown.Item>

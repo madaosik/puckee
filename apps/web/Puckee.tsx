@@ -1,62 +1,46 @@
-import axios from 'axios'
-import { API_BASE } from 'puckee-common/api'
-
 import React, { useState } from 'react'
-import { MdEmail } from 'react-icons/md'
-import { useQuery } from 'react-query'
-import { Navbar } from './src/app/Navbar'
-import { Dashboard, Games, Groups, NewGame, Players, UserProfile } from './src/components'
-import LoginForm from './src/components/Auth/LoginForm'
-import { Auth, Main } from './src/pages'
-// import { Login } from '../src/pages'
+import { Dashboard, Games, Groups, NewGame, Athletes, UserProfile } from './src/components'
+import SignInForm from './src/components/Auth/SignInForm'
+import { AuthLayout, StdLayout, SearchLayout, DashboardLayout } from './src/pages/Layouts'
 import { Route, Routes } from 'react-router-dom'
-import { AuthProvider, Layout, RequireAuth } from 'puckee-common/auth'
-import { TopBarType } from './src/pages/Main'
+import { AuthProvider, RequireAuth } from 'puckee-common/auth'
 import SignUpDetailsForm from './src/components/Auth/SignUpDetailsForm'
+import SignUpForm from './src/components/Auth/SignUpForm'
 
 function Puckee() {
-  const [headerContent, setHeaderContent] = useState<JSX.Element>(<></>)
-
-  const newGameHeaderCb = (element: JSX.Element) => {
-      setHeaderContent(element)
-  }
   return (
       <div className="App">
         <AuthProvider>
           <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" 
-                  element={<RequireAuth><Main content={<Dashboard/>} topBarType={TopBarType.Standard} /></RequireAuth>}
-              />
-              <Route path="/login"
-                  element={<Auth content={<LoginForm/>}/>}
-              />
-              <Route path="/dashboard"
-                  element={<RequireAuth><Main content={<Dashboard/>} topBarType={TopBarType.Standard} /></RequireAuth>}
-              />
-              <Route path="/sign-up-details"
-                  element={<RequireAuth><SignUpDetailsForm/></RequireAuth>}
-              />
-              <Route path="/games"
-                  element={<RequireAuth><Main content={<Games/>} topBarType={TopBarType.Search} /></RequireAuth>}
-              />            
-              <Route path="/games/new"
-                    element={<RequireAuth><Main content={<NewGame gameTitleCb={newGameHeaderCb}/>} topBarType={TopBarType.Standard}/></RequireAuth>}
-              />
-              <Route path="/players"
-                    element={<RequireAuth><Main content={<Players/>} topBarType={TopBarType.Search}/></RequireAuth>}
-              />
-              <Route path="/profile"
-                    element={<RequireAuth><Main content={<UserProfile/>} topBarType={TopBarType.Standard}/></RequireAuth>}
-              />
-              <Route path="/groups"
-                    element={<RequireAuth><Main content={<Groups/>} topBarType={TopBarType.Standard}/></RequireAuth>}
-              />
+            <Route element={<AuthLayout />}>
+              <Route path="sign-in" element={<SignInForm/>} />
+              <Route path="sign-up" element={<SignUpForm/>} />
+              <Route path="sign-up-details" element={<RequireAuth><SignUpDetailsForm/></RequireAuth>} />
+              <Route path="*" element={<NoMatch />} />
+            </Route>
+            <Route element={<DashboardLayout />}>
+              <Route path="/" element={<RequireAuth><Dashboard/></RequireAuth>} />
+              <Route path="dashboard" element={<RequireAuth><Dashboard/></RequireAuth>} />
+            </Route>
+            <Route element={<StdLayout />}>
+              <Route path="profile" element={<RequireAuth><UserProfile/></RequireAuth>} />
+              <Route path="groups" element={<RequireAuth><Groups/></RequireAuth>} />
+              <Route path="games/new" element={<RequireAuth><NewGame/></RequireAuth>} />
+              <Route path="games/:id" element={<RequireAuth><NewGame/></RequireAuth>} />
+
+            </Route>
+            <Route element={<SearchLayout />}>
+              <Route path="games" element={<RequireAuth><Games/></RequireAuth>} />
+              <Route path="athletes" element={<RequireAuth><Athletes/></RequireAuth>} />
             </Route>
           </Routes>
         </AuthProvider>
       </div>
   )
+}
+
+const NoMatch = () => {
+  return <h1>Stránka nenalezena!</h1>;
 }
 
 export default Puckee

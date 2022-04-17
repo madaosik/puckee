@@ -15,16 +15,16 @@ const VerticalMenu = () => {
                 <nav className="navbar navbar-collapse">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="nav-link" to={"/dashboard"}>Nástěnka</Link>
+                            <Link className="nav-link" to="/dashboard">Nástěnka</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to={"/games"}>Utkání</Link>
+                            <Link className="nav-link" to="/games">Utkání</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to={"/players"}>Hráči</Link>
+                            <Link className="nav-link" to="/athletes">Hráči</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to={"/groups"}>Skupiny</Link>
+                            <Link className="nav-link" to="/groups">Skupiny</Link>
                         </li>
                     </ul>
                 </nav>

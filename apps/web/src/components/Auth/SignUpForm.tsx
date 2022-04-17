@@ -1,32 +1,27 @@
 import React, {useState} from 'react';
 import { Button, ErrorReport, FormInput } from '../FormElements';
-import { useAppDispatch, useAppSelector } from 'puckee-common/redux'
-
-import history from '../../routes/history';
-import { signUp } from 'puckee-common/features/auth/authSlice';
 import { Credentials } from 'puckee-common/types';
+import { useAuth } from 'puckee-common/auth';
+import { useNavigate } from 'react-router-dom';
+import { SignInFormError } from './SignInForm';
 
 const eMailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-class SignUpFormError {
-    email: React.ReactNode
-    password: React.ReactNode
+class SignUpFormError extends SignInFormError {
     passwordRepeated: React.ReactNode
     constructor() {
-        this.email = <ErrorReport/>
-        this.password = <ErrorReport/>
+        super()
         this.passwordRepeated = <ErrorReport/>
     }
 }
 
-
 export default function SignUpForm() {
+    const auth = useAuth()
+    const navigate = useNavigate()
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordRepeated, setPasswordRepeated] = useState("");
     const [errors, setErrors] = useState(new SignUpFormError())
-    const dispatch = useAppDispatch();
-    const { status } = useAppSelector((state) => state.auth);
 
     const handleSignUp = (e: React.FormEvent) => {
         e.preventDefault()
@@ -56,17 +51,33 @@ export default function SignUpForm() {
         }
             
         const cred: Credentials = {email: email, password: password}
-        dispatch(signUp(cred))
-            .unwrap()
-            .then(token => { 
-                localStorage.setItem('access_token', token.access_token)
-                history.push('/sign-up-details')
-            })
-            .catch((error) => {
-                console.log(error)
-                errorsToShow.email = <ErrorReport msg={error.message}/>
+        auth.signup(cred, ((status: number, data : any) => {
+            if (status != 200) 
+            {
+                // console.log(data)
+                errorsToShow.passwordRepeated = <ErrorReport msg={data.message}/>
                 setErrors(errorsToShow)
-            })
+            } 
+            else {
+                // let from = location.state?.from?.pathname || "/";
+                navigate("/sign-up-details")
+            }
+        }))
+        // dispatch(signUp(cred))
+        //     .unwrap()
+        //     .then(token => { 
+        //         localStorage.setItem('access_token', token.access_token)
+        //         history.push('/sign-up-details')
+        //     })
+        //     .catch((error) => {
+        //         console.log(error)
+        //         errorsToShow.email = <ErrorReport msg={error.message}/>
+        //         setErrors(errorsToShow)
+        //     })
+
+            // auth.signup(cred, () => {
+            //     navigate("/sign-up-details")
+            // })
     }
 
     return (

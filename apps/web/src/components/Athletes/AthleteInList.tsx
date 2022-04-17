@@ -11,11 +11,11 @@ import { FollowingButton } from "./FollowingButton"
 import { MdGroups } from 'react-icons/md'
 
 interface AthleteInListProps {
-    currentUser: Athlete
     athleteObj: IAthlete
+    currentUser: Athlete
 }
 
-export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) => {
+export const AthleteInList = ( {athleteObj, currentUser}: AthleteInListProps ) => {
     const athlete = new Athlete().deserialize(athleteObj)
     const followStatus = athlete.follow
     const [isFollowed, setIsFollowed] = useState(followStatus ? true : false)
@@ -34,7 +34,7 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
       },
         {
             onSuccess: (response) => {
-                queryClient.invalidateQueries('athletes')
+                queryClient.invalidateQueries(['athletes', currentUser.id])
             },
             onError: (error) => {
                 setIsFollowed(false)
@@ -48,7 +48,7 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
     },
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('athletes')
+                queryClient.invalidateQueries(['athletes', currentUser.id])
   
             },
             onError: (error) => {
@@ -62,7 +62,7 @@ export const AthleteInList = ( {currentUser, athleteObj}: AthleteInListProps ) =
     },
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('athletes')
+                queryClient.invalidateQueries(['athletes', currentUser.id])
 
             },
             onError: (error, updatedFollowRel) => {
