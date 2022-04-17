@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { FormInput, Button, ErrorReport } from '../FormElements'
 import { Credentials } from 'puckee-common/types'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from 'puckee-common/auth'
 
 export class SignInFormError {
@@ -18,6 +18,7 @@ const SignInForm = () => {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState(new SignInFormError())
     const auth = useAuth()
+    const location = useLocation()
     const navigate = useNavigate()
 
     const handleLogin = (e: React.FormEvent) => {

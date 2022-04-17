@@ -61,7 +61,7 @@ const Athletes : React.FC = () => {
                                         {data.pages.map(page => (
                                             <React.Fragment key={page.next_id}>
                                                 {page.items.map((athlete : IAthlete) => (
-                                                    <AthleteInList currentUser={user} athleteObj={athlete}/>
+                                                    <AthleteInList key={athlete.id} currentUser={user} athleteObj={athlete}/>
                                                 ))}
                                             </React.Fragment>
                                             ))}

@@ -27,8 +27,6 @@ class NewGameFormError {
         this.endTime = <ErrorReport/>
     }
 }
-
-
 // interface NewGameProps {
 //     gameTitleCb: (title: JSX.Element) => void
 // }
@@ -39,7 +37,8 @@ const NewGame  = () => {
 
     const [errors, setErrors] = useState(new NewGameFormError())
 
-    const [gameTitle, setGameTitle] = useState("Nové utkání")
+    const [headerTitle, setHeaderTitle] = useState("Nové utkání")
+    const [gameTitle, setGameTitle] = useState("")
     const [remarks, setRemarks] = useState("")
     const [organizers, setPassword] = useState<Athlete[]>([user])
     const [privateGame, setPrivateGame] = useState<boolean>(false)
@@ -74,7 +73,11 @@ const NewGame  = () => {
     const [skillIndex, setSkillIndex] = useState<number>(0)
 
     const updateSkillCb = (newValue: number) => setSkillIndex(newValue)
-    const updateGameTitle = (value: string) => value != "" ? setGameTitle(value) : setGameTitle("Nové utkání")
+    const updateGameTitle = (value: string) => {
+        setGameTitle(value)
+        value != "" ? setHeaderTitle(value) : setHeaderTitle("Nové utkání")
+    }
+
     const updateEndTime = (value: string) => {
         //TODO Add one hour to the start time by default
         setEndTime(value)
@@ -116,7 +119,7 @@ const NewGame  = () => {
     }
 
     const newGameHeader = () => {
-        return <>{gameTitle}</>
+        return <>{headerTitle}</>
     }
     return (
         <>

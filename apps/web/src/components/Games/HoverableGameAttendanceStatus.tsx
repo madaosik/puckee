@@ -6,6 +6,7 @@ import { useMutation } from "react-query"
 import { re } from "../../../node_modulesOLD/semver/internal/re"
 import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
 import { queryClient } from "../../../App"
+import { Button } from "../FormElements"
 
 interface HoverableGameAttendanceStatusProps {
     game: IGame
@@ -86,7 +87,12 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user } : Hoverab
 
     // Div is under hover 
     if (gameRole) { 
-        return <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb} onClick={() => updateGameStatus(undefined)}>Odhlásit se</div>
+        // return <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb} onClick={() => updateGameStatus(undefined)}>Odhlásit se</div>
+        return (
+            <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb}>
+                <Button caption={"Odhlásit"} className={"btn btn-sm btn-danger btn-block rounded"} onClick={() => updateGameStatus(undefined)}/>
+            </div>
+        )
     } else {
         return roleStatusSelector()
     }

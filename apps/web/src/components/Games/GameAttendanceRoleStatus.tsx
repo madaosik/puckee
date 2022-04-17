@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { GameAttendanceRoleSelector } from "./GameAttendanceRoleSelector"
 import { GameAttendanceRoleSelected } from "./GameAttendanceRoleSelected"
 import { useAuth } from "puckee-common/auth"
+import { Button } from "../FormElements"
 
 interface GameAttendanceRoleStatusProps {
     role: AthleteRole | undefined
@@ -53,6 +54,7 @@ export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceR
     // If there is no role assigned, show the "Join button"
     else 
     {
-        return <Link to={"#"} onClick={() => showAttendanceSelector()}>Přihlásit se</Link>
+        // return <Link to={"#"} onClick={() => showAttendanceSelector()}>Přihlásit se</Link>
+        return <Button caption={"Přihlásit"} className={"btn btn-sm btn-block btn-outline-primary rounded"} onClick={() => showAttendanceSelector()}/>
     }
 }

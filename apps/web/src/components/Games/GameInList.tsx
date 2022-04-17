@@ -12,7 +12,7 @@ import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
 import { MdAccessTime, MdLocationOn } from 'react-icons/md'
 import { HoverableGameAttendanceStatus } from "./HoverableGameAttendanceStatus"
 import { useAuth } from "puckee-common/auth"
-
+import ChangeHighlight from "react-change-highlight"
 
 interface GameInListProps {
     game: IGame
@@ -92,7 +92,7 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
                 {/* <GameAttendanceShortcut attendanceSetter={setGameRole} role={gameRole}/> */}
             {/* </div> */}
             <div className="itemInList-col detailArrow">
-                <Link to={"#"}><IoMdArrowDropright size={30}/></Link>
+                <Link to={"/games/" + game.id}><IoMdArrowDropright size={30}/></Link>
             </div>
         </div>
     )

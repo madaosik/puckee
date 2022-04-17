@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dashboard, Games, Groups, Athletes, UserProfile } from './src/components'
-import { NewGame } from './src/components/Games'
+import { NewGame, GameDetail } from './src/components/Games'
 import { SignInForm, SignUpForm, SignUpDetailsForm } from './src/components/Auth'
 import { AuthLayout, StdLayout, SearchLayout, DashboardLayout } from './src/pages/Layouts'
 import { Route, Routes } from 'react-router-dom'
@@ -26,8 +26,7 @@ function Puckee() {
               <Route path="profile" element={<RequireAuth><UserProfile/></RequireAuth>} />
               <Route path="groups" element={<RequireAuth><Groups/></RequireAuth>} />
               <Route path="games/new" element={<RequireAuth><NewGame/></RequireAuth>} />
-              <Route path="games/:id" element={<RequireAuth><NewGame/></RequireAuth>} />
-
+              <Route path="games/:id" element={<RequireAuth><GameDetail/></RequireAuth>} />
             </Route>
             <Route element={<SearchLayout />}>
               <Route path="games" element={<RequireAuth><Games/></RequireAuth>} />

@@ -31,6 +31,9 @@ export interface IGame {
     referees: IAthlete[],
   }
 
+
+
+  
 export type GameType = { game: IGame } 
 
 export type GameDay = {

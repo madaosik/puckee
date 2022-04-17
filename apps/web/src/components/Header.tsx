@@ -13,12 +13,13 @@ export interface HeaderProps {
 
 export const Header = ( { headerContent } : HeaderProps) => {
     const auth = useAuth()
+    const navigate = useNavigate()
     const user: IAthlete = auth.userData.athlete
     const printNavHeader = () => {
         return (
             <div>
-                <Link to={"/"}>
-                    <MdKeyboardArrowLeft size={70} className="backIcon"/>
+                <Link to={-1}>
+                    <MdKeyboardArrowLeft size={70} className="backIcon" />
                 </Link>
                 {headerContent}
             </div>
