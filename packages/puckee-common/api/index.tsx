@@ -11,6 +11,7 @@ export const axiosConfig = {
 export { fetchGames } from './game'
 export { fetchAthletes } from './athlete'
 export { fetchIceRinks } from './icerink'
+export { fetchIceRinkById } from './icerink'
 
 
 

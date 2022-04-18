@@ -9,9 +9,10 @@ import { Button } from "../FormElements"
 interface GameAttendanceRoleStatusProps {
     role: AthleteRole | undefined
     roleSetter: (role: AthleteRole | undefined) => void
+    joinBtnClass: string
 }
 
-export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceRoleStatusProps) => {
+export const GameAttendanceRoleStatus = ( { role, roleSetter, joinBtnClass } : GameAttendanceRoleStatusProps) => {
     const auth = useAuth()
     const user = new Athlete().deserialize(auth.userData.athlete)
     const [roleInSelection, setRoleInSelection] = useState(false)
@@ -55,6 +56,6 @@ export const GameAttendanceRoleStatus = ( { role, roleSetter } : GameAttendanceR
     else 
     {
         // return <Link to={"#"} onClick={() => showAttendanceSelector()}>Přihlásit se</Link>
-        return <Button caption={"Přihlásit"} className={"btn btn-sm btn-block btn-outline-primary rounded"} onClick={() => showAttendanceSelector()}/>
+        return <Button caption={"Přihlásit"} className={joinBtnClass} onClick={() => showAttendanceSelector()}/>
     }
 }

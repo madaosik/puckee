@@ -12,7 +12,6 @@ import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
 import { MdAccessTime, MdLocationOn } from 'react-icons/md'
 import { HoverableGameAttendanceStatus } from "./HoverableGameAttendanceStatus"
 import { useAuth } from "puckee-common/auth"
-import ChangeHighlight from "react-change-highlight"
 
 interface GameInListProps {
     game: IGame
@@ -37,7 +36,7 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
                     {game.name}
                 </div>
                 <div className="itemInList-col expSkillAndOrg">
-                    <SkillPucks className="itemInList-col expSkill" skillLevel={game.exp_skill} puckSize={18} iconKey={'game-' +game.id + '-puck'}/>
+                    <SkillPucks className="itemInList-col expSkill" skillLevel={game.exp_skill} puckSize={18} iconKey={'game-' + game.id + '-puck'}/>
                     {game.organizers[0].id == user.id &&
                             <div className="itemInList-col org">
                                 <FiEdit2 size={18}/>
@@ -84,6 +83,7 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
                     game={game}
                     user={user}
                     classStr="itemInList-col attendanceStatus"
+                    joinBtnClass="btn btn-sm btn-block btn-outline-primary rounded"
                     // currentGameRole={gameRole}
                     // roleSetter={updateGameStatus}
             />

@@ -31,6 +31,7 @@ export const FormTextArea  = ({ className, ...props } : any )  => {
 export const InputLabel = ( { content, ...props } : any) => <label {...props} className="form-input-label">{content}</label>
 
 interface ButtonProps {
+    ref?: (node?: Element | null | undefined) => void,
     onSubmit?: any,
     caption: string,
     type?: any,
@@ -40,9 +41,9 @@ interface ButtonProps {
     onClick?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const Button: React.FC<ButtonProps>= ({ caption, type, disabled, className, onClick, iconClass }): JSX.Element => {
+export const Button: React.FC<ButtonProps>= ({ ref, caption, type, disabled, className, onClick, iconClass }): JSX.Element => {
     return ( 
-        <button className={className} type={type} onClick={onClick} disabled={disabled}>
+        <button className={className} type={type} onClick={onClick} disabled={disabled} ref={ref}>
                 {/* <i className="bi bi-plus-lg"></i> */}
                 {/* <i className={iconClass}></i> */}
             {/* <svg className={iconClass}></svg> */}

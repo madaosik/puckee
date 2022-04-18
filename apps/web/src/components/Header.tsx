@@ -9,11 +9,11 @@ import { queryClient } from "../../App"
 
 export interface HeaderProps {
     headerContent?: JSX.Element
+    statusContent?: JSX.Element
 }
 
-export const Header = ( { headerContent } : HeaderProps) => {
+export const Header = ( { headerContent, statusContent } : HeaderProps) => {
     const auth = useAuth()
-    const navigate = useNavigate()
     const user: IAthlete = auth.userData.athlete
     const printNavHeader = () => {
         return (
@@ -32,12 +32,15 @@ export const Header = ( { headerContent } : HeaderProps) => {
                 <div className="pageHeader with-icon">
                     { headerContent && printNavHeader() }
                 </div>
-                {
-                    user.name ?
-                    <UserBadge userName={user.name}/>
-                    :
-                    <UserBadge userEmail={user.email}/>
-                }
+                <div className="pageHeader-userSection">
+                    {statusContent}
+                    {
+                        user.name ?
+                        <UserBadge userName={user.name}/>
+                        :
+                        <UserBadge userEmail={user.email}/>
+                    }
+                </div>
             </div>
         </div>
     )
@@ -53,7 +56,7 @@ const UserBadge = ( { userName, userEmail } : UserBadgeType ) => {
     const navigate = useNavigate()
 
     return (
-        <div className="pageHeader-userSection">
+        <>
             <div className="unverifiedUserReport">
                 {userEmail && "Neověřený uživatel"}
             </div>
@@ -80,7 +83,7 @@ const UserBadge = ( { userName, userEmail } : UserBadgeType ) => {
                     </SplitButton>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 

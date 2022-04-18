@@ -451,3 +451,96 @@ input.form-control.shadow.shorter {
     flex-direction: row;
     justify-content: center;
 } */
+
+.gameDetail.attendanceStatus {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 80px;
+}
+
+.pageHeader-userSection .gameListAttending {
+    color: white;
+    background-color: green;
+    border-radius: 10px;
+}
+
+/* Game detail styles */
+
+.gameDetail-basicInfo {
+    font-size: 0.9rem;
+}
+
+.gameDetail-basicInfo-timeDateRemarks {
+    border-bottom: 1px solid darkgray;
+    padding-bottom: 10px;
+}
+
+.content-row.gameDetail-attendeesChat {
+    min-height: 500px;
+}
+
+.gameDetail-attendees {
+    width: 59%;
+}
+
+.gameDetail-chat {
+    width: 40%;
+}
+
+.gameDetail-chatAttendeesContent {
+    flex: auto;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.gameDetail-attendance-players {
+    min-height: 80%;
+}
+
+
+.gameDetail-basicInfo-orgDetails {
+    flex: 5;
+    /* background-color: cyan; */
+}
+
+.gameDetail-basicInfo-remarks {
+    flex: 6;
+}
+
+.gameDetail-basicInfo-dateTime {
+    flex: 2;
+    /* background-color: rebeccapurple; */
+}
+
+.gameDetail-basicInfo-orgLoc {
+    flex: 3;
+    /* background-color: cyan; */
+}
+
+
+
+.gameDetail-basicInfo-remarksContent {
+    min-height: 80px;
+    max-height: 130px;
+    overflow-y: auto;
+}
+
+
+
+.gameDetail-basicInfo-attendanceSec {
+    flex: 5;
+    /* background-color: red; */
+}
+
+.gameDetail-basicInfo-skill {
+    flex: 3;
+    /* background-color: aqua; */
+}
+/* 
+.content-row.gameDetail-basicInfo {
+    background-color: aqua;
+}
+ */
+/* .content-row.gameDetail-  */

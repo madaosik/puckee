@@ -209,8 +209,10 @@ body {
 .pageHeader-userSection {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  margin-left: 40px;
+  justify-content: space-between;
   flex: 7;
+  color: white;
 }
 
 /* .pageHeader:hover { */
@@ -267,10 +269,12 @@ body {
     display: flex;
     flex-flow: column;
     height: 100%;
+    /* background-color: green; */
   }
 
   .content-container .content-row {
     border-radius: 10px;
+    margin-bottom: 10px;
   }
 
   .content-inner-box {

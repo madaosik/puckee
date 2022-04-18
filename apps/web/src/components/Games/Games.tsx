@@ -2,7 +2,6 @@ import React, { useEffect } from "react"
 import { Link } from "react-router-dom"
 import { Button } from "../FormElements"
 import { GameFilters } from "./GameFilters"
-import { LoremIpsum } from 'react-lorem-ipsum';
 import { fetchGames, fetchIceRinks } from "puckee-common/api";
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery, useQuery } from 'react-query'
@@ -53,18 +52,19 @@ const Games : React.FC = () => {
                                 <div className="titleRow games">
                                     <h5>Utkání</h5>
                                     <div>
-                                                <button
-                                                onClick={() => fetchPreviousPage()}
-                                                disabled={!hasPreviousPage || isFetchingPreviousPage}
-                                                >
-                                                {isFetchingPreviousPage
-                                                    ? 'Načítám starší utkání...'
-                                                    : hasPreviousPage
-                                                    ? 'Načíst starší utkání'
-                                                    : 'Všechna utkání zobrazena'}
-                                                </button>
-                                            </div>
+                                        <Button caption={
+                                            isFetchingPreviousPage
+                                                ? 'Načítám starší utkání...'
+                                                : hasPreviousPage
+                                                ? 'Načíst starší utkání'
+                                                : 'Všechna utkání zobrazena'
+                                        }
+                                        onClick={() => fetchPreviousPage()}
+                                        disabled={!hasPreviousPage || isFetchingPreviousPage} 
+                                        className={"btn btn-sm btn-outline-primary rounded"}
+                                        />
                                     </div>
+                                </div>
                                 <div className="content">
                                     {status === 'loading' || status === 'idle' ? (
                                         // <p>N...</p>
@@ -77,18 +77,6 @@ const Games : React.FC = () => {
                                             <React.Fragment key={page.next_id}>
                                                 {page.items.map((game : IGame) => (
                                                     <GameInList key={game.id} game={game} icerink={dataRinks[game.location_id]}/>
-                                                    // <p
-                                                    // style={{
-                                                    //     border: '1px solid gray',
-                                                    //     borderRadius: '5px',
-                                                    //     padding: '2rem 1rem',
-                                                    //     background: `hsla(${game.id * 30}, 60%, 80%, 1)`,
-                                                    // }}
-                                                    // key={game.id}
-                                                    // >
-                                                    // {game.name + ' date: ' + game.date}
-                                                    // {/* {game.date} */}
-                                                    // </p>
                                                 ))}
                                             </React.Fragment>
                                             ))}
@@ -97,6 +85,7 @@ const Games : React.FC = () => {
                                                     ref={ref}
                                                     onClick={() => fetchNextPage()}
                                                     disabled={!hasNextPage || isFetchingNextPage}
+                                                    className={"btn btn-sm btn-outline-primary rounded"}
                                                     >
                                                     {isFetchingNextPage
                                                         ? 'Načítám další utkání...'

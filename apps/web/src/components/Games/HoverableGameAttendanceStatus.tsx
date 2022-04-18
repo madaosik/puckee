@@ -12,11 +12,12 @@ interface HoverableGameAttendanceStatusProps {
     game: IGame
     user: Athlete
     classStr: string
+    joinBtnClass: string
     // roleSetter: (role: AthleteRole | undefined) => void
     // currentGameRole: AthleteRole | undefined
 }
 
-export const HoverableGameAttendanceStatus = ({ classStr, game, user } : HoverableGameAttendanceStatusProps) => {
+export const HoverableGameAttendanceStatus = ({ classStr, game, user, joinBtnClass } : HoverableGameAttendanceStatusProps) => {
     const [isHovered, setIsHovered] = useState(false)
     const [gameRole, setGameRole] = useState<AthleteRole | undefined>(attendanceRole(user, game))
 
@@ -34,6 +35,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user } : Hoverab
         {
             onSuccess: (response) => {
                 queryClient.invalidateQueries('games')
+                queryClient.invalidateQueries(['game', game.id.toString()])
                 setGameRole(parseInt(response.data.role_id))
             },
             onError: (error) => {
@@ -48,6 +50,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user } : Hoverab
         {
             onSuccess: () => {
                 queryClient.invalidateQueries('games')
+                queryClient.invalidateQueries(['game', game.id.toString()])
                 setGameRole(undefined)
             },
         onError: (error) => {
@@ -77,7 +80,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user } : Hoverab
     const roleStatusSelector = () => {
         return (
             <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb}>
-                <GameAttendanceRoleStatus role={gameRole} roleSetter={updateGameStatus}/>
+                <GameAttendanceRoleStatus joinBtnClass={joinBtnClass} role={gameRole} roleSetter={updateGameStatus}/>
             </div>
         )
     }
