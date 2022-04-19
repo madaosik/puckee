@@ -12,6 +12,7 @@ import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
 import { MdAccessTime, MdLocationOn } from 'react-icons/md'
 import { HoverableGameAttendanceStatus } from "./HoverableGameAttendanceStatus"
 import { useAuth } from "puckee-common/auth"
+import { GoalieIcon, PlayerIcon } from "../../Icons"
 
 interface GameInListProps {
     game: IGame
@@ -67,8 +68,8 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
                     </div>
                 </div>
                 <div className="itemInList-col attendanceRoleIcon">
-                    <div>H</div>
-                    <div>G</div>
+                    <div><PlayerIcon color="black" height={18}/></div>
+                    <div><GoalieIcon color="black" height={18}/></div>
                     <div>R</div>
                 </div>
                 <div className="itemInList-col attendanceMoney">
@@ -80,6 +81,7 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
             <HoverableGameAttendanceStatus
                     // attStatusJustUpdated={attStatusJustUpdated}
                     // statusUpdateCb={updateAttStatusFlag}
+                    isInvertedColor={false}
                     game={game}
                     user={user}
                     classStr="itemInList-col attendanceStatus"

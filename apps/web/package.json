@@ -4,6 +4,7 @@
   "main": "index.tsx",
   "scripts": {
     "start": "expo start",
+    "svgr": "svgr --no-dimensions --typescript -d src/Icons/ assets/",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
@@ -15,6 +16,7 @@
     "@mswjs/data": "^0.5.0",
     "@mui/material": "^5.6.1",
     "@reduxjs/toolkit": "^1.6.1",
+    "@svgr/cli": "^6.2.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",

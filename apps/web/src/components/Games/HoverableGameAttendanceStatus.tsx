@@ -1,6 +1,6 @@
 import axios from "axios"
 import { API_BASE } from "puckee-common/api"
-import { Athlete, AthleteRole, attendanceRole, IGame, IGameParticipantsAPI } from "puckee-common/types"
+import { Athlete, AthleteRole, Game, IGame, IGameParticipantsAPI } from "puckee-common/types"
 import React, { useState } from "react"
 import { useMutation } from "react-query"
 import { re } from "../../../node_modulesOLD/semver/internal/re"
@@ -10,16 +10,16 @@ import { Button } from "../FormElements"
 
 interface HoverableGameAttendanceStatusProps {
     game: IGame
+    isInvertedColor: boolean
     user: Athlete
     classStr: string
     joinBtnClass: string
-    // roleSetter: (role: AthleteRole | undefined) => void
-    // currentGameRole: AthleteRole | undefined
 }
 
-export const HoverableGameAttendanceStatus = ({ classStr, game, user, joinBtnClass } : HoverableGameAttendanceStatusProps) => {
+export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game, user, joinBtnClass } : HoverableGameAttendanceStatusProps) => {
+    const gameObj = new Game().deserialize(game)
     const [isHovered, setIsHovered] = useState(false)
-    const [gameRole, setGameRole] = useState<AthleteRole | undefined>(attendanceRole(user, game))
+    const [gameRole, setGameRole] = useState<AthleteRole | undefined>(gameObj.participantRole(user))
 
 
     let config = {
@@ -64,7 +64,10 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user, joinBtnCla
             addRolemutation.mutate({ athlete_id: user.id, athlete_role: role })
         } 
         else {
-            removeRoleMutation.mutate()
+            // Check if this was not called just as a callback called by selection cancellation - i.e. if there is actually a role to be removed
+            if (gameRole) {
+                removeRoleMutation.mutate()
+            }
         }
     }
         
@@ -80,7 +83,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user, joinBtnCla
     const roleStatusSelector = () => {
         return (
             <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb}>
-                <GameAttendanceRoleStatus joinBtnClass={joinBtnClass} role={gameRole} roleSetter={updateGameStatus}/>
+                <GameAttendanceRoleStatus isInvertedColor={isInvertedColor} game={gameObj} joinBtnClass={joinBtnClass} role={gameRole} roleSetter={updateGameStatus}/>
             </div>
         )
     }
@@ -90,7 +93,6 @@ export const HoverableGameAttendanceStatus = ({ classStr, game, user, joinBtnCla
 
     // Div is under hover 
     if (gameRole) { 
-        // return <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb} onClick={() => updateGameStatus(undefined)}>Odhlásit se</div>
         return (
             <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb}>
                 <Button caption={"Odhlásit"} className={"btn btn-sm btn-danger btn-block rounded"} onClick={() => updateGameStatus(undefined)}/>

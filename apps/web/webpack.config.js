@@ -17,7 +17,7 @@ module.exports = async function (env, argv) {
       dangerouslyAddModulePathsToTranspile: [
         "puckee-common"
       ]
-    }
+    },
   }, argv);
 
   config.resolve.symlinks = true;

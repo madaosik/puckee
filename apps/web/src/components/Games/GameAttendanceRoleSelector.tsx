@@ -1,13 +1,20 @@
-import { Athlete, AthleteRole } from "puckee-common/types"
-import { useEffect, useRef, useState } from "react"
+import { Athlete, AthleteRole, Game } from "puckee-common/types"
+import React, { SVGProps, useEffect, useRef, useState } from "react"
+import { Link } from "react-router-dom"
+import { GoalieIcon, PlayerIcon } from "../../Icons"
+import { RoleIconSelector } from "./RoleIconSelector"
 
 interface GameAttendanceRoleSelectorProps {
+    game: Game
+    isInvertedColor: boolean
     confirmedRole: AthleteRole | undefined
     currentUser: Athlete
     roleSelectionCb: (role: AthleteRole | undefined) => void
 }
 
-export const GameAttendanceRoleSelector = ( { confirmedRole, 
+export const GameAttendanceRoleSelector = ( { game,
+                                              isInvertedColor,
+                                              confirmedRole, 
                                               currentUser, 
                                               roleSelectionCb } 
                                               : GameAttendanceRoleSelectorProps) => {
@@ -28,14 +35,19 @@ export const GameAttendanceRoleSelector = ( { confirmedRole,
     const cancelCallback = () => roleSelectionCb(currentRole)
     useOutsideClickHandler(wrapperRef, cancelCallback)
 
-    return (<div ref={wrapperRef}>
-                {currentUser.hasRole(AthleteRole.Player) && 
-                    <span onClick={() => rememberSelected(AthleteRole.Player)}>  Hráč  </span>}
-                {currentUser.hasRole(AthleteRole.Goalie) &&
-                    <span onClick={() => rememberSelected(AthleteRole.Goalie)}>  Brankář  </span>}
-                {currentUser.hasRole(AthleteRole.Referee) &&
-                    <span onClick={() => rememberSelected(AthleteRole.Referee)}> Rozhodčí  </span>}
-                <span onClick={() => rememberSelected(undefined)}> X  </span>
+    return (<div ref={wrapperRef} className="d-flex flex-row">
+                { 
+                  currentUser.hasRole(AthleteRole.Player) && 
+                    <RoleIconSelector game={game} role={AthleteRole.Player} RoleIcon={PlayerIcon} rememberSelectedCb={rememberSelected} isInvertedColor={isInvertedColor}/>
+                }
+                { 
+                  currentUser.hasRole(AthleteRole.Goalie) && 
+                    <RoleIconSelector game={game} role={AthleteRole.Goalie} RoleIcon={GoalieIcon} rememberSelectedCb={rememberSelected} isInvertedColor={isInvertedColor}/>
+                }
+                { 
+                  currentUser.hasRole(AthleteRole.Referee) &&
+                    <RoleIconSelector game={game} role={AthleteRole.Referee} RoleIcon={GoalieIcon} rememberSelectedCb={rememberSelected} isInvertedColor={isInvertedColor}/>
+                }
             </div>
     )
 }

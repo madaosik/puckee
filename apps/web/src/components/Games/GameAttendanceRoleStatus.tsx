@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Athlete, AthleteRole } from "puckee-common/types"
+import { Athlete, AthleteRole, Game } from "puckee-common/types"
 import { Link } from "react-router-dom"
 import { GameAttendanceRoleSelector } from "./GameAttendanceRoleSelector"
 import { GameAttendanceRoleSelected } from "./GameAttendanceRoleSelected"
@@ -7,12 +7,14 @@ import { useAuth } from "puckee-common/auth"
 import { Button } from "../FormElements"
 
 interface GameAttendanceRoleStatusProps {
+    game: Game
+    isInvertedColor: boolean
     role: AthleteRole | undefined
     roleSetter: (role: AthleteRole | undefined) => void
     joinBtnClass: string
 }
 
-export const GameAttendanceRoleStatus = ( { role, roleSetter, joinBtnClass } : GameAttendanceRoleStatusProps) => {
+export const GameAttendanceRoleStatus = ( { isInvertedColor, game, role, roleSetter, joinBtnClass } : GameAttendanceRoleStatusProps) => {
     const auth = useAuth()
     const user = new Athlete().deserialize(auth.userData.athlete)
     const [roleInSelection, setRoleInSelection] = useState(false)
@@ -41,7 +43,7 @@ export const GameAttendanceRoleStatus = ( { role, roleSetter, joinBtnClass } : G
     }
 
     if (roleInSelection) {
-        return <GameAttendanceRoleSelector confirmedRole={role} currentUser={user} roleSelectionCb={setRole}/>
+        return <GameAttendanceRoleSelector isInvertedColor={isInvertedColor} game={game} confirmedRole={role} currentUser={user} roleSelectionCb={setRole}/>
     }
     
     // Role is currently not being selected

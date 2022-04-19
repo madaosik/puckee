@@ -1,12 +1,13 @@
 import { fetchIceRinkById } from 'puckee-common/api'
 import { IGame } from 'puckee-common/types'
 import { getDateFromString, removeSeconds } from 'puckee-common/utils'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { MdAccessTime, MdLocationOn, MdDateRange, MdOutlineManageAccounts } from 'react-icons/md'
 import { AiOutlineFileText } from 'react-icons/ai'
 import { useQuery } from 'react-query'
 import { SkillPucks } from '../../SkillPucks/SkillPucks'
 import LoremIpsum from 'react-lorem-ipsum'
+import { GoalieIcon, PlayerIcon } from '../../../Icons'
 
 interface GameDetailBasicInfoProps {
     game: IGame
@@ -76,11 +77,11 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                         {/* Druhy sloupec (organizatori) */}
                         <div className="d-flex flex-row justify-content-evenly gameDetail-basicInfo-attendanceSec">
                             <div className="d-flex flex-row">
-                                <div className="me-2">H</div>
+                                <div className="me-2"><PlayerIcon color="black" height={30}/></div>
                                 <div>{game.players.length}/{game.exp_players_cnt}</div>
                             </div>
                             <div className="d-flex flex-row">
-                                <div className="me-2">B</div>
+                                <div className="me-2"><GoalieIcon color="black" height={30}/></div>
                                 <div>{game.goalies.length}/{game.exp_goalies_cnt}</div>
                             </div>
                             <div className="d-flex flex-row">

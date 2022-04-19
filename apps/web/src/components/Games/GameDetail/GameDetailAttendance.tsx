@@ -1,5 +1,7 @@
 import { IGame } from "puckee-common/types"
 import React from "react"
+import GoalieIcon from '../../../Icons/GoalieIcon'
+import PlayerIcon from '../../../Icons/PlayerIcon'
 
 interface GameDetailBasicInfoProps {
     game: IGame
@@ -17,7 +19,7 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                 <div className="d-flex flex-row justify-content-between gameDetail-attendance-players">
                     {/* Column containing large player icon */}
                     <div className="d-flex flex-column justify-content-center">
-                        <div>icon</div>
+                        <div><PlayerIcon color="#A9A9A9" height={70}/></div>
                         <div>count</div>
                     </div>
                     {/* Column containing players */}
@@ -29,7 +31,7 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                 <div className="d-flex flex-row justify-content-between">
                     {/* Column containing large goalie icon */}
                     <div className="d-flex flex-column justify-content-center">
-                        <div>icon</div>
+                        <div><GoalieIcon color="#A9A9A9" height={70}/></div>
                         <div>goalie</div>
                     </div>
                     {/* Column containing goalies */}

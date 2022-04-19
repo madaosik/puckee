@@ -1,4 +1,6 @@
 import { AthleteRole } from "puckee-common/types"
+import React from "react"
+import { GoalieIcon, PlayerIcon } from "../../Icons"
 
 interface GameAttendanceRoleSelectedProps {
     role: AthleteRole
@@ -25,8 +27,8 @@ export const GameAttendanceRoleSelected = ( { role } : GameAttendanceRoleSelecte
             <div className="gameListAttending-description">JDU</div>
             <div className="gameListAttending-statusIcon">
                 {
-                    role == AthleteRole.Player ? <span>Hráč</span>
-                    : role == AthleteRole.Goalie ? <span>Brankář</span>
+                    role == AthleteRole.Player ? <span><PlayerIcon color="black" height={20}/></span>
+                    : role == AthleteRole.Goalie ? <span><GoalieIcon color="black" height={20}/></span>
                     : role == AthleteRole.Referee ? <span>Rozhodčí</span>
                     : <span></span>
                 }

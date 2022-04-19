@@ -36,6 +36,7 @@ export default function GameDetail () {
                         statusContent={
                         <div className="d-flex flex-row justify-content-center">
                             <HoverableGameAttendanceStatus
+                                isInvertedColor={true}
                                 game={data}
                                 user={currentUser}
                                 classStr="gameDetail attendanceStatus"
@@ -57,7 +58,7 @@ export default function GameDetail () {
             <div className="content-container">
                 <GameDetailBasicInfo game={data}/>
                     <div className="d-flex flex-row justify-content-between">
-                        <GameDetailAttendance/>
+                        <GameDetailAttendance game={data}/>
                         <GameDetailChat/>
                     </div>
                 <GameDetailEvaluation/>

@@ -465,6 +465,10 @@ input.form-control.shadow.shorter {
     border-radius: 10px;
 }
 
+.pageHeader-userSection svg {
+    color: white;
+}
+
 /* Game detail styles */
 
 .gameDetail-basicInfo {
