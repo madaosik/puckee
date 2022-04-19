@@ -1,6 +1,6 @@
 import { fetchGameById } from "puckee-common/api/game"
 import { useAuth } from "puckee-common/auth"
-import { Athlete } from "puckee-common/types"
+import { Athlete, Game } from "puckee-common/types"
 import React, { useEffect } from "react"
 import { useQuery } from "react-query"
 import { useParams } from "react-router-dom"
@@ -53,12 +53,14 @@ export default function GameDetail () {
     const renderContent = () => {
         if (isLoading || isIdle) return <Loading/>
         if (isError) return <p>{error.message}</p>
+
+        const game = new Game().deserialize(data)
         
         return (
             <div className="content-container">
-                <GameDetailBasicInfo game={data}/>
+                <GameDetailBasicInfo game={game}/>
                     <div className="d-flex flex-row justify-content-between">
-                        <GameDetailAttendance game={data}/>
+                        <GameDetailAttendance game={game}/>
                         <GameDetailChat/>
                     </div>
                 <GameDetailEvaluation/>

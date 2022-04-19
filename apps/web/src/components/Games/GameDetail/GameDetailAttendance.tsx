@@ -1,10 +1,10 @@
-import { IGame } from "puckee-common/types"
+import { Game } from "puckee-common/types"
 import React from "react"
 import GoalieIcon from '../../../Icons/GoalieIcon'
 import PlayerIcon from '../../../Icons/PlayerIcon'
 
 interface GameDetailBasicInfoProps {
-    game: IGame
+    game: Game
 }
 
 export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps)

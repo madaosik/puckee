@@ -510,6 +510,7 @@ input.form-control.shadow.shorter {
 }
 
 .gameDetail-basicInfo-remarks {
+    /* margin-top: 1rem; */
     flex: 6;
 }
 

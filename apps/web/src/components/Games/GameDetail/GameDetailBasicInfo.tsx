@@ -1,5 +1,5 @@
 import { fetchIceRinkById } from 'puckee-common/api'
-import { IGame } from 'puckee-common/types'
+import { Game, IGame } from 'puckee-common/types'
 import { getDateFromString, removeSeconds } from 'puckee-common/utils'
 import React, { useState } from 'react'
 import { MdAccessTime, MdLocationOn, MdDateRange, MdOutlineManageAccounts } from 'react-icons/md'
@@ -10,16 +10,15 @@ import LoremIpsum from 'react-lorem-ipsum'
 import { GoalieIcon, PlayerIcon } from '../../../Icons'
 
 interface GameDetailBasicInfoProps {
-    game: IGame
+    game: Game
 }
 
 export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProps)
 {
     const { data, isSuccess } = useQuery(["icerink", game.location_id], () => fetchIceRinkById(game.location_id));
-    const start_time = removeSeconds(game.start_time)
-    const end_time = removeSeconds(game.end_time)
-    const date = getDateFromString(game.date)
-                    .toLocaleString('cs-CZ', {weekday: 'short', day:'numeric', month: 'numeric', year: 'numeric'})
+    const date = game.date.toLocaleString('cs-CZ', {weekday: 'short', day:'numeric', month: 'numeric', year: 'numeric'})
+    // const date = getDateFromString(game.date)
+    //                 .toLocaleString('cs-CZ', {weekday: 'short', day:'numeric', month: 'numeric', year: 'numeric'})
 
     const [realGameSkill, setRealGameSkill] = useState(3)
     
@@ -41,7 +40,9 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                                 </div>
                                 <div className='d-flex flex-row mt-2'>
                                     <div className='me-1'><MdAccessTime size={24}/></div>
-                                    <div>{start_time}-{end_time}</div>
+                                    <div>
+                                        {game.startTimeString()} - {game.endTimeString()}
+                                    </div>
                                 </div>
                             </div>
                             <div className='d-flex flex-column justify-content-start gameDetail-basicInfo-orgLoc'>
@@ -56,7 +57,7 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                             </div>
                         </div>
                         {/* Treti sloupec (poznamky) */}
-                        <div className="d-flex flex-row justify-content-end gameDetail-basicInfo-remarks">
+                        <div className="d-flex flex-row justify-content-end me-1 gameDetail-basicInfo-remarks">
                             <div className="d-flex flex-column justify-content-start">
                                 <div className='me-1'>
                                     <AiOutlineFileText size={24}/>

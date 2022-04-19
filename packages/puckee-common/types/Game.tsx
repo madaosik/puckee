@@ -124,6 +124,18 @@ export class Game implements Serializable<Game> {
     })
     return gameRole
   }
+
+  startTimeString = () : string => {
+    const hours = String(this.start_time.getUTCHours()).padStart(2, "0")
+    const minutes = String(this.start_time.getUTCMinutes()).padStart(2, "0")
+    return `${hours}:${minutes}`
+  }
+
+  endTimeString = () : string => {
+    const hours = String(this.end_time.getUTCHours()).padStart(2, "0")
+    const minutes = String(this.end_time.getUTCMinutes()).padStart(2, "0")
+    return `${hours}:${minutes}`
+  }
 }
 
 export type GameType = { game: IGame } 
