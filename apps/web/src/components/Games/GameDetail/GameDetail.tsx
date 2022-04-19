@@ -59,7 +59,7 @@ export default function GameDetail () {
         return (
             <div className="content-container">
                 <GameDetailBasicInfo game={game}/>
-                    <div className="d-flex flex-row justify-content-between">
+                    <div className="d-flex flex-row justify-content-between gameDetail-attendanceChatWrapper">
                         <GameDetailAttendance game={game}/>
                         <GameDetailChat/>
                     </div>

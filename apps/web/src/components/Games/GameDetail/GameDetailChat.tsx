@@ -7,8 +7,10 @@ export default function GameDetailChat ()
             <div className="content-inner-row heading">
                 Diskuse
             </div>
-            <div className="content-inner-row data gameDetail-chatAttendeesContent">
-                data
+            <div className="content-inner-row data gameDetail-chatContent">
+                {/* <div className="gameDetail-chat-box">
+                    data
+                </div> */}
             </div>
         </div>
     )

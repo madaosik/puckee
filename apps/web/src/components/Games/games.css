@@ -480,27 +480,53 @@ input.form-control.shadow.shorter {
     padding-bottom: 10px;
 }
 
-.content-row.gameDetail-attendeesChat {
-    min-height: 500px;
-}
+/* .content-row.gameDetail-attendeesChat { */
+    /* min-height: 500px; */
+/* } */
 
 .gameDetail-attendees {
     width: 59%;
+    /* flex: 1; */
+    /* height: 100%; */
 }
 
 .gameDetail-chat {
     width: 40%;
 }
 
-.gameDetail-chatAttendeesContent {
-    flex: auto;
-    height: 60vh;
+/* .gameDetail-attendanceChatWrapper { */
+    /* min-height: 750px; */
+/* } */
+
+.gameDetail-chatContent {
+    max-height: 750px;
+    height: 100%;
+}
+
+.gameDetail-chat-box {
+    padding-bottom: 10px;
+    overflow-y: auto;
+}
+
+.gameDetail-attendeesContent {
+    /* flex: auto; */
+    max-height: 750px;
+    /* min-height: 500px; */
+    flex: 1;
     display: flex;
     flex-direction: column;
+    /* overflow-y: auto; */
+}
+
+.gameDetail-players-box {
+    padding-bottom: 20px;
+    overflow-y: auto;
 }
 
 .gameDetail-attendance-players {
-    min-height: 80%;
+    min-height: 450px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid lightgray;
 }
 
 
@@ -524,15 +550,11 @@ input.form-control.shadow.shorter {
     /* background-color: cyan; */
 }
 
-
-
 .gameDetail-basicInfo-remarksContent {
     min-height: 80px;
     max-height: 130px;
     overflow-y: auto;
 }
-
-
 
 .gameDetail-basicInfo-attendanceSec {
     flex: 5;
@@ -543,6 +565,30 @@ input.form-control.shadow.shorter {
     flex: 3;
     /* background-color: aqua; */
 }
+
+.gameDetail-attendeeCntDesc {
+    font-size: 1.8rem;
+    color: darkgray;
+    font-weight: bold;
+    text-align: center;
+}
+
+.gameDetail-attendance-goaliesReferees {
+    min-height: 170px;
+    padding-bottom: 10px;
+    overflow-y: auto;
+}
+
+.gameDetail-goalieSection {
+    width: 50%;
+}
+
+.gameDetail-refereeSection {
+    width: 50%;
+}
+
+
+/* } */
 /* 
 .content-row.gameDetail-basicInfo {
     background-color: aqua;

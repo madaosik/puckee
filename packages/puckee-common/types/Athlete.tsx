@@ -49,7 +49,7 @@ export class Athlete implements Serializable<Athlete> {
     last_update: Date
     roles: AthleteRoleType[]
     follow: FollowStatus | undefined
-    follower_ids: number[]
+    followers: number[]
     accessToken: string
 
   deserialize = (data: IAthlete): Athlete => {
@@ -60,7 +60,7 @@ export class Athlete implements Serializable<Athlete> {
       this.last_update = new Date(data.last_update)
       this.roles = data.roles
       this.follow = data.follow
-      this.follower_ids = data.followers
+      this.followers = data.followers
       return this
   }
 

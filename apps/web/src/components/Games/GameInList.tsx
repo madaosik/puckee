@@ -1,5 +1,5 @@
 import { useAppSelector } from "puckee-common/redux"
-import { Athlete, AthleteRole, attendanceRole, IAthlete, IGame } from "puckee-common/types"
+import { Athlete, AthleteRole, attendanceRole, Game, IAthlete, IGame } from "puckee-common/types"
 import { getDateFromString, removeSeconds } from "puckee-common/utils"
 import React, { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
@@ -21,6 +21,7 @@ interface GameInListProps {
 
 const GameInList = ( {game, icerink}: GameInListProps ) => {
     const auth = useAuth()
+    // const gameObj = new Game().deserialize(game)
     const user = new Athlete().deserialize(auth.userData.athlete)
     const start_time = removeSeconds(game.start_time)
     const end_time = removeSeconds(game.end_time)
@@ -30,6 +31,7 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
     return (
         <div className="itemInList">
             <div className="itemInList-col profilePhoto">
+                {/* <Avatar {...stringAvatar(athlete.name)} /> */}
                 <CgProfile size={40}/>
             </div>
             <div className="itemInList-col nameAndExpSkill">
