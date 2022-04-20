@@ -52,7 +52,7 @@ export const GameAttendanceRoleStatus = ( { isInvertedColor, game, role, roleSet
     if (role) 
     {
         // return <GameAttendanceRoleSelected selectToggle={toggleSelection} role={role}/>
-        return <GameAttendanceRoleSelected role={role}/>
+        return <GameAttendanceRoleSelected isInvertedColor={isInvertedColor} role={role}/>
     }
     // If there is no role assigned, show the "Join button"
     else 

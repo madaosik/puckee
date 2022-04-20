@@ -1,9 +1,10 @@
 import { AthleteRole } from "puckee-common/types"
 import React from "react"
-import { GoalieIcon, PlayerIcon } from "../../Icons"
+import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../Icons"
 
 interface GameAttendanceRoleSelectedProps {
     role: AthleteRole
+    isInvertedColor: boolean
     // selectToggle: (toggle: boolean) => void
 }
 
@@ -21,15 +22,16 @@ interface GameAttendanceRoleSelectedProps {
     //         </div>
     //     </div>
     // )
-export const GameAttendanceRoleSelected = ( { role } : GameAttendanceRoleSelectedProps) => {
+export const GameAttendanceRoleSelected = ( { role, isInvertedColor } : GameAttendanceRoleSelectedProps) => {
+    const color = isInvertedColor ? "white" : "black"
     return (
         <div className="gameListAttending">
             <div className="gameListAttending-description">JDU</div>
             <div className="gameListAttending-statusIcon">
                 {
-                    role == AthleteRole.Player ? <span><PlayerIcon color="black" height={20}/></span>
-                    : role == AthleteRole.Goalie ? <span><GoalieIcon color="black" height={20}/></span>
-                    : role == AthleteRole.Referee ? <span>Rozhodčí</span>
+                    role == AthleteRole.Player ? <span><PlayerIcon color={color} height={30}/></span>
+                    : role == AthleteRole.Goalie ? <span><GoalieIcon color={color} height={30}/></span>
+                    : role == AthleteRole.Referee ? <span><RefereeIcon color={color} height={30}/></span>
                     : <span></span>
                 }
             </div>

@@ -11,13 +11,14 @@ interface AthleteBadgeProps {
 
 export default function AthleteBadge ( {athlete, registered} : AthleteBadgeProps ) {
     return (
-        <div className="d-flex flex-row justify-content-between athleteBadge-wrapper align-items-center shadow mt-2 me-2">
+        // mt-2 me-2
+        <div className="d-flex flex-row justify-content-between athleteBadge-wrapper align-items-center shadow">
             <div className="ms-2">
                 {
                     registered ?
-                    <Avatar {...stringAvatar(athlete.name)} />
+                    <Avatar {...stringAvatar(athlete.name, 28)} />
                     :
-                    <CgProfile size={24}/>
+                    <CgProfile size={28}/>
                 }
             </div>
             <div className="d-flex flex-row justify-content-end ms-2 pe-2">

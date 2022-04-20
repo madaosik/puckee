@@ -9,6 +9,8 @@ import { AthleteListSkillRating } from "./AthleteListSkillRating"
 import { FollowButton } from "./FollowButton"
 import { FollowingButton } from "./FollowingButton"
 import { MdGroups } from 'react-icons/md'
+import Avatar from "@mui/material/Avatar"
+import { stringAvatar } from 'puckee-common/utils/avatar'
 
 interface AthleteInListProps {
     athleteObj: IAthlete
@@ -90,7 +92,7 @@ export const AthleteInList = ( {athleteObj, currentUser}: AthleteInListProps ) =
     return (
         <div className="itemInList playersList">
             <div className="itemInList-col profilePhoto">
-                <IoPersonCircleOutline size={40}/>
+                <Avatar {...stringAvatar(athlete.name, 40)} />
             </div>
             <div className="itemInList-col athleteName">
                 {athlete.name}

@@ -499,7 +499,7 @@ input.form-control.shadow.shorter {
 /* } */
 
 .gameDetail-chatContent {
-    max-height: 750px;
+    max-height: 850px;
     height: 100%;
 }
 
@@ -510,7 +510,7 @@ input.form-control.shadow.shorter {
 
 .gameDetail-attendeesContent {
     /* flex: auto; */
-    max-height: 750px;
+    max-height: 850px;
     /* min-height: 500px; */
     flex: 1;
     display: flex;
@@ -531,22 +531,28 @@ input.form-control.shadow.shorter {
 
 
 .gameDetail-basicInfo-orgDetails {
-    flex: 5;
+    flex: 7;
+    height: 100px;
+    max-height: 140px;
     /* background-color: cyan; */
 }
 
 .gameDetail-basicInfo-remarks {
     /* margin-top: 1rem; */
-    flex: 6;
+    flex: 4;
 }
 
 .gameDetail-basicInfo-dateTime {
-    flex: 2;
+    flex: 3;
     /* background-color: rebeccapurple; */
 }
 
+.gameDetail-orgSection {
+    max-height: 100%;
+}
+
 .gameDetail-basicInfo-orgLoc {
-    flex: 3;
+    flex: 4;
     /* background-color: cyan; */
 }
 
@@ -574,7 +580,7 @@ input.form-control.shadow.shorter {
 }
 
 .gameDetail-attendance-goaliesReferees {
-    min-height: 170px;
+    min-height: 250px;
     padding-bottom: 10px;
     overflow-y: auto;
 }

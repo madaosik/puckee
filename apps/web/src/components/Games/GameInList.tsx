@@ -12,7 +12,9 @@ import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
 import { MdAccessTime, MdLocationOn } from 'react-icons/md'
 import { HoverableGameAttendanceStatus } from "./HoverableGameAttendanceStatus"
 import { useAuth } from "puckee-common/auth"
-import { GoalieIcon, PlayerIcon } from "../../Icons"
+import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../Icons"
+import Avatar from "@mui/material/Avatar"
+import { stringAvatar } from 'puckee-common/utils/avatar'
 
 interface GameInListProps {
     gameData: IGame
@@ -28,7 +30,8 @@ const GameInList = ( {gameData, icerink}: GameInListProps ) => {
         <div className="itemInList">
             <div className="itemInList-col profilePhoto">
                 {/* <Avatar {...stringAvatar(athlete.name)} /> */}
-                <CgProfile size={40}/>
+                {/* <CgProfile size={40}/> */}
+                <Avatar {...stringAvatar(game.organizers[0].name, 40)} />
             </div>
             <div className="itemInList-col nameAndExpSkill">
                 <div>
@@ -69,7 +72,7 @@ const GameInList = ( {gameData, icerink}: GameInListProps ) => {
                 <div className="itemInList-col attendanceRoleIcon">
                     <div><PlayerIcon color="black" height={18}/></div>
                     <div><GoalieIcon color="black" height={18}/></div>
-                    <div>R</div>
+                    <div><RefereeIcon color="black" height={18}/></div>
                 </div>
                 <div className="itemInList-col attendanceMoney">
                     <div><FinancialsInGameList role={AthleteRole.Player} value={game.est_price}/></div>

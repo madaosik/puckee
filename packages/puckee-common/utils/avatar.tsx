@@ -18,12 +18,12 @@ function stringToColor(string: string) {
     return color;
   }
   
-export function stringAvatar(name: string) {
+export function stringAvatar(name: string, size: number) {
 return {
     sx: {
     bgcolor: stringToColor(name),
-    width: 28,
-    height: 28,
+    width: size,
+    height: size,
     fontSize: '0.8rem'
     },
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
