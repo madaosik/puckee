@@ -30,6 +30,7 @@ export default function GameDetail () {
     const renderHeader = () => {
         if (isLoading || isIdle) return <Header />
         if (isSuccess) {
+            const game = new Game().deserialize(data)
             return (
                 <> 
                     <Header headerContent={data.name}
@@ -37,7 +38,7 @@ export default function GameDetail () {
                         <div className="d-flex flex-row justify-content-center">
                             <HoverableGameAttendanceStatus
                                 isInvertedColor={true}
-                                game={data}
+                                game={game}
                                 user={currentUser}
                                 classStr="gameDetail attendanceStatus"
                                 joinBtnClass="btn btn-block btn-primary rounded"

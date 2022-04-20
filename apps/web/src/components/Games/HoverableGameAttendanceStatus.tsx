@@ -1,6 +1,6 @@
 import axios from "axios"
 import { API_BASE } from "puckee-common/api"
-import { Athlete, AthleteRole, Game, IGame, IGameParticipantsAPI } from "puckee-common/types"
+import { Athlete, AthleteRole, Game, IGameParticipantsAPI } from "puckee-common/types"
 import React, { useState } from "react"
 import { useMutation } from "react-query"
 import { re } from "../../../node_modulesOLD/semver/internal/re"
@@ -9,7 +9,7 @@ import { queryClient } from "../../../App"
 import { Button } from "../FormElements"
 
 interface HoverableGameAttendanceStatusProps {
-    game: IGame
+    game: Game
     isInvertedColor: boolean
     user: Athlete
     classStr: string
@@ -17,9 +17,8 @@ interface HoverableGameAttendanceStatusProps {
 }
 
 export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game, user, joinBtnClass } : HoverableGameAttendanceStatusProps) => {
-    const gameObj = new Game().deserialize(game)
     const [isHovered, setIsHovered] = useState(false)
-    const [gameRole, setGameRole] = useState<AthleteRole | undefined>(gameObj.participantRole(user))
+    const [gameRole, setGameRole] = useState<AthleteRole | undefined>(game.participantRole(user))
 
 
     let config = {
@@ -83,7 +82,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game,
     const roleStatusSelector = () => {
         return (
             <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb}>
-                <GameAttendanceRoleStatus isInvertedColor={isInvertedColor} game={gameObj} joinBtnClass={joinBtnClass} role={gameRole} roleSetter={updateGameStatus}/>
+                <GameAttendanceRoleStatus isInvertedColor={isInvertedColor} game={game} joinBtnClass={joinBtnClass} role={gameRole} roleSetter={updateGameStatus}/>
             </div>
         )
     }

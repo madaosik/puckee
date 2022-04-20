@@ -15,18 +15,14 @@ import { useAuth } from "puckee-common/auth"
 import { GoalieIcon, PlayerIcon } from "../../Icons"
 
 interface GameInListProps {
-    game: IGame
+    gameData: IGame
     icerink: any
 }
 
-const GameInList = ( {game, icerink}: GameInListProps ) => {
+const GameInList = ( {gameData, icerink}: GameInListProps ) => {
     const auth = useAuth()
-    // const gameObj = new Game().deserialize(game)
+    const game = new Game().deserialize(gameData)
     const user = new Athlete().deserialize(auth.userData.athlete)
-    const start_time = removeSeconds(game.start_time)
-    const end_time = removeSeconds(game.end_time)
-    const date = getDateFromString(game.date)
-                    .toLocaleString('cs-CZ', {weekday: 'short', day:'numeric', month: 'numeric'})
 
     return (
         <div className="itemInList">
@@ -50,7 +46,8 @@ const GameInList = ( {game, icerink}: GameInListProps ) => {
             <div className="itemInList-col dateTimeLoc">
                 <div className="itemInList-col dateTimeLoc-row">
                     <div className="itemInList-col dateTimeLoc-row icon"><MdAccessTime/></div>
-                    <div className="itemInList-col dateTimeLoc-row text">{start_time + " - " + end_time + ', ' + date}</div>
+                    <div className="itemInList-col dateTimeLoc-row text">
+                        {game.startTimeString() + " - " + game.endTimeString() + ', ' + game.dateString()}</div>
                 </div>
                 <div className="itemInList-col dateTimeLoc-row">
                     <div className="itemInList-col dateTimeLoc-row icon"><MdLocationOn/></div>

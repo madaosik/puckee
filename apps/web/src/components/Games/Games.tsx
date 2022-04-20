@@ -76,7 +76,7 @@ const Games : React.FC = () => {
                                         {data.pages.map(page => (
                                             <React.Fragment key={page.next_id}>
                                                 {page.items.map((game : IGame) => (
-                                                    <GameInList key={game.id} game={game} icerink={dataRinks[game.location_id]}/>
+                                                    <GameInList key={game.id} gameData={game} icerink={dataRinks[game.location_id]}/>
                                                 ))}
                                             </React.Fragment>
                                             ))}

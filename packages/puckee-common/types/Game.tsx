@@ -136,6 +136,12 @@ export class Game implements Serializable<Game> {
     const minutes = String(this.end_time.getUTCMinutes()).padStart(2, "0")
     return `${hours}:${minutes}`
   }
+
+  dateString = (config?: Record<string, string>) : string => {
+    var dateStringConfig : Record<string,string> = {weekday: 'short', day:'numeric', month: 'numeric'}
+    for (let key in config) dateStringConfig[key] = config[key]
+    return this.date.toLocaleString('cs-CZ', dateStringConfig)
+  }
 }
 
 export type GameType = { game: IGame } 

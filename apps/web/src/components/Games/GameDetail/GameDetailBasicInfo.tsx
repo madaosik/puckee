@@ -16,10 +16,6 @@ interface GameDetailBasicInfoProps {
 export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProps)
 {
     const { data, isSuccess } = useQuery(["icerink", game.location_id], () => fetchIceRinkById(game.location_id));
-    const date = game.date.toLocaleString('cs-CZ', {weekday: 'short', day:'numeric', month: 'numeric', year: 'numeric'})
-    // const date = getDateFromString(game.date)
-    //                 .toLocaleString('cs-CZ', {weekday: 'short', day:'numeric', month: 'numeric', year: 'numeric'})
-
     const [realGameSkill, setRealGameSkill] = useState(3)
     
     return (
@@ -36,7 +32,7 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                             <div className='d-flex flex-column justify-content-start gameDetail-basicInfo-dateTime'>
                                 <div className='d-flex flex-row mt-1'>
                                     <div className='me-1'><MdDateRange size={24}/></div>
-                                    <div>{date}</div>
+                                    <div>{game.dateString({year: 'numeric'})}</div>
                                 </div>
                                 <div className='d-flex flex-row mt-2'>
                                     <div className='me-1'><MdAccessTime size={24}/></div>
