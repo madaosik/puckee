@@ -51,13 +51,34 @@ export class Game implements Serializable<Game> {
   exp_skill: number
   creation_time: Date
   last_updated: Date
-  total_places: number
-  location: string
   
   players: Athlete[]
   organizers: Athlete[]
   goalies: Athlete[]
   referees: Athlete[]
+
+  constructor(creator: Athlete) {
+    this.name = ''
+    this.exp_players_cnt = 20
+    this.exp_goalies_cnt = 2
+    this.exp_referees_cnt = 1
+    this.est_price = 0
+    this.remarks = ''
+
+    var today = new Date()
+    this.date = new Date()
+    this.date.setDate(today.getDate() + 2)
+
+    this.other_costs = 0
+    this.is_private = false
+    this.goalie_renum =  0
+    this.referee_renum = 0
+    this.exp_skill = 3
+    this.players = []
+    this.organizers = [creator]
+    this.goalies = []
+    this.referees = []
+  }
 
   deserialize = (data: IGame): Game => {
     this.id = Number(data.id)
@@ -79,7 +100,6 @@ export class Game implements Serializable<Game> {
     this.exp_skill = Number(data.exp_skill)
     this.creation_time = new Date(data.creation_time)
     this.last_updated = new Date(data.last_updated)
-    this.total_places = Number(data.total_places)
     this.location_id = Number(data.location_id)
 
     this.players = data.players.map(p => new Athlete().deserialize(p))
@@ -156,19 +176,6 @@ export interface IGameParticipantsAPI {
   athlete_role: number
 }
 
-export enum GameLocation {
-  "Sportcentrum Lužánky - NHL plocha",
-  "Sportcentrum Lužánky - Evropská plocha",
-  "Hokejová hala ZŠ Úvoz",
-  "Winning Group Arena",
-  "Zimní stadion Kuřim",
-  "Zimní stadion Rosice",
-  "Zimní stadion Velká Bíteš",
-  "Zimní stadion Blansko",
-  "Zimní stadion Vyškov"
-}
 
-
-
-export type SelectedGameLoc = {value: number, label: string, price: number}
+export type SelectedGameLoc = {value: number, label: string, address: string, price_per_hour: number}
 export type GameLocOption = SelectedGameLoc | unknown

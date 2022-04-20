@@ -6,20 +6,20 @@ import { fetchGames, fetchIceRinks } from "puckee-common/api";
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery, useQuery } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { IGame } from "puckee-common/types";
+import { IceRink, IGame, IIceRink } from "puckee-common/types";
 import GameInList from "./GameInList";
 import { Loading } from "../../pages";
 import { Header } from "../Header";
 import VerticalMenu from "../VerticalMenu";
 
 const Games : React.FC = () => {
+    var rinks : IceRink[] | undefined = undefined
     const { error: errorRinks, data: dataRinks, isSuccess: isSuccessRinks }
         = useQuery("icerink", fetchIceRinks);
 
-  if (errorRinks) {
-      console.log("Error fetching rinks: " + errorRinks.message)
-  } 
-
+    if (errorRinks) {
+        console.log("Error fetching rinks: " + errorRinks.message)
+    } 
     const { ref, inView } = useInView()
     const {status, data, error, isFetching, isFetchingNextPage, isFetchingPreviousPage,
         fetchNextPage, fetchPreviousPage, hasNextPage, hasPreviousPage, refetch
@@ -37,6 +37,14 @@ const Games : React.FC = () => {
           fetchNextPage()
         }
       }, [inView])
+
+    if (isSuccessRinks) {
+        rinks = (dataRinks as IIceRink[]).map((r : IIceRink) => (new IceRink().deserialize(r)))
+    }
+
+    const getRink = (location_id : number) => {
+        return 
+    }
 
     return (
             <>
@@ -76,7 +84,7 @@ const Games : React.FC = () => {
                                         {data.pages.map(page => (
                                             <React.Fragment key={page.next_id}>
                                                 {page.items.map((game : IGame) => (
-                                                    <GameInList key={game.id} gameData={game} icerink={dataRinks[game.location_id]}/>
+                                                    <GameInList key={game.id} gameData={game} icerink={rinks!.find(r => r.id == game.location_id)}/>
                                                 ))}
                                             </React.Fragment>
                                             ))}

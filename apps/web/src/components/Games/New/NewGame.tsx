@@ -6,16 +6,24 @@ import { RecentlyOrganizedGames } from "./RecentlyOrganizedGames"
 import { Button, ErrorReport, FormTextArea } from "../../FormElements"
 import { Link } from "react-router-dom"
 import { SkillPucksSlider } from "../../SkillPucks/SkillPucksSlider"
-import { Athlete, GameLocOption } from "puckee-common/types"
+import { Athlete, AthleteRole, Game, GameLocOption, IceRink, IIceRink } from "puckee-common/types"
 import { useAppSelector } from "puckee-common/redux"
 import makeAnimated from 'react-select/animated';
 import Select, {ActionMeta} from 'react-select';
-import { gameLocOptions } from 'puckee-common/utils';
+// import { gameLocOptions } from 'puckee-common/utils';
 import { FormInput, InputLabel} from "../../FormElements"
 import { startOfISOWeek } from "date-fns"
 import { useAuth } from "puckee-common/auth"
 import { Header } from "../../Header"
 import VerticalMenu from "../../VerticalMenu"
+import { useQuery } from "react-query"
+import { fetchIceRinks } from "puckee-common/api"
+import { Avatar } from "@mui/material"
+import { stringAvatar } from "puckee-common/utils/avatar"
+import AthleteBadge from "../../AthleteBadge"
+import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../../Icons"
+import GameRoleAttendanceSummary from "../GameRoleAttendanceSummary"
+import {NewGamePlayers, NewGameGoalies, NewGameReferees} from "./Attendance"
 
 class NewGameFormError {
     title: React.ReactNode
@@ -32,45 +40,65 @@ class NewGameFormError {
 // }
 
 const NewGame  = () => {
+    const { error: errorRinks , data: dataRinks, isSuccess: isSuccessRinks } = useQuery("icerink", fetchIceRinks);
+
+    if (errorRinks) {
+        console.log("Error fetching rinks: " + errorRinks.message)
+    } 
     const auth = useAuth()
+
     const user = new Athlete().deserialize(auth.userData.athlete)
+    const [game, setGame] = useState(new Game(user))
 
     const [errors, setErrors] = useState(new NewGameFormError())
 
     const [headerTitle, setHeaderTitle] = useState("Nové utkání")
-    const [gameTitle, setGameTitle] = useState("")
-    const [remarks, setRemarks] = useState("")
-    const [organizers, setPassword] = useState<Athlete[]>([user])
-    const [privateGame, setPrivateGame] = useState<boolean>(false)
+    const [gameTitle, setGameTitle] = useState(game.name)
+    const [remarks, setRemarks] = useState(game.remarks)
+    const [organizers, setOrganizers] = useState<Athlete[]>([user])
+    const [privateGame, setPrivateGame] = useState<boolean>(game.is_private)
 
-    const locOptions = gameLocOptions()
+    var locOptions: GameLocOption[] | undefined = undefined
     const [selectedLoc, setSelectedLoc] = useState<GameLocOption[] | unknown>([])
-    
-    var curr = new Date();
-    curr.setDate(curr.getDate() + 3);
-    var currDate = curr.toISOString().substring(0,10);
-    const [gameDate, setGameDate] = useState(currDate)
+    const [gameDate, setGameDate] = useState(game.date.toISOString().substring(0,10))
     const [pitchPrice, setPitchPrice] = useState("0")
     const [otherCosts, setOtherCosts] = useState("0")
     const [startTime, setStartTime] = useState("")
     const [endTime, setEndTime] = useState("")
 
-    const [estPlayers, setEstPlayers] = useState("20")
-    const [estGoalies, setEstGoalies] = useState("2")
-    const [estReferees, setEstReferees] = useState("1")
-    const [estPrice, setEstPrice] = useState("250")
+    const [expPlayers, setExpPlayers] = useState(game.exp_players_cnt.toString())
+    const [expGoalies, setExpGoalies] = useState(game.exp_goalies_cnt.toString())
+    const [expReferees, setExpReferees] = useState(game.exp_referees_cnt.toString())
+    const [expPrice, setExpPrice] = useState("250")
 
-    const [goalieRenum, setGoalieRenum] = useState("0")
-    const [refRenum, setRefRenum] = useState("0")
+    const [goalieRenum, setGoalieRenum] = useState(game.goalie_renum.toString())
+    const [refRenum, setRefRenum] = useState(game.referee_renum.toString())
+
+    const [regPlayers, setRegPlayers] = useState<Athlete[]>([])
+    const [nonRegPlayers, setNonRegPlayers] = useState<Athlete[]>([])
+
+    const [regGoalies, setRegGoalies] = useState<Athlete[]>([])
+    const [nonRegGoalies, setNonRegGoalies] = useState<Athlete[]>([])
+
+    const [regReferees, setRegReferees] = useState<Athlete[]>([])
+    const [nonRegReferees, setNonRegReferees] = useState<Athlete[]>([])
 
     var errorsToShow = new NewGameFormError();
     
-    useEffect(() => {
-        window.scrollTo(0, 0)
-      },[errorsToShow])
+    if(isSuccessRinks) {
+        const rinksArray = (dataRinks as IIceRink[]).map((r : IIceRink) => (new IceRink().deserialize(r)))
+        locOptions = rinksArray.map(r => r.generateLocOption()) 
+    }
 
-    const handleSelectionUpdate = (option: readonly GameLocOption[] | unknown, actionMeta: ActionMeta<GameLocOption>) => setSelectedLoc(option)
-    const [skillIndex, setSkillIndex] = useState<number>(0)
+    // useEffect(() => {
+    //     window.scrollTo(0, 0)
+    //   },[errorsToShow])
+
+    const handleSelectionUpdate = (option: readonly GameLocOption[] | unknown, actionMeta: ActionMeta<GameLocOption>) =>  { 
+        setSelectedLoc(option)
+        setPitchPrice(option.price_per_hour)
+    }
+    const [skillIndex, setSkillIndex] = useState<number>(game.exp_skill)
 
     const updateSkillCb = (newValue: number) => setSkillIndex(newValue)
     const updateGameTitle = (value: string) => {
@@ -149,10 +177,11 @@ const NewGame  = () => {
                                             </div>
                                             <div style={{ flex: '1 0 auto' }}>
                                                 <InputLabel content="Organizátoři"/>
+                                                <AthleteBadge athlete={user} registered={true} />
                                             </div>
-                                            <div style={{ flex: '1 0 auto' }}>
+                                            {/* <div style={{ flex: '1 0 auto' }}>
                                                 <InputLabel content="Soukromé utkání"/>
-                                            </div>
+                                            </div> */}
                                         </div>
                                         <div className="newGame-basicInfo-col flexStart">
                                                 <label style={{ color: 'darkgrey'}}>Poznámky</label>
@@ -245,22 +274,25 @@ const NewGame  = () => {
                                             <div className="newGame-basicInfo-col verticalEnd">
                                                 <div className="newGame-basicInfo-estPlayerCntFlex">
                                                     <div className="form-input-flex horizontal">
-                                                        <InputLabel content="H"/> 
+                                                        {/* <InputLabel content="H"/>  */}
+                                                        <div><PlayerIcon height={20}/></div>
                                                         <FormInput 
-                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setEstPlayers(e.currentTarget.value)}
-                                                            type="number" min="0" value={estPlayers} className="short content-center"/>
+                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setExpPlayers(e.currentTarget.value)}
+                                                            type="number" min="0" value={expPlayers} className="short content-center"/>
                                                     </div>
                                                     <div className="form-input-flex horizontal">
-                                                        <InputLabel content="G"/> 
+                                                        {/* <InputLabel content="G"/>  */}
+                                                        <GoalieIcon height={20}/>
                                                         <FormInput 
-                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setEstGoalies(e.currentTarget.value)}
-                                                            type="number" min="0" value={estGoalies} className="short content-center"/>
+                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setExpGoalies(e.currentTarget.value)}
+                                                            type="number" min="0" value={expGoalies} className="short content-center"/>
                                                     </div>
                                                     <div className="form-input-flex horizontal">
-                                                        <InputLabel content="R"/> 
+                                                        {/* <InputLabel content="R"/> */}
+                                                        <RefereeIcon height={38}/> 
                                                         <FormInput 
-                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setEstReferees(e.currentTarget.value)}
-                                                            type="number" min="0" value={estReferees} className="short content-center"/>
+                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setExpReferees(e.currentTarget.value)}
+                                                            type="number" min="0" value={expReferees} className="short content-center"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -272,8 +304,8 @@ const NewGame  = () => {
                                                                 <InputLabel content="Odhadovaná cena/hráč"/>
                                                             </div>
                                                             <div className="input-group">
-                                                                <FormInput type="number" min="0" value={estPrice} className="content-right"
-                                                                    onChange={(e: React.FormEvent<HTMLInputElement>) => setEstPrice(e.currentTarget.value)}/>
+                                                                <FormInput type="number" min="0" value={expPrice} className="content-right"
+                                                                    onChange={(e: React.FormEvent<HTMLInputElement>) => setExpPrice(e.currentTarget.value)}/>
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text shadow rounded">Kč</span>
                                                                 </div>
@@ -318,26 +350,14 @@ const NewGame  = () => {
                                 Hráči v poli
                             </div>
                             <div className="content-inner-row data">
-                            <div className="newGame-players-rootBox">
-                                    <div className="newGame-players-leftCol">
-                                        Ikona hracu a pocty
-                                    </div>
-                                    <div className="newGame-players-rightCol">
-                                        <div className="newGame-basicInfo-row detailed player-split-upper">
-                                            Registrovani hraci
-                                        </div>
-                                        <div className="newGame-basicInfo-row detailed player-split-below">
-                                            Neregistrovani hraci
-                                        </div>
-                                    </div>
-                            </div>
+                                <NewGamePlayers regPlayers={regPlayers} setRegPlayersCb={setRegPlayers}
+                                                nonRegPlayers={nonRegPlayers} setNonRegPlayersCb={setNonRegPlayers} expPlayersCnt={Number(expPlayers)}/>
                             </div>
                         </div>
                         <div className="newGame-helpers availableGroups side">
                             <AvailableGroups/>
                         </div>
                     </div>
-                    {/* END OF PLAYERS SECTION */}
                     {/* ------------------------------ */}
                     {/* GOALIES SECTION */}
                     <div className="content-row newGame-attendees goalies">
@@ -346,32 +366,10 @@ const NewGame  = () => {
                                 Brankáři
                             </div>
                             <div className="content-inner-row data">
-                                <div className="newGame-players-rootBox">
-                                    <div className="newGame-players-leftCol">
-                                        <div className="form-input-flex">
-                                            <InputLabel content="Odměna"/>
-                                            <div className="input-group">
-                                                <FormInput type="number" min="0" value={goalieRenum} className="content-right"
-                                                    onChange={(e: React.FormEvent<HTMLInputElement>) => setGoalieRenum(e.currentTarget.value)}/>
-                                                <div className="input-group-append">
-                                                    <span className="input-group-text shadow rounded">Kč</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="newGame-players-rightCol">
-                                        <div className="newGame-basicInfo-row detailed player-split-upper">
-                                            Registrovani brankari
-                                        </div>
-                                        <div className="newGame-basicInfo-row detailed player-split-below">
-                                            Neregistrovani brankari
-                                        </div>
-                                    </div>
-                            </div>
+                                <NewGameGoalies goalieRenum={goalieRenum} setGoalieRenumCb={setGoalieRenum} />
                             </div>
                         </div>
                     </div>
-                    {/* END OF GOALIES SECTION */}
                     {/* ------------------------------ */}
                     {/* REFEREES SECTION */}
                     <div className="content-row newGame-attendees referees">
@@ -380,32 +378,10 @@ const NewGame  = () => {
                                 Rozhodčí
                             </div>
                             <div className="content-inner-row data">
-                                <div className="newGame-players-rootBox">
-                                    <div className="newGame-players-leftCol">
-                                        <div className="form-input-flex">
-                                            <InputLabel content="Odměna"/>
-                                            <div className="input-group">
-                                                <FormInput type="number" min="0" value={refRenum} className="content-right"
-                                                    onChange={(e: React.FormEvent<HTMLInputElement>) => setRefRenum(e.currentTarget.value)}/>
-                                                <div className="input-group-append">
-                                                    <span className="input-group-text shadow rounded">Kč</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="newGame-players-rightCol">
-                                        <div className="newGame-basicInfo-row detailed player-split-upper">
-                                            Registrovani rozhodci
-                                        </div>
-                                        <div className="newGame-basicInfo-row detailed player-split-below">
-                                            Neregistrovani rozhodci
-                                        </div>
-                                    </div>
-                            </div>
+                                <NewGameReferees refereeRenum={refRenum} setRefereeRenumCb={setRefRenum}/>
                             </div>
                         </div>
                     </div>
-                    {/* END OF REFEREES SECTION */}
                     {/* ------------------------------ */}
                     <div className="content-row newGame-addGame">
                         <div className="addGame-buttonPart main">

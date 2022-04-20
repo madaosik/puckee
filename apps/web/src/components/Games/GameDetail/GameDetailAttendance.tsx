@@ -1,7 +1,8 @@
-import { Game } from "puckee-common/types"
+import { AthleteRole, Game } from "puckee-common/types"
 import React from "react"
 import { GoalieIcon, PlayerIcon, RefereeIcon } from '../../../Icons'
 import AthleteBadge from "../../AthleteBadge"
+import GameRoleAttendanceSummary from "../GameRoleAttendanceSummary"
 
 interface GameDetailBasicInfoProps {
     game: Game
@@ -23,8 +24,7 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                 <div className="d-flex flex-row justify-content-between gameDetail-attendance-players">
                     {/* Column containing large player icon */}
                     <div className="d-flex flex-column justify-content-center ms-2">
-                        <div className="d-flex flex-row justify-content-center"><PlayerIcon color="#A9A9A9" height={70}/></div>
-                        <div className="gameDetail-attendeeCntDesc">{game.players.length}/{game.exp_players_cnt}</div>
+                        <GameRoleAttendanceSummary role={AthleteRole.Player} game={game}/>
                     </div>
                     {/* Column containing players */}
                     <div className="d-flex flex-column justify-content-start ps-4 gameDetail-players-box">
@@ -43,8 +43,7 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                     <div className="d-flex flex-row justify-content-evenly gameDetail-goalieSection">
                         {/* Column containing large goalie icon */}
                         <div className="d-flex flex-column justify-content-center ms-2">
-                            <div className="d-flex flex-row justify-content-center align-items-center"><GoalieIcon color="#A9A9A9" height={70}/></div>
-                            <div className="gameDetail-attendeeCntDesc">{game.goalies.length}/{game.exp_goalies_cnt}</div>
+                            <GameRoleAttendanceSummary role={AthleteRole.Goalie} game={game}/>
                         </div>
                         {/* Column containing goalies */}
                         <div className="d-flex flex-column justify-content-start ps-4">
@@ -61,8 +60,7 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                     {/* Column containing large referee icon */}
                     <div className="d-flex flex-row justify-content-evenly gameDetail-refereeSection">
                         <div className="d-flex flex-column justify-content-center">
-                            <div className="d-flex flex-row justify-content-center"><RefereeIcon color="#A9A9A9" height={60}/></div>
-                            <div className="gameDetail-attendeeCntDesc">{game.referees.length}/{game.exp_referees_cnt}</div>
+                            <GameRoleAttendanceSummary role={AthleteRole.Referee} game={game}/>
                         </div>
                         {/* Column containing referees */}
                         <div className="d-flex flex-column justify-content-start ps-4">
