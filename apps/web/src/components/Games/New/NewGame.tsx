@@ -6,7 +6,7 @@ import { RecentlyOrganizedGames } from "./RecentlyOrganizedGames"
 import { Button, ErrorReport, FormTextArea } from "../../FormElements"
 import { Link } from "react-router-dom"
 import { SkillPucksSlider } from "../../SkillPucks/SkillPucksSlider"
-import { Athlete, AthleteRole, Game, GameLocOption, IceRink, IIceRink } from "puckee-common/types"
+import { Athlete, AthleteRole, Game, GameLocOption, IAthlete, IceRink, IIceRink } from "puckee-common/types"
 import { useAppSelector } from "puckee-common/redux"
 import makeAnimated from 'react-select/animated';
 import Select, {ActionMeta} from 'react-select';
@@ -20,10 +20,11 @@ import { useQuery } from "react-query"
 import { fetchIceRinks } from "puckee-common/api"
 import { Avatar } from "@mui/material"
 import { stringAvatar } from "puckee-common/utils/avatar"
-import AthleteBadge from "../../AthleteBadge"
+import { AthleteBadge } from "../../AthleteBadge"
 import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../../Icons"
 import GameRoleAttendanceSummary from "../GameRoleAttendanceSummary"
 import {NewGamePlayers, NewGameGoalies, NewGameReferees} from "./Attendance"
+import Test from "./Attendance/NewGameTest"
 
 class NewGameFormError {
     title: React.ReactNode
@@ -59,7 +60,7 @@ const NewGame  = () => {
     const [privateGame, setPrivateGame] = useState<boolean>(game.is_private)
 
     var locOptions: GameLocOption[] | undefined = undefined
-    const [selectedLoc, setSelectedLoc] = useState<GameLocOption[] | unknown>([])
+    const [selectedLoc, setSelectedLoc] = useState<GameLocOption | unknown>(null)
     const [gameDate, setGameDate] = useState(game.date.toISOString().substring(0,10))
     const [pitchPrice, setPitchPrice] = useState("0")
     const [otherCosts, setOtherCosts] = useState("0")
@@ -74,14 +75,14 @@ const NewGame  = () => {
     const [goalieRenum, setGoalieRenum] = useState(game.goalie_renum.toString())
     const [refRenum, setRefRenum] = useState(game.referee_renum.toString())
 
-    const [regPlayers, setRegPlayers] = useState<Athlete[]>([])
-    const [nonRegPlayers, setNonRegPlayers] = useState<Athlete[]>([])
+    const [regPlayers, setRegPlayers] = useState<IAthlete[]>([])
+    const [nonRegPlayers, setNonRegPlayers] = useState<IAthlete[]>([])
 
-    const [regGoalies, setRegGoalies] = useState<Athlete[]>([])
-    const [nonRegGoalies, setNonRegGoalies] = useState<Athlete[]>([])
+    const [regGoalies, setRegGoalies] = useState<IAthlete[]>([])
+    const [nonRegGoalies, setNonRegGoalies] = useState<IAthlete[]>([])
 
-    const [regReferees, setRegReferees] = useState<Athlete[]>([])
-    const [nonRegReferees, setNonRegReferees] = useState<Athlete[]>([])
+    const [regReferees, setRegReferees] = useState<IAthlete[]>([])
+    const [nonRegReferees, setNonRegReferees] = useState<IAthlete[]>([])
 
     var errorsToShow = new NewGameFormError();
     
@@ -350,8 +351,7 @@ const NewGame  = () => {
                                 Hráči v poli
                             </div>
                             <div className="content-inner-row data">
-                                <NewGamePlayers regPlayers={regPlayers} setRegPlayersCb={setRegPlayers}
-                                                nonRegPlayers={nonRegPlayers} setNonRegPlayersCb={setNonRegPlayers} expPlayersCnt={Number(expPlayers)}/>
+                                <NewGamePlayers regPlayers={regPlayers} setRegPlayersCb={setRegPlayers} nonRegPlayers={nonRegPlayers} setNonRegPlayersCb={setNonRegPlayers} expPlayersCnt={Number(expPlayers)}/>
                             </div>
                         </div>
                         <div className="newGame-helpers availableGroups side">
@@ -366,7 +366,8 @@ const NewGame  = () => {
                                 Brankáři
                             </div>
                             <div className="content-inner-row data">
-                                <NewGameGoalies goalieRenum={goalieRenum} setGoalieRenumCb={setGoalieRenum} />
+                                <NewGameGoalies regGoalies={regGoalies} setRegGoaliesCb={setRegGoalies} nonRegGoalies={nonRegGoalies}
+                                                setNonRegGoaliesCb={setNonRegGoalies} goalieRenum={goalieRenum} setGoalieRenumCb={setGoalieRenum} />
                             </div>
                         </div>
                     </div>
@@ -378,7 +379,8 @@ const NewGame  = () => {
                                 Rozhodčí
                             </div>
                             <div className="content-inner-row data">
-                                <NewGameReferees refereeRenum={refRenum} setRefereeRenumCb={setRefRenum}/>
+                                <NewGameReferees regReferees={regReferees} setRegReferresCb={setRegReferees} nonRegReferees={nonRegReferees}
+                                                setNonRegGoaliesCb={setNonRegReferees} refereeRenum={refRenum} setRefereeRenumCb={setRefRenum} />
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 import { AthleteRole, Game } from "puckee-common/types"
 import React from "react"
 import { GoalieIcon, PlayerIcon, RefereeIcon } from '../../../Icons'
-import AthleteBadge from "../../AthleteBadge"
+import { AthleteBadge } from "../../AthleteBadge"
 import GameRoleAttendanceSummary from "../GameRoleAttendanceSummary"
 
 interface GameDetailBasicInfoProps {

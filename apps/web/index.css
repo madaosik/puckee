@@ -531,6 +531,10 @@ label {
   /* max-width: 140px; */
 }
 
+.athleteBadge-wrapper.removable {
+  width: 155px;
+}
+
 .athleteBadge-wrapper.regNonRegLabel {
   background-color: white;
   border-radius: none;

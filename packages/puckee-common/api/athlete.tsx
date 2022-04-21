@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_BASE, axiosConfig } from '.'
+import { useQuery } from "react-query"
 
 interface FetchAllPlayersProps {
     queryKey: [queryName: string, userId: number]
@@ -14,4 +15,20 @@ export async function fetchAthletes ({queryKey, pageParam = 1} : FetchAllPlayers
         previous_id: response.data.previous_id,
         next_id: response.data.next_id
     }
+}
+
+export async function searchAthleteByName (name: string)
+{
+  const response = await axios.get(`${API_BASE}/athlete/search?name=${name}`, axiosConfig)
+  return response.data
+}
+
+
+export default function useAthleteSearch(name: string) {
+    return useQuery(["game", name], () => searchAthleteByName(name),
+              {
+                refetchOnWindowFocus: false,
+                enabled: Boolean(name)
+              }
+            )
 }

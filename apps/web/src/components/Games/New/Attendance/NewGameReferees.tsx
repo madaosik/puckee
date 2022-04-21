@@ -1,12 +1,41 @@
+import { Athlete, AthleteOption } from "puckee-common/types";
 import React from "react";
 import { FormInput, InputLabel } from "../../../FormElements";
+import makeAnimated from 'react-select/animated';
+import Select, {ActionMeta} from 'react-select';
+import { selectCustomStyles } from ".";
 
 interface NewGameRefereesProps {
+    regReferees: Athlete[]
+    nonRegReferees: Athlete[]
     refereeRenum: string
+    setRegRefereesCb: React.Dispatch<React.SetStateAction<Athlete[]>>
+    setNonRegRefereesCb: React.Dispatch<React.SetStateAction<Athlete[]>>
     setRefereeRenumCb: (value: string) => void
 }
 
-export default function NewGameReferees( {refereeRenum, setRefereeRenumCb} : NewGameRefereesProps) {
+export default function NewGameReferees( {regReferees, nonRegReferees, refereeRenum, setRegRefereesCb, setNonRegRefereesCb, setRefereeRenumCb} : NewGameRefereesProps) {
+    const handleSelectionUpdate = (option: readonly AthleteOption[] | unknown, actionMeta: ActionMeta<AthleteOption>) =>  { 
+        // setSelectedLoc(option)
+        // setPitchPrice(option.price_per_hour)
+    }
+    
+    const RefereeSelect = () => {
+        return (
+          <Select
+            closeMenuOnSelect={true}
+            components={makeAnimated()}
+            defaultValue={""}
+            options={[]}
+            placeholder="Hledej rozhodčí"
+            className="roleMultiSelect shadow"
+            onChange={handleSelectionUpdate}
+            noOptionsMessage={() => "Rozhodčí nenalezen"}
+            styles={selectCustomStyles}
+          />
+        );
+      }
+    
     return (
         <div className="newGame-players-rootBox">
             <div className="newGame-players-leftCol">
@@ -23,10 +52,12 @@ export default function NewGameReferees( {refereeRenum, setRefereeRenumCb} : New
             </div>
             <div className="newGame-players-rightCol">
                 <div className="newGame-basicInfo-row detailed player-split-upper">
-                    Registrovani rozhodci
+                    <div><RefereeSelect/></div>
+                    <div>Registrovaní brankáři: {regReferees.length}</div>
                 </div>
                 <div className="newGame-basicInfo-row detailed player-split-below">
-                    Neregistrovani rozhodci
+                    <div></div>
+                    <div>Neregistrovaní rozhodčí: {nonRegReferees.length}</div>
                 </div>
             </div>
         </div>

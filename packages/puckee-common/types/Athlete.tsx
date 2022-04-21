@@ -104,4 +104,11 @@ export class Athlete implements Serializable<Athlete> {
 
     throw new Error("Unknown role of player " + this.id)
   }
+
+  generatePlayerOption = () : SelectedAthlete=> {
+    return {value: this.id, label: this.name}
 }
+}
+
+export type SelectedAthlete = {value: number, label: string}
+export type AthleteOption = SelectedAthlete | unknown

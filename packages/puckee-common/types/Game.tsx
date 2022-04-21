@@ -71,7 +71,7 @@ export class Game implements Serializable<Game> {
 
     this.other_costs = 0
     this.is_private = false
-    this.goalie_renum =  0
+    this.goalie_renum = 0
     this.referee_renum = 0
     this.exp_skill = 3
     this.players = []

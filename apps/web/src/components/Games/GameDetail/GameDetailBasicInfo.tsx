@@ -6,7 +6,7 @@ import { AiOutlineFileText } from 'react-icons/ai'
 import { useQuery } from 'react-query'
 import { SkillPucks } from '../../SkillPucks/SkillPucks'
 import { GoalieIcon, PlayerIcon, RefereeIcon } from '../../../Icons'
-import AthleteBadge from '../../AthleteBadge'
+import { AthleteBadge } from '../../AthleteBadge'
 
 interface GameDetailBasicInfoProps {
     game: Game
@@ -46,7 +46,7 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                             </div>
                             <div className='d-flex flex-column justify-content-start gameDetail-basicInfo-orgLoc'>
                                 <div className='d-flex flex-row gameDetail-orgSection'>
-                                    <div className='pt-2 me-2'><MdOutlineManageAccounts size={24}/></div>
+                                    <div className='pt-2 me-2'><MdOutlineManageAccounts size={28}/></div>
                                     <div className="d-flex flex-column flex-wrap gameDetail-orgBadges">
                                         {game.organizers.map(o => <div className="mb-1 me-1"><AthleteBadge registered={true} athlete={o}/></div>)}
                                     </div>

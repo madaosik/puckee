@@ -54,14 +54,14 @@ export default function GameRoleAttendanceSummary( {role, game, cnt, totalCnt} :
         }
     }
     return (
-        <>
-            <div className="d-flex flex-row justify-content-center">
-                {icon}
-            </div>
+        <div className="w-100">
+            {/* <div className="d-flex flex-row justify-content-center"> */}
+            <div className="d-flex flex-column justify-content-center">{icon}</div>
+            {/* </div> */}
             <div className="gameDetail-attendeeCntDesc">
                 {currentCount}/{expCount}
             </div>
-        </>
+        </div>
     )
 }
 

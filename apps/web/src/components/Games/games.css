@@ -22,7 +22,8 @@
 
 .content-row.newGame-attendees {
     /* flex: 1 0 auto; */
-    height: var(--newGame-players-basic-size);
+    /* height: var(--newGame-players-basic-size); */
+    min-height: var(--newGame-players-basic-size);
     margin-top: 10px;
     /* background-color: yellow; */
     justify-content: space-between;
@@ -98,20 +99,6 @@
     color: darkgray;
 }
 
-.newGame-basicInfo-rootBox {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-    height: 100%;
-}
-
-.newGame-players-rootBox {
-    display: flex;
-    flex-flow: row;
-    justify-content: space-evenly;
-    height: 100%;
-}
-
 .newGame-basicInfo-row {
     display: flex;
     flex-flow: row;
@@ -179,22 +166,10 @@
 
 /* Players, goalies and referees layout */
 
-.newGame-players-leftCol {
-    width: 16%;
-    display: flex;
-    flex-flow: column;
-    justify-content: center;
-}
-
-.newGame-players-rightCol {
-    width: 80%;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-}
-
 .player-split-upper {
-    min-height: 70%;
+    /* background-color: yellow; */
+    min-height: 320px;
+    /* overflow-y: auto; */
 }
 
 .remarksFlex {
@@ -217,6 +192,15 @@
     flex: 1
 }
 
+.playerContent {
+    flex: 1 0 auto;
+    /* max-width: 88%; */
+}
+
+.playerBadges {
+    flex: 1 0 auto;
+}
+
 .form-input-flex.horizontal {
     display: flex;
     flex-flow: row;
@@ -233,6 +217,10 @@ label.form-input-label {
 .form-input-input {
     flex: 3;
 }
+/* 
+.newGame-playerBadges {
+    flex: 1 0 auto;
+} */
 
 /* .expPlayerCntBox {
     display: flex;
@@ -577,6 +565,14 @@ input.form-control.shadow.shorter {
     color: darkgray;
     font-weight: bold;
     text-align: center;
+}
+
+.attendeeDetails-leftCol {
+    flex: 1
+}
+
+.attendeeDetails-rightCol {
+    flex: 8
 }
 
 .gameDetail-attendance-goaliesReferees {
