@@ -2,11 +2,16 @@ import { Athlete, AthleteOption, AthleteRole, IAthlete } from "puckee-common/typ
 import React, { useState, useRef, Fragment } from "react";
 import GameRoleAttendanceSummary from "../../GameRoleAttendanceSummary";
 import makeAnimated from 'react-select/animated';
-import Select, {ActionMeta, InputActionMeta} from 'react-select';
+import Select, {ActionMeta, components, InputActionMeta} from 'react-select';
 import { selectCustomStyles } from ".";
 import useAthleteSearch, { searchAthleteByName } from "puckee-common/api/athlete";
 import { debounce } from "lodash";
 import { RemovableAthleteBadge } from "../../../AthleteBadge";
+// import { Button } from '../../../FormElements'
+import Button from "@mui/material/Button";
+// import DeleteIcon from "@mui/icons-material/Delete";
+import Add from "@mui/icons-material/Add";
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 
 interface NewGamePlayersProps {
     regPlayers: IAthlete[]
@@ -21,14 +26,20 @@ export default function NewGamePlayers( {regPlayers, nonRegPlayers, expPlayersCn
     const [selectedAthlete, setSelectedAthlete] = useState<Athlete | unknown>(null);
     const [searchText, setSearchText] = useState("");
     const [inputText, setInputText] = useState("");
+    // var notFoundFlag = false
     var playerSearchResults: IAthlete[] | undefined = undefined
     const setSearchTextDebounced = useRef(debounce(searchText => setSearchText(searchText), 500)).current;
   
-    const { isLoading, isSuccess, data: playerData } = useAthleteSearch(searchText);
+    const { isLoading, isSuccess, data: playerData } = useAthleteSearch(searchText, AthleteRole.Player);
+    var flag: boolean = false
 
     if (isSuccess) {
       // playerSearchResults = playerData!.filter((p: IAthlete) => regPlayers.includes(p))
+      // setTypingFlag(false)
       playerSearchResults = playerData.filter((p : IAthlete)=> !regPlayers.find(regP => regP.id == p.id));
+      // if (playerSearchResults?.length == 0) {
+      //   notFoundFlag = true
+      // } 
       // playerSearchResults = playerData
     }
 
@@ -43,15 +54,55 @@ export default function NewGamePlayers( {regPlayers, nonRegPlayers, expPlayersCn
     const handleInputChangePrimary = (inputText: string, event: InputActionMeta) => {
       // prevent outside click from resetting inputText to ""
       if (event.action !== "input-blur" && event.action !== "menu-close") {
-        setInputText(inputText);
+        setInputText(inputText)
+        // setTypingFlag(true)
         setSearchTextDebounced(inputText);
       }
     };
 
+    const noOptionsSolver = (input: {inputValue: string} ) => {
+      // const returnButton = () => {
+      //   return <Button onClick={() => console.log("cus")} caption={`Hráč "${input.inputValue}" nenalezen. Přidej ho mezi neregistrované hráče kliknutím.`} className="btn btn-sm"/>
+      // }
+      
+      const theme2 = createTheme({
+        components: {
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                textTransform: "none"
+              }
+            }
+          }
+        }
+      });
+
+      if (!isLoading && input.inputValue == searchText && input.inputValue.length > 0) {
+        // setTimeout(returnButton, 500)
+        return (
+          <>
+          <div>Hráč nenalezen. Přidat mezi neregistrované?</div>
+          <div className="mt-2">
+            <ThemeProvider theme={theme2}>
+              <Button variant="contained" endIcon={<Add />}>
+                {input.inputValue}
+              </Button>
+            </ThemeProvider>
+          </div>
+          </>
+        )
+        // <Button onClick={() => console.log("cus")} caption={`"${input.inputValue}" nenalezen. Přidat mezi neregistrované hráče?`} className="btn btn-sm btn-primary"/>
+      } else {
+        return "Hráč nenalezen"
+      }
+
+  
+    }
+
     const PlayerSelect = () => {
         return (
           <Select
-            noOptionsMessage={() => "Žádný hráč nebyl nalezen"}
+            noOptionsMessage={input => noOptionsSolver(input)}
             placeholder={"Hledej hráče"}
             isClearable={true}
             isLoading={isLoading}

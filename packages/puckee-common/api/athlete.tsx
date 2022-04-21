@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { API_BASE, axiosConfig } from '.'
 import { useQuery } from "react-query"
+import { AthleteRole } from '../types'
 
 interface FetchAllPlayersProps {
     queryKey: [queryName: string, userId: number]
@@ -17,15 +18,15 @@ export async function fetchAthletes ({queryKey, pageParam = 1} : FetchAllPlayers
     }
 }
 
-export async function searchAthleteByName (name: string)
+export async function searchAthleteByName (name: string, role: AthleteRole)
 {
-  const response = await axios.get(`${API_BASE}/athlete/search?name=${name}`, axiosConfig)
+  const response = await axios.get(`${API_BASE}/athlete/search?name=${name}&role_id=${role}`, axiosConfig)
   return response.data
 }
 
 
-export default function useAthleteSearch(name: string) {
-    return useQuery(["game", name], () => searchAthleteByName(name),
+export default function useAthleteSearch(name: string, role: AthleteRole) {
+    return useQuery(["game", name, role], () => searchAthleteByName(name, role),
               {
                 refetchOnWindowFocus: false,
                 enabled: Boolean(name)
