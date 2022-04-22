@@ -1,4 +1,4 @@
-import { Athlete, IAthlete } from "puckee-common/types";
+import { AnonymAthlete, Athlete, AthleteType, IAnonymAthlete, IAthlete, instanceOfAnonymAthlete } from "puckee-common/types";
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import Avatar from '@mui/material/Avatar'
@@ -8,51 +8,79 @@ import IconButton from '@mui/material/IconButton'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 interface AthleteBadgeProps {
-    athlete?: Athlete
-    iAthlete?: IAthlete
+    athlete: AthleteType
     registered: boolean
+    showFollow: boolean
 }
 
 const athleteAvatar = (isRegistered: boolean, name: string) => {
     return isRegistered ? <Avatar {...stringAvatar(name, 28)} /> : <CgProfile size={28}/>
 }
 
-export function AthleteBadge ( {athlete, iAthlete, registered} : AthleteBadgeProps ) {
-    const refAthlete = athlete ? athlete : iAthlete
-    
+const classNameBasedOnFollowStatus = (athlete: Athlete | IAthlete ) : string => {
+    if (!athlete.follow!) {
+        return ""
+    }
+    if (athlete.follow.opt_out_mode) {
+        return "border border-3 border-success"
+    } else {
+        return "border border-3 border-dark"
+    }
+}
+
+export function AthleteBadge ( {athlete, registered, showFollow} : AthleteBadgeProps ) {
+    var borderClassName: string | null = null
+    if (showFollow && !instanceOfAnonymAthlete(athlete)) {
+        borderClassName = classNameBasedOnFollowStatus(athlete as IAthlete)
+    }
+
     return (
-        <div className="d-flex flex-row justify-content-between align-items-center shadow athleteBadge-wrapper">
+        <div className={`d-flex flex-row justify-content-between align-items-center shadow athleteBadge-wrapper ${borderClassName}`}>
             <div className="ms-2">
-                { athleteAvatar(registered, refAthlete!.name) }
+                { athleteAvatar(registered, athlete.name) }
             </div>
             <div className="d-flex flex-row justify-content-end ms-2 pe-2">
-                <div className="athleteBadge-athleteName">{refAthlete!.name}</div>
+                <div className="athleteBadge-athleteName">{athlete.name}</div>
             </div>
 
         </div>
     )
 }
 
+// 
+
 interface RemovableAthleteBadgeProps extends AthleteBadgeProps {
-    removeCb : (id: number) => void
+    removeCb : (id: string | number )=> void
 }
 
-export function RemovableAthleteBadge( { athlete, iAthlete, registered, removeCb }: RemovableAthleteBadgeProps) {
-    const refAthlete = athlete ? athlete : iAthlete
-    console.log("rendering")
+export function RemovableAthleteBadge( { athlete, showFollow, registered, removeCb }: RemovableAthleteBadgeProps) {
+    var removeCbParam: number | string
+    athlete.id ? removeCbParam = athlete.id : removeCbParam = athlete.name
+
+    if(!removeCbParam) {
+        throw new Error("Unable to get identification of athlete for his removal!")
+    }
+
+    var borderClassName: string = ""
+    if (showFollow && !instanceOfAnonymAthlete(athlete)) {
+        borderClassName = classNameBasedOnFollowStatus(athlete as IAthlete)
+    }
+
     return (
-        <div className="d-flex flex-row justify-content-between align-items-center shadow athleteBadge-wrapper removable">
+        <div className={`d-flex flex-row justify-content-between align-items-center shadow athleteBadge-wrapper removable ${borderClassName}`}>
             <div className="ms-2">
-                { athleteAvatar(registered, refAthlete!.name) }
+                { athleteAvatar(registered, athlete.name) }
             </div>
-        <div className="d-flex flex-row justify-content-end ms-2 pe-2">
-            <div className="athleteBadge-athleteName">{refAthlete!.name}</div>
-            <div onClick={() => removeCb(refAthlete!.id)}>
-                <IconButton aria-label="delete" color="primary">
-                    <DeleteIcon />
-                </IconButton>
+            <div className="d-flex flex-row justify-content-end ms-2 pe-2">
+                <div className="athleteBadge-athleteName">
+                    {athlete.name}
+                </div>
+                <div onClick={() => removeCb(removeCbParam)}>
+                    <IconButton aria-label="delete" color="primary">
+                        <DeleteIcon />
+                    </IconButton>
+                </div>
             </div>
         </div>
-    </div>
     )
 }

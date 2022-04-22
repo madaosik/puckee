@@ -107,7 +107,22 @@ export class Athlete implements Serializable<Athlete> {
 
   generatePlayerOption = () : SelectedAthlete=> {
     return {value: this.id, label: this.name}
-}
+  }
+  
+  //TODO: This is a temporary solution - 
+  // API should determine the preferred role based on the count of games played
+  preferredRole = () : AthleteRole => {
+    if (this.hasRole(AthleteRole.Player)) {
+      return AthleteRole.Player
+    }
+    if (this.hasRole(AthleteRole.Goalie)) {
+      return AthleteRole.Goalie
+    }
+    if (this.hasRole(AthleteRole.Referee)) {
+      return AthleteRole.Referee
+    }
+    return AthleteRole.Player
+  }
 }
 
 export type SelectedAthlete = {value: number, label: string}

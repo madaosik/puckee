@@ -1,5 +1,5 @@
-import { Athlete, AthleteOption, AthleteRole, IAthlete } from "puckee-common/types";
-import React, { useState, useRef, Fragment } from "react";
+import { Athlete, AthleteOption, AthleteRole, IAnonymAthlete, IAthlete } from "puckee-common/types";
+import React, { useState, useRef, Fragment, useEffect } from "react";
 import GameRoleAttendanceSummary from "../../GameRoleAttendanceSummary";
 import makeAnimated from 'react-select/animated';
 import Select, {ActionMeta, components, InputActionMeta} from 'react-select';
@@ -7,49 +7,40 @@ import { selectCustomStyles } from ".";
 import useAthleteSearch, { searchAthleteByName } from "puckee-common/api/athlete";
 import { debounce } from "lodash";
 import { RemovableAthleteBadge } from "../../../AthleteBadge";
-// import { Button } from '../../../FormElements'
-import Button from "@mui/material/Button";
-// import DeleteIcon from "@mui/icons-material/Delete";
-import Add from "@mui/icons-material/Add";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import { useAuth } from "puckee-common/auth";
+import { NoSearchOptionsSolver } from "../NewSearchOptionsSolver";
+
 
 interface NewGamePlayersProps {
     regPlayers: IAthlete[]
-    nonRegPlayers: IAthlete[]
+    nonRegPlayers: IAnonymAthlete[]
     setRegPlayersCb : React.Dispatch<React.SetStateAction<IAthlete[]>>
-    setNonRegPlayersCb : React.Dispatch<React.SetStateAction<IAthlete[]>>
+    setNonRegPlayersCb : React.Dispatch<React.SetStateAction<IAnonymAthlete[]>>
     expPlayersCnt: number
 }
 
 export default function NewGamePlayers( {regPlayers, nonRegPlayers, expPlayersCnt, setRegPlayersCb, setNonRegPlayersCb} : NewGamePlayersProps ) {
-    // const [addedRegPlayers, setAddedRegPlayers] = useState<Athlete[]>([])
     const [selectedAthlete, setSelectedAthlete] = useState<Athlete | unknown>(null);
     const [searchText, setSearchText] = useState("");
     const [inputText, setInputText] = useState("");
-    // var notFoundFlag = false
+    const auth = useAuth()
+
     var playerSearchResults: IAthlete[] | undefined = undefined
     const setSearchTextDebounced = useRef(debounce(searchText => setSearchText(searchText), 500)).current;
   
-    const { isLoading, isSuccess, data: playerData } = useAthleteSearch(searchText, AthleteRole.Player);
-    var flag: boolean = false
+    const { isLoading, isSuccess, data: playerData } = useAthleteSearch(searchText, AthleteRole.Player, auth.userData.athlete.id);
 
     if (isSuccess) {
-      // playerSearchResults = playerData!.filter((p: IAthlete) => regPlayers.includes(p))
-      // setTypingFlag(false)
+      // Filter out the players that were already added
       playerSearchResults = playerData.filter((p : IAthlete)=> !regPlayers.find(regP => regP.id == p.id));
-      // if (playerSearchResults?.length == 0) {
-      //   notFoundFlag = true
-      // } 
-      // playerSearchResults = playerData
     }
 
     const handleChangePrimary = (player: IAthlete | unknown, actionMeta: ActionMeta<IAthlete>) => {
         setRegPlayersCb(oldAddedRegPlayers => [...oldAddedRegPlayers, player])
     };
     
-    const removeRegPlayer = (playerId: number) => {
-      setRegPlayersCb(oldAddedRegPlayers => oldAddedRegPlayers.filter(p => p.id != playerId))
-    }
+    const removeRegPlayer = (playerId: number | string) => setRegPlayersCb(oldAddedRegPlayers => oldAddedRegPlayers.filter(p => p.id != playerId))
+    const removeNonRegPlayer = (name: string | number) => setNonRegPlayersCb(oldAddedNonRegPlayers => oldAddedNonRegPlayers.filter(p => p.name != name))
 
     const handleInputChangePrimary = (inputText: string, event: InputActionMeta) => {
       // prevent outside click from resetting inputText to ""
@@ -60,49 +51,32 @@ export default function NewGamePlayers( {regPlayers, nonRegPlayers, expPlayersCn
       }
     };
 
-    const noOptionsSolver = (input: {inputValue: string} ) => {
-      // const returnButton = () => {
-      //   return <Button onClick={() => console.log("cus")} caption={`Hráč "${input.inputValue}" nenalezen. Přidej ho mezi neregistrované hráče kliknutím.`} className="btn btn-sm"/>
-      // }
-      
-      const theme2 = createTheme({
-        components: {
-          MuiButton: {
-            styleOverrides: {
-              root: {
-                textTransform: "none"
-              }
-            }
-          }
-        }
-      });
-
-      if (!isLoading && input.inputValue == searchText && input.inputValue.length > 0) {
-        // setTimeout(returnButton, 500)
-        return (
-          <>
-          <div>Hráč nenalezen. Přidat mezi neregistrované?</div>
-          <div className="mt-2">
-            <ThemeProvider theme={theme2}>
-              <Button variant="contained" endIcon={<Add />}>
-                {input.inputValue}
-              </Button>
-            </ThemeProvider>
-          </div>
-          </>
-        )
-        // <Button onClick={() => console.log("cus")} caption={`"${input.inputValue}" nenalezen. Přidat mezi neregistrované hráče?`} className="btn btn-sm btn-primary"/>
-      } else {
-        return "Hráč nenalezen"
+    const addAnonymPlayer = (name: string) => {
+      if (nonRegPlayers.some(p => p.name == name)) {
+        return
       }
 
-  
+      const anonymPlayer : IAnonymAthlete = {
+        // id: uuid()
+        name: name,
+        added_by: auth.userData.id
+      }
+      setNonRegPlayersCb(oldAddedNonRegPlayers => [...oldAddedNonRegPlayers, anonymPlayer])
+      setInputText("")
+    }
+
+    const noOptionsSolver = (option: string, addAnonymPlayerCb: (name: string) => void) => {
+      if (!isLoading && option == searchText && option.length > 0)
+        return <NoSearchOptionsSolver option={option} onConfirmCb={addAnonymPlayerCb}/>
+      else {
+        return "Hráč nenalezen"
+      }
     }
 
     const PlayerSelect = () => {
         return (
           <Select
-            noOptionsMessage={input => noOptionsSolver(input)}
+            noOptionsMessage={input => noOptionsSolver(input.inputValue, addAnonymPlayer)}
             placeholder={"Hledej hráče"}
             isClearable={true}
             isLoading={isLoading}
@@ -116,17 +90,6 @@ export default function NewGamePlayers( {regPlayers, nonRegPlayers, expPlayersCn
           />
         );
       }
-    
-    const renderBadges = () => {
-      console.log("rendering")
-      return (
-        regPlayers.forEach((a) => {
-            <div>
-              <RemovableAthleteBadge key={a.id} iAthlete={a} registered={true} removeCb={removeRegPlayer}/>
-            </div>
-          })
-        ) 
-    }
     
     return (
         <div className="d-flex flex-row justify-content-between newGame-basicInfo-rootBox h-100 w-100">
@@ -147,7 +110,7 @@ export default function NewGamePlayers( {regPlayers, nonRegPlayers, expPlayersCn
                       <Fragment>
                           {/* {page.items.map((game : IGame) => ( */}
                               <div className="mt-1 me-1">
-                                <RemovableAthleteBadge key={p.id} iAthlete={p} registered={true} removeCb={removeRegPlayer}/>
+                                <RemovableAthleteBadge key={p.id} athlete={p} registered={true} showFollow={true} removeCb={removeRegPlayer}/>
                               </div>
                           {/* ))} */}
                       </Fragment>
@@ -160,7 +123,17 @@ export default function NewGamePlayers( {regPlayers, nonRegPlayers, expPlayersCn
                         Neregistrovaní hráči: {nonRegPlayers.length}
                     </div>
                     <div className="d-flex flex-row justify-content-start flex-wrap">
-                        vypis
+                      {
+                      nonRegPlayers.map(p => (
+                        <Fragment>
+                            {/* {page.items.map((game : IGame) => ( */}
+                                <div className="mt-1 me-1">
+                                  <RemovableAthleteBadge key={p.name} athlete={p} registered={false} showFollow={false} removeCb={removeNonRegPlayer}/>
+                                </div>
+                            {/* ))} */}
+                        </Fragment>
+                        ))
+                      }
                     </div>
                 </div>
             </div>

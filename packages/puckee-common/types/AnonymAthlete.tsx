@@ -1,11 +1,15 @@
 import { Serializable } from "."
 
+export const instanceOfAnonymAthlete = (object: any): object is IAnonymAthlete => {
+    return !('roles' in object)
+}
+
 export interface IAnonymAthlete {
-    id: number
+    id?: number
     name: string
-    added_in: string
+    added_in?: string
     added_by: string
-    created: string
+    created?: string
   }
   
 export class AnonymAthlete implements Serializable<AnonymAthlete> {
@@ -20,7 +24,7 @@ export class AnonymAthlete implements Serializable<AnonymAthlete> {
         this.name = data.name
         this.added_in = Number(data.added_in)
         this.added_by = Number(data.added_by)
-        this.created = new Date(data.created)
+        this.created = new Date(data.created!)
         return this
 }
 

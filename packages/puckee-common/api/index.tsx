@@ -6,7 +6,7 @@ export const axiosConfig = {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
   },
-  timeout: 500
+  timeout: 5000
 }
 
 export * from './game'

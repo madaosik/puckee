@@ -1,6 +1,6 @@
 import React from "react"
 
-export const FinancialEstimate : React.FC = () => {
+export default function FinancialEstimate () {
     return (
         <div className="content-inner-box">
                 <div className="content-inner-row heading helper">

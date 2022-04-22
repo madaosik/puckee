@@ -1,6 +1,7 @@
 import React from "react"
 
-export const AvailableGroups : React.FC = () => {
+export default function AvailableGroups ()
+{
     return (
         <div className="content-inner-box">
                 <div className="content-inner-row heading helper">

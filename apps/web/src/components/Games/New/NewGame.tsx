@@ -1,30 +1,19 @@
-import React, { useEffect, useRef, useState } from "react"
-import LoremIpsum from "react-lorem-ipsum"
-import { FinancialEstimate } from "./FinancialEstimate"
-import { AvailableGroups } from "./AvailableGroups"
-import { RecentlyOrganizedGames } from "./RecentlyOrganizedGames"
+import React, { useState } from "react"
+import { FinancialEstimate, AvailableGroups, RecentlyOrganizedGames } from "."
 import { Button, ErrorReport, FormTextArea } from "../../FormElements"
-import { Link } from "react-router-dom"
 import { SkillPucksSlider } from "../../SkillPucks/SkillPucksSlider"
-import { Athlete, AthleteRole, Game, GameLocOption, IAthlete, IceRink, IIceRink } from "puckee-common/types"
-import { useAppSelector } from "puckee-common/redux"
+import { Athlete, AthleteRole, Game, GameLocOption, IAnonymAthlete, IAthlete, IceRink, IIceRink } from "puckee-common/types"
 import makeAnimated from 'react-select/animated';
 import Select, {ActionMeta} from 'react-select';
-// import { gameLocOptions } from 'puckee-common/utils';
 import { FormInput, InputLabel} from "../../FormElements"
-import { startOfISOWeek } from "date-fns"
 import { useAuth } from "puckee-common/auth"
 import { Header } from "../../Header"
 import VerticalMenu from "../../VerticalMenu"
 import { useQuery } from "react-query"
 import { fetchIceRinks } from "puckee-common/api"
-import { Avatar } from "@mui/material"
-import { stringAvatar } from "puckee-common/utils/avatar"
 import { AthleteBadge } from "../../AthleteBadge"
 import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../../Icons"
-import GameRoleAttendanceSummary from "../GameRoleAttendanceSummary"
 import {NewGamePlayers, NewGameGoalies, NewGameReferees} from "./Attendance"
-import Test from "./Attendance/NewGameTest"
 
 class NewGameFormError {
     title: React.ReactNode
@@ -36,9 +25,6 @@ class NewGameFormError {
         this.endTime = <ErrorReport/>
     }
 }
-// interface NewGameProps {
-//     gameTitleCb: (title: JSX.Element) => void
-// }
 
 const NewGame  = () => {
     const { error: errorRinks , data: dataRinks, isSuccess: isSuccessRinks } = useQuery("icerink", fetchIceRinks);
@@ -49,6 +35,7 @@ const NewGame  = () => {
     const auth = useAuth()
 
     const user = new Athlete().deserialize(auth.userData.athlete)
+    const preferredRole = user.preferredRole()
     const [game, setGame] = useState(new Game(user))
 
     const [errors, setErrors] = useState(new NewGameFormError())
@@ -56,7 +43,7 @@ const NewGame  = () => {
     const [headerTitle, setHeaderTitle] = useState("Nové utkání")
     const [gameTitle, setGameTitle] = useState(game.name)
     const [remarks, setRemarks] = useState(game.remarks)
-    const [organizers, setOrganizers] = useState<Athlete[]>([user])
+    const [organizers, setOrganizers] = useState<IAthlete[]>([auth.userData.athlete])
     const [privateGame, setPrivateGame] = useState<boolean>(game.is_private)
 
     var locOptions: GameLocOption[] | undefined = undefined
@@ -75,14 +62,14 @@ const NewGame  = () => {
     const [goalieRenum, setGoalieRenum] = useState(game.goalie_renum.toString())
     const [refRenum, setRefRenum] = useState(game.referee_renum.toString())
 
-    const [regPlayers, setRegPlayers] = useState<IAthlete[]>([])
-    const [nonRegPlayers, setNonRegPlayers] = useState<IAthlete[]>([])
+    const [regPlayers, setRegPlayers] = useState<IAthlete[]>([(preferredRole == AthleteRole.Player) && auth.userData.athlete])
+    const [nonRegPlayers, setNonRegPlayers] = useState<IAnonymAthlete[]>([])
 
-    const [regGoalies, setRegGoalies] = useState<IAthlete[]>([])
-    const [nonRegGoalies, setNonRegGoalies] = useState<IAthlete[]>([])
+    const [regGoalies, setRegGoalies] = useState<IAthlete[]>([(preferredRole == AthleteRole.Goalie) && auth.userData.athlete])
+    const [nonRegGoalies, setNonRegGoalies] = useState<IAnonymAthlete[]>([])
 
-    const [regReferees, setRegReferees] = useState<IAthlete[]>([])
-    const [nonRegReferees, setNonRegReferees] = useState<IAthlete[]>([])
+    const [regReferees, setRegReferees] = useState<IAthlete[]>([(preferredRole == AthleteRole.Referee) && auth.userData.athlete])
+    const [nonRegReferees, setNonRegReferees] = useState<IAnonymAthlete[]>([])
 
     var errorsToShow = new NewGameFormError();
     
@@ -129,27 +116,22 @@ const NewGame  = () => {
     
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        
-
         if (gameTitle==="") {
             errorsToShow.title = <ErrorReport msg="Zadej název utkání!"/>
-        } 
-        
+        }
         if (startTime === "") {
             errorsToShow.startTime = <ErrorReport msg="Kdy budete začínat?"/>
         }
-
         if (endTime === "") {
             errorsToShow.endTime = <ErrorReport msg="Kdy budete končit?"/>
         }
-        
         setErrors(errorsToShow)
-
     }
 
     const newGameHeader = () => {
         return <>{headerTitle}</>
     }
+
     return (
         <>
             <Header headerContent={newGameHeader()} />
@@ -178,7 +160,7 @@ const NewGame  = () => {
                                             </div>
                                             <div style={{ flex: '1 0 auto' }}>
                                                 <InputLabel content="Organizátoři"/>
-                                                <AthleteBadge athlete={user} registered={true} />
+                                                <AthleteBadge showFollow={true} athlete={auth.userData.athlete} registered={true} />
                                             </div>
                                             {/* <div style={{ flex: '1 0 auto' }}>
                                                 <InputLabel content="Soukromé utkání"/>

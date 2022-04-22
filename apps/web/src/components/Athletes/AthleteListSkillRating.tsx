@@ -29,12 +29,16 @@ export const AthleteListSkillRating = ( { athlete, displayedRole} : AthleteListS
 
                 <div className="d-flex flex-row rating">
                     <div className="avgRating">
-                        {skillRating}
+                        {skillRating.toFixed(2)}
                     </div>
                     
                     <div className="skillPucks">
-                        <SkillPucks skillLevel={Math.round(skillRating)} puckSize={18} 
+                        {
+                            (displayedRole == AthleteRole.Player || displayedRole == AthleteRole.Goalie)
+                            &&
+                            <SkillPucks skillLevel={Math.round(skillRating)} puckSize={18} 
                             iconKey={`player-${athlete.id}--${displayedRole}-puck`}/>
+                        }
                     </div>
                 </div>
 

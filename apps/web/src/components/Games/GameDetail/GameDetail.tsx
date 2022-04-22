@@ -19,10 +19,10 @@ type GameParams = {
 
 export default function GameDetail () {
     const { id } = useParams<GameParams>()
-    const { error, isError, isIdle, isLoading, data, isSuccess } = useQuery(["game", id], () => fetchGameById(id!));
     const auth = useAuth()
     const currentUser = new Athlete().deserialize(auth.userData.athlete)
-    
+    const { error, isError, isIdle, isLoading, data, isSuccess } = useQuery(["game", id, currentUser.id],
+                                                                    () => fetchGameById(id!, currentUser.id));
     useEffect(() => {
         window.scrollTo(0, 0)
       },[])

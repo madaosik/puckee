@@ -1,6 +1,6 @@
 import React from "react"
 
-export const RecentlyOrganizedGames : React.FC = () => {
+export default function RecentlyOrganizedGames (){
     return (
         <div className="content-inner-box">
                <div className="content-inner-row heading helper">

@@ -30,11 +30,11 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                     <div className="d-flex flex-column justify-content-start ps-4 gameDetail-players-box">
                         <div className="d-flex flex-row flex-wrap">
                             <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Registrovaní: {game.players.length}</div>
-                            { game.players.map(p => <div className="mb-2 me-2"><AthleteBadge registered={true} athlete={p}/></div>) }
+                            { game.players.map(p => <div className="mb-2 me-2"><AthleteBadge showFollow={true} registered={true} athlete={p}/></div>) }
                         </div>
                         <div className="d-flex flex-row flex-wrap mt-4">
                             <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Neregistrovaní: {game.anonym_players.length}</div>
-                            { game.anonym_players.map(p => <div className="mb-2 me-2"><AthleteBadge registered={false} athlete={p}/></div>) }
+                            { game.anonym_players.map(p => <div className="mb-2 me-2"><AthleteBadge showFollow={false}  registered={false} athlete={p}/></div>) }
                         </div>
                     </div>
                 </div>
@@ -49,11 +49,11 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                         <div className="d-flex flex-column justify-content-start ps-4">
                             <div className="d-flex flex-column">
                                 <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Registrovaní: {game.goalies.length}</div>
-                                { game.goalies.map(p => <div className="mb-2 me-2"><AthleteBadge registered={true} athlete={p}/></div>) }
+                                { game.goalies.map(p => <div className="mb-2 me-2"><AthleteBadge showFollow={true}  registered={true} athlete={p}/></div>) }
                             </div>
                             <div className="d-flex flex-column mt-4">
                                 <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Neregistrovaní: {game.anonym_goalies.length}</div>
-                                { game.anonym_goalies.map(p => <div className="mb-2 me-2"><AthleteBadge registered={false} athlete={p}/></div>) }
+                                { game.anonym_goalies.map(p => <div className="mb-2 me-2"><AthleteBadge showFollow={false} registered={false} athlete={p}/></div>) }
                             </div>
                         </div>
                     </div>
@@ -66,11 +66,11 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                         <div className="d-flex flex-column justify-content-start ps-4">
                             <div className="d-flex flex-column">
                                 <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Registrovaní: {game.referees.length}</div>
-                                { game.referees.map(p => <AthleteBadge registered={true} athlete={p}/>) }
+                                { game.referees.map(p => <AthleteBadge showFollow={true}  registered={true} athlete={p}/>) }
                             </div>
                             <div className="d-flex flex-column mt-4">
                                 <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Neregistrovaní: {game.anonym_referees.length}</div>
-                                { game.anonym_referees.map(p => <AthleteBadge registered={false} athlete={p}/>) }
+                                { game.anonym_referees.map(p => <AthleteBadge  showFollow={false} registered={false} athlete={p}/>) }
                             </div>
                         </div>
                     </div>

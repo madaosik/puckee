@@ -64,7 +64,7 @@ export class Game implements Serializable<Game> {
   referees: Athlete[]
   anonym_referees: AnonymAthlete[]
 
-  constructor(creator: Athlete) {
+  constructor(creator?: Athlete) {
     this.name = ''
     this.exp_players_cnt = 20
     this.exp_goalies_cnt = 2
@@ -83,7 +83,12 @@ export class Game implements Serializable<Game> {
     this.exp_skill = 3
     this.players = []
     this.anonym_players = []
-    this.organizers = [creator]
+    if (creator) {
+      this.organizers = [creator]
+    } else {
+      this.organizers = []
+    }
+    
     this.goalies = []
     this.anonym_goalies = []
     this.referees = []

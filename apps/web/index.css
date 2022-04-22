@@ -522,6 +522,8 @@ label {
 
 .athleteBadge-wrapper {
   border-radius: 40px;
+  /* border-color: red; */
+  /* border: 2px; */
   width: 140px;
   min-width: 140px;
   height: 45px;
@@ -544,4 +546,7 @@ label {
 
 .athleteBadge-athleteName {
   text-align: right;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
