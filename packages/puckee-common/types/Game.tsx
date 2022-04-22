@@ -1,4 +1,5 @@
 import { Athlete, AthleteRole, IAthlete, Serializable } from ".";
+import { AnonymAthlete, IAnonymAthlete } from "./AnonymAthlete";
 
 
 export interface IGame {
@@ -26,9 +27,12 @@ export interface IGame {
     start: string,
     
     players: IAthlete[],
+    anonym_players : IAnonymAthlete[],
     organizers: IAthlete[],
     goalies: IAthlete[],
+    anonym_goalies : IAnonymAthlete[],
     referees: IAthlete[],
+    anonym_referees : IAnonymAthlete[],
   }
 
 export class Game implements Serializable<Game> {
@@ -53,9 +57,12 @@ export class Game implements Serializable<Game> {
   last_updated: Date
   
   players: Athlete[]
+  anonym_players: AnonymAthlete[]
   organizers: Athlete[]
   goalies: Athlete[]
+  anonym_goalies: AnonymAthlete[]
   referees: Athlete[]
+  anonym_referees: AnonymAthlete[]
 
   constructor(creator: Athlete) {
     this.name = ''
@@ -75,9 +82,12 @@ export class Game implements Serializable<Game> {
     this.referee_renum = 0
     this.exp_skill = 3
     this.players = []
+    this.anonym_players = []
     this.organizers = [creator]
     this.goalies = []
+    this.anonym_goalies = []
     this.referees = []
+    this.anonym_referees = []
   }
 
   deserialize = (data: IGame): Game => {
@@ -102,10 +112,16 @@ export class Game implements Serializable<Game> {
     this.last_updated = new Date(data.last_updated)
     this.location_id = Number(data.location_id)
 
-    this.players = data.players.map(p => new Athlete().deserialize(p))
     this.organizers = data.organizers.map(o => new Athlete().deserialize(o))
+
+    this.players = data.players.map(p => new Athlete().deserialize(p))
+    this.anonym_players = data.anonym_players.map(p => new AnonymAthlete().deserialize(p))
+    
     this.goalies = data.goalies.map(g => new Athlete().deserialize(g))
+    this.anonym_goalies = data.anonym_goalies.map(p => new AnonymAthlete().deserialize(p))
+
     this.referees = data.referees.map(r => new Athlete().deserialize(r))
+    this.anonym_referees = data.anonym_referees.map(p => new AnonymAthlete().deserialize(p))
     return this
 }
   serialize(input: Game): Object {
@@ -114,11 +130,11 @@ export class Game implements Serializable<Game> {
 
   isFullForRole = (role: AthleteRole) : boolean => {
     if (role == AthleteRole.Player) {
-      return this.players.length >= this.exp_players_cnt ? true : false
+      return (this.players.length + this.anonym_players.length) >= this.exp_players_cnt ? true : false
     } else if (role == AthleteRole.Goalie) {
-      return this.goalies.length >= this.exp_goalies_cnt ? true : false
+      return (this.goalies.length + this.anonym_goalies.length) >= this.exp_goalies_cnt ? true : false
     } else if (role == AthleteRole.Referee) {
-      return this.referees.length >= this.exp_referees_cnt ? true : false
+      return (this.referees.length + this.anonym_referees.length) >= this.exp_referees_cnt ? true : false
     } else {
       throw new Error(`Unknown role has been provided: ${role}`)
     }

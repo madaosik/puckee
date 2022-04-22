@@ -80,15 +80,15 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                         <div className="d-flex flex-row justify-content-evenly gameDetail-basicInfo-attendanceSec">
                             <div className="d-flex flex-row">
                                 <div className="d-flex flex-column justify-content-center me-2"><PlayerIcon color="black" height={40}/></div>
-                                <div className='d-flex flex-column justify-content-center'>{game.players.length}/{game.exp_players_cnt}</div>
+                                <div className='d-flex flex-column justify-content-center'>{game.players.length + game.anonym_players.length}/{game.exp_players_cnt}</div>
                             </div>
                             <div className="d-flex flex-row">
                                 <div className="d-flex flex-column justify-content-center me-2"><GoalieIcon color="black" height={40}/></div>
-                                <div className='d-flex flex-column justify-content-center'>{game.goalies.length}/{game.exp_goalies_cnt}</div>
+                                <div className='d-flex flex-column justify-content-center'>{game.goalies.length + game.anonym_goalies.length}/{game.exp_goalies_cnt}</div>
                             </div>
                             <div className="d-flex flex-row">
                                 <div className="d-flex flex-column justify-content-center me-2"><RefereeIcon color="black" height={40}/></div>
-                                <div className='d-flex flex-column justify-content-center'>{game.referees.length}/{game.exp_referees_cnt}</div>
+                                <div className='d-flex flex-column justify-content-center'>{game.referees.length + game.anonym_referees.length}/{game.exp_referees_cnt}</div>
                             </div>
                         </div>
                         {/* Treti sloupec (poznamky) */}

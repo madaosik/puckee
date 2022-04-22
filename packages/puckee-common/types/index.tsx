@@ -13,3 +13,4 @@ export type Credentials = {
 export * from './Athlete'
 export * from './Game'
 export * from './IceRink'
+export * from './AnonymAthlete'

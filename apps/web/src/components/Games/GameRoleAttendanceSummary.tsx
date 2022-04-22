@@ -18,7 +18,7 @@ export default function GameRoleAttendanceSummary( {role, game, cnt, totalCnt} :
     switch (role) {
         case (AthleteRole.Player): {
             if (game) {
-            currentCount = game.players.length
+            currentCount = game.players.length + game.anonym_players.length
             expCount = game.exp_players_cnt
             } else {
                 currentCount = cnt!
@@ -29,7 +29,7 @@ export default function GameRoleAttendanceSummary( {role, game, cnt, totalCnt} :
         }
         case (AthleteRole.Goalie): {
             if (game) {
-            currentCount = game.goalies.length
+            currentCount = game.goalies.length + game.anonym_goalies.length
             expCount = game.exp_goalies_cnt
             } else {
                 currentCount = cnt!
@@ -40,7 +40,7 @@ export default function GameRoleAttendanceSummary( {role, game, cnt, totalCnt} :
         }
         case (AthleteRole.Referee): {
             if (game) {
-            currentCount = game.referees.length
+            currentCount = game.referees.length + game.anonym_referees.length
             expCount = game.exp_referees_cnt
             } else {
                 currentCount = cnt!

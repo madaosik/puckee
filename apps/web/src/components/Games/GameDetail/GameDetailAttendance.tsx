@@ -33,8 +33,8 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                             { game.players.map(p => <div className="mb-2 me-2"><AthleteBadge registered={true} athlete={p}/></div>) }
                         </div>
                         <div className="d-flex flex-row flex-wrap mt-4">
-                            <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Neregistrovaní: {game.players.length}</div>
-                            { game.players.map(p => <div className="mb-2 me-2"><AthleteBadge registered={false} athlete={p}/></div>) }
+                            <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Neregistrovaní: {game.anonym_players.length}</div>
+                            { game.anonym_players.map(p => <div className="mb-2 me-2"><AthleteBadge registered={false} athlete={p}/></div>) }
                         </div>
                     </div>
                 </div>
@@ -52,8 +52,8 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                                 { game.goalies.map(p => <div className="mb-2 me-2"><AthleteBadge registered={true} athlete={p}/></div>) }
                             </div>
                             <div className="d-flex flex-column mt-4">
-                                <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Neregistrovaní: {game.goalies.length}</div>
-                                { game.goalies.map(p => <div className="mb-2 me-2"><AthleteBadge registered={false} athlete={p}/></div>) }
+                                <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Neregistrovaní: {game.anonym_goalies.length}</div>
+                                { game.anonym_goalies.map(p => <div className="mb-2 me-2"><AthleteBadge registered={false} athlete={p}/></div>) }
                             </div>
                         </div>
                     </div>
@@ -69,8 +69,8 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                                 { game.referees.map(p => <AthleteBadge registered={true} athlete={p}/>) }
                             </div>
                             <div className="d-flex flex-column mt-4">
-                                <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Neregistrovaní: {game.referees.length}</div>
-                                { game.referees.map(p => <AthleteBadge registered={false} athlete={p}/>) }
+                                <div className="d-flex flex-row athleteBadge-wrapper align-items-center mt-2 me-2 athleteBadge-wrapper regNonRegLabel">Neregistrovaní: {game.anonym_referees.length}</div>
+                                { game.anonym_referees.map(p => <AthleteBadge registered={false} athlete={p}/>) }
                             </div>
                         </div>
                     </div>
