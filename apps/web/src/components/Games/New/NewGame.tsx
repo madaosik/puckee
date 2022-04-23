@@ -4,8 +4,8 @@ import { Button, ErrorReport, FormTextArea } from "../../FormElements"
 import { SkillPucksSlider } from "../../SkillPucks/SkillPucksSlider"
 import { Athlete, AthleteRole, Game, GameLocOption, IAnonymAthlete, IAthlete, IceRink, IIceRink } from "puckee-common/types"
 import makeAnimated from 'react-select/animated';
-import Select, {ActionMeta} from 'react-select';
-import { FormInput, InputLabel} from "../../FormElements"
+import Select, { ActionMeta } from 'react-select';
+import { FormInput, InputLabel } from "../../FormElements"
 import { useAuth } from "puckee-common/auth"
 import { Header } from "../../Header"
 import VerticalMenu from "../../VerticalMenu"
@@ -13,25 +13,25 @@ import { useQuery } from "react-query"
 import { fetchIceRinks } from "puckee-common/api"
 import { AthleteBadge } from "../../AthleteBadge"
 import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../../Icons"
-import {NewGamePlayers, NewGameGoalies, NewGameReferees} from "./Attendance"
+import { NewGamePlayers, NewGameGoalies, NewGameReferees } from "./Attendance"
 
 class NewGameFormError {
     title: React.ReactNode
     startTime: React.ReactNode
     endTime: React.ReactNode
     constructor() {
-        this.title = <ErrorReport/>
-        this.startTime = <ErrorReport/>
-        this.endTime = <ErrorReport/>
+        this.title = <ErrorReport />
+        this.startTime = <ErrorReport />
+        this.endTime = <ErrorReport />
     }
 }
 
-const NewGame  = () => {
-    const { error: errorRinks , data: dataRinks, isSuccess: isSuccessRinks } = useQuery("icerink", fetchIceRinks);
+const NewGame = () => {
+    const { error: errorRinks, data: dataRinks, isSuccess: isSuccessRinks } = useQuery("icerink", fetchIceRinks);
 
     if (errorRinks) {
         console.log("Error fetching rinks: " + errorRinks.message)
-    } 
+    }
     const auth = useAuth()
 
     const user = new Athlete().deserialize(auth.userData.athlete)
@@ -48,7 +48,7 @@ const NewGame  = () => {
 
     var locOptions: GameLocOption[] | undefined = undefined
     const [selectedLoc, setSelectedLoc] = useState<GameLocOption | unknown>(null)
-    const [gameDate, setGameDate] = useState(game.date.toISOString().substring(0,10))
+    const [gameDate, setGameDate] = useState(game.date.toISOString().substring(0, 10))
     const [pitchPrice, setPitchPrice] = useState("0")
     const [otherCosts, setOtherCosts] = useState("0")
     const [startTime, setStartTime] = useState("")
@@ -72,17 +72,17 @@ const NewGame  = () => {
     const [nonRegReferees, setNonRegReferees] = useState<IAnonymAthlete[]>([])
 
     var errorsToShow = new NewGameFormError();
-    
-    if(isSuccessRinks) {
-        const rinksArray = (dataRinks as IIceRink[]).map((r : IIceRink) => (new IceRink().deserialize(r)))
-        locOptions = rinksArray.map(r => r.generateLocOption()) 
+
+    if (isSuccessRinks) {
+        const rinksArray = (dataRinks as IIceRink[]).map((r: IIceRink) => (new IceRink().deserialize(r)))
+        locOptions = rinksArray.map(r => r.generateLocOption())
     }
 
     // useEffect(() => {
     //     window.scrollTo(0, 0)
     //   },[errorsToShow])
 
-    const handleSelectionUpdate = (option: readonly GameLocOption[] | unknown, actionMeta: ActionMeta<GameLocOption>) =>  { 
+    const handleSelectionUpdate = (option: readonly GameLocOption[] | unknown, actionMeta: ActionMeta<GameLocOption>) => {
         setSelectedLoc(option)
         setPitchPrice(option.price_per_hour)
     }
@@ -98,32 +98,32 @@ const NewGame  = () => {
         //TODO Add one hour to the start time by default
         setEndTime(value)
     }
-    
+
     const GameLocSelect = () => {
         return (
-          <Select
-            closeMenuOnSelect={true}
-            components={makeAnimated()}
-            defaultValue={selectedLoc}
-            options={locOptions}
-            placeholder="Vyber ledovou plochu"
-            className="roleMultiSelect shadow"
-            onChange={handleSelectionUpdate}
-            noOptionsMessage={() => "Plocha nenalezena"}
-          />
+            <Select
+                closeMenuOnSelect={true}
+                components={makeAnimated()}
+                defaultValue={selectedLoc}
+                options={locOptions}
+                placeholder="Vyber ledovou plochu"
+                className="roleMultiSelect shadow"
+                onChange={handleSelectionUpdate}
+                noOptionsMessage={() => "Plocha nenalezena"}
+            />
         );
-      }
-    
+    }
+
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        if (gameTitle==="") {
-            errorsToShow.title = <ErrorReport msg="Zadej název utkání!"/>
+        if (gameTitle === "") {
+            errorsToShow.title = <ErrorReport msg="Zadej název utkání!" />
         }
         if (startTime === "") {
-            errorsToShow.startTime = <ErrorReport msg="Kdy budete začínat?"/>
+            errorsToShow.startTime = <ErrorReport msg="Kdy budete začínat?" />
         }
         if (endTime === "") {
-            errorsToShow.endTime = <ErrorReport msg="Kdy budete končit?"/>
+            errorsToShow.endTime = <ErrorReport msg="Kdy budete končit?" />
         }
         setErrors(errorsToShow)
     }
@@ -135,7 +135,7 @@ const NewGame  = () => {
     return (
         <>
             <Header headerContent={newGameHeader()} />
-            <VerticalMenu/>
+            <VerticalMenu />
             <div className="main-content">
                 <div className="content-container">
                     {/* ------------------------------ */}
@@ -152,14 +152,14 @@ const NewGame  = () => {
                                     <div className="newGame-basicInfo-row">
                                         <div className="newGame-basicInfo-col flexStart">
                                             <div className="form-input-flex">
-                                                <InputLabel content="Titulek utkání"/>
-                                                <FormInput 
+                                                <InputLabel content="Titulek utkání" />
+                                                <FormInput
                                                     onChange={(e: React.FormEvent<HTMLInputElement>) => updateGameTitle(e.currentTarget.value)}
-                                                    type="text" value={gameTitle}/>
+                                                    type="text" value={gameTitle} />
                                                 {errors.title}
                                             </div>
                                             <div style={{ flex: '1 0 auto' }}>
-                                                <InputLabel content="Organizátoři"/>
+                                                <InputLabel content="Organizátoři" />
                                                 <AthleteBadge showFollow={true} athlete={auth.userData.athlete} registered={true} />
                                             </div>
                                             {/* <div style={{ flex: '1 0 auto' }}>
@@ -167,10 +167,10 @@ const NewGame  = () => {
                                             </div> */}
                                         </div>
                                         <div className="newGame-basicInfo-col flexStart">
-                                                <label style={{ color: 'darkgrey'}}>Poznámky</label>
-                                                <FormTextArea
-                                                        onChange={(e: React.FormEvent<HTMLTextAreaElement>) => setRemarks(e.currentTarget.value)}
-                                                        value={remarks} />
+                                            <label style={{ color: 'darkgrey' }}>Poznámky</label>
+                                            <FormTextArea
+                                                onChange={(e: React.FormEvent<HTMLTextAreaElement>) => setRemarks(e.currentTarget.value)}
+                                                value={remarks} />
                                         </div>
                                     </div>
                                     {/* End of first row in basic info */}
@@ -181,17 +181,17 @@ const NewGame  = () => {
                                         <div className="newGame-basicInfo-col">
                                             <div className="newGame-basicInfo-row detailed">
                                                 <div className="form-input-flex">
-                                                    <InputLabel content="Místo konání"/>
-                                                    <div className="form-input-input"><GameLocSelect/></div>
+                                                    <InputLabel content="Místo konání" />
+                                                    <div className="form-input-input"><GameLocSelect /></div>
                                                 </div>
                                             </div>
                                             <div className="newGame-basicInfo-row detailed">
                                                 <div className="newGame-basicInfo-row detailed input">
                                                     <div className="form-input-flex">
-                                                        <InputLabel content="Cena pronájmu ledu"/>
+                                                        <InputLabel content="Cena pronájmu ledu" />
                                                         <div className="input-group">
                                                             <FormInput type="number" min="0" value={pitchPrice} className="content-right"
-                                                                onChange={(e: React.FormEvent<HTMLInputElement>) => setPitchPrice(e.currentTarget.value)}/>
+                                                                onChange={(e: React.FormEvent<HTMLInputElement>) => setPitchPrice(e.currentTarget.value)} />
                                                             <div className="input-group-append">
                                                                 <span className="input-group-text shadow rounded">Kč/h</span>
                                                             </div>
@@ -200,10 +200,10 @@ const NewGame  = () => {
                                                 </div>
                                                 <div className="newGame-basicInfo-row detailed input">
                                                     <div className="form-input-flex">
-                                                    <InputLabel content="Ostatní náklady"/>
+                                                        <InputLabel content="Ostatní náklady" />
                                                         <div className="input-group">
                                                             <FormInput type="number" min="0" value={otherCosts} className="content-right"
-                                                                onChange={(e: React.FormEvent<HTMLInputElement>) => setOtherCosts(e.currentTarget.value)}/>
+                                                                onChange={(e: React.FormEvent<HTMLInputElement>) => setOtherCosts(e.currentTarget.value)} />
                                                             <div className="input-group-append">
                                                                 <span className="input-group-text shadow rounded">Kč</span>
                                                             </div>
@@ -216,10 +216,10 @@ const NewGame  = () => {
                                             <div className="newGame-basicInfo-row detailed">
                                                 <div className="newGame-basicInfo-row detailed input">
                                                     <div className="form-input-flex">
-                                                        <InputLabel content="Datum"/>
-                                                        <FormInput 
+                                                        <InputLabel content="Datum" />
+                                                        <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setGameDate(e.currentTarget.value)}
-                                                            type="date" value={gameDate}/>
+                                                            type="date" value={gameDate} />
                                                     </div>
                                                 </div>
                                                 <div className="newGame-basicInfo-row detailed input">
@@ -229,19 +229,19 @@ const NewGame  = () => {
                                             <div className="newGame-basicInfo-row detailed">
                                                 <div className="newGame-basicInfo-row detailed input">
                                                     <div className="form-input-flex">
-                                                        <InputLabel content="Čas začátku"/>   
-                                                        <FormInput 
+                                                        <InputLabel content="Čas začátku" />
+                                                        <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setStartTime(e.currentTarget.value)}
-                                                            type="time" value={startTime} step="600"/>
+                                                            type="time" value={startTime} step="600" />
                                                         {errors.startTime}
                                                     </div>
                                                 </div>
                                                 <div className="newGame-basicInfo-row detailed input">
                                                     <div className="form-input-flex">
-                                                        <InputLabel content="Čas konce"/>  
-                                                        <FormInput 
+                                                        <InputLabel content="Čas konce" />
+                                                        <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => updateEndTime(e.currentTarget.value)}
-                                                            type="time" value={endTime} step="600"/>
+                                                            type="time" value={endTime} step="600" />
                                                         {errors.endTime}
                                                     </div>
                                                 </div>
@@ -258,24 +258,24 @@ const NewGame  = () => {
                                                 <div className="newGame-basicInfo-estPlayerCntFlex">
                                                     <div className="form-input-flex horizontal">
                                                         {/* <InputLabel content="H"/>  */}
-                                                        <div><PlayerIcon height={20}/></div>
-                                                        <FormInput 
+                                                        <div><PlayerIcon height={20} /></div>
+                                                        <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setExpPlayers(e.currentTarget.value)}
-                                                            type="number" min="0" value={expPlayers} className="short content-center"/>
+                                                            type="number" min="0" value={expPlayers} className="short content-center" />
                                                     </div>
                                                     <div className="form-input-flex horizontal">
                                                         {/* <InputLabel content="G"/>  */}
-                                                        <GoalieIcon height={20}/>
-                                                        <FormInput 
+                                                        <GoalieIcon height={20} />
+                                                        <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setExpGoalies(e.currentTarget.value)}
-                                                            type="number" min="0" value={expGoalies} className="short content-center"/>
+                                                            type="number" min="0" value={expGoalies} className="short content-center" />
                                                     </div>
                                                     <div className="form-input-flex horizontal">
                                                         {/* <InputLabel content="R"/> */}
-                                                        <RefereeIcon height={38}/> 
-                                                        <FormInput 
+                                                        <RefereeIcon height={38} />
+                                                        <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setExpReferees(e.currentTarget.value)}
-                                                            type="number" min="0" value={expReferees} className="short content-center"/>
+                                                            type="number" min="0" value={expReferees} className="short content-center" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -284,11 +284,11 @@ const NewGame  = () => {
                                                     <div className="reduceToHalfFlex">
                                                         <div className="form-input-flex">
                                                             <div className="columnCenterFlex">
-                                                                <InputLabel content="Odhadovaná cena/hráč"/>
+                                                                <InputLabel content="Odhadovaná cena/hráč" />
                                                             </div>
                                                             <div className="input-group">
                                                                 <FormInput type="number" min="0" value={expPrice} className="content-right"
-                                                                    onChange={(e: React.FormEvent<HTMLInputElement>) => setExpPrice(e.currentTarget.value)}/>
+                                                                    onChange={(e: React.FormEvent<HTMLInputElement>) => setExpPrice(e.currentTarget.value)} />
                                                                 <div className="input-group-append">
                                                                     <span className="input-group-text shadow rounded">Kč</span>
                                                                 </div>
@@ -300,12 +300,12 @@ const NewGame  = () => {
                                         </div>
                                         <div className="newGame-basicInfo-row last subRow pucks">
                                             <div className="form-input-flex">
-                                                <InputLabel content="Očekávaná úroveň"/> 
+                                                <InputLabel content="Očekávaná úroveň" />
                                                 {/* <div className="newGame-basicInfo-pucksHeading">
                                                     <div className="noFormLabel"></div>
                                                 </div> */}
                                                 <div className="form-input-input">
-                                                    <SkillPucksSlider currentSkill={skillIndex} skillLevelCb={updateSkillCb} puckSize={40} iconKey={"new-game-skill"}/>
+                                                    <SkillPucksSlider currentSkill={skillIndex} skillLevelCb={updateSkillCb} puckSize={40} iconKey={"new-game-skill"} />
                                                 </div>
                                             </div>
                                         </div>
@@ -317,10 +317,10 @@ const NewGame  = () => {
                         </div>
                         <div className="newGame-helpers side">
                             <div className="newGame-recentlyOrganized">
-                                <RecentlyOrganizedGames/>
+                                <RecentlyOrganizedGames />
                             </div>
                             <div className="newGame-financialEstimate">
-                                <FinancialEstimate/>
+                                <FinancialEstimate />
                             </div>
                         </div>
                     </div>
@@ -333,11 +333,11 @@ const NewGame  = () => {
                                 Hráči v poli
                             </div>
                             <div className="content-inner-row data">
-                                <NewGamePlayers regPlayers={regPlayers} setRegPlayersCb={setRegPlayers} nonRegPlayers={nonRegPlayers} setNonRegPlayersCb={setNonRegPlayers} expPlayersCnt={Number(expPlayers)}/>
+                                <NewGamePlayers regPlayers={regPlayers} setRegPlayersCb={setRegPlayers} nonRegPlayers={nonRegPlayers} setNonRegPlayersCb={setNonRegPlayers} expPlayersCnt={Number(expPlayers)} />
                             </div>
                         </div>
                         <div className="newGame-helpers availableGroups side">
-                            <AvailableGroups/>
+                            <AvailableGroups />
                         </div>
                     </div>
                     {/* ------------------------------ */}
@@ -349,7 +349,7 @@ const NewGame  = () => {
                             </div>
                             <div className="content-inner-row data">
                                 <NewGameGoalies regGoalies={regGoalies} setRegGoaliesCb={setRegGoalies} nonRegGoalies={nonRegGoalies}
-                                                setNonRegGoaliesCb={setNonRegGoalies} goalieRenum={goalieRenum} setGoalieRenumCb={setGoalieRenum} />
+                                    setNonRegGoaliesCb={setNonRegGoalies} goalieRenum={goalieRenum} setGoalieRenumCb={setGoalieRenum} />
                             </div>
                         </div>
                     </div>
@@ -362,7 +362,7 @@ const NewGame  = () => {
                             </div>
                             <div className="content-inner-row data">
                                 <NewGameReferees regReferees={regReferees} setRegReferresCb={setRegReferees} nonRegReferees={nonRegReferees}
-                                                setNonRegGoaliesCb={setNonRegReferees} refereeRenum={refRenum} setRefereeRenumCb={setRefRenum} />
+                                    setNonRegGoaliesCb={setNonRegReferees} refereeRenum={refRenum} setRefereeRenumCb={setRefRenum} />
                             </div>
                         </div>
                     </div>
@@ -370,7 +370,7 @@ const NewGame  = () => {
                     <div className="content-row newGame-addGame">
                         <div className="addGame-buttonPart main">
                             {/* <Link to={"/games"}> */}
-                                <Button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} className="btn btn-primary btn-lg" caption="Vytvořit utkání"/>
+                            <Button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} className="btn btn-primary btn-lg" caption="Vytvořit utkání" />
                             {/* </Link> */}
                         </div>
                     </div>

@@ -23,7 +23,7 @@
 .content-row.newGame-attendees {
     /* flex: 1 0 auto; */
     /* height: var(--newGame-players-basic-size); */
-    min-height: var(--newGame-players-basic-size);
+    /* min-height: var(--newGame-players-basic-size); */
     margin-top: 10px;
     /* background-color: yellow; */
     justify-content: space-between;
@@ -85,7 +85,7 @@
 
 .newGame-helpers.availableGroups{
     margin-top: 50px;
-    height: calc((var(--newGame-basic-info-size) - 50px)/2 - 5px);
+    /* height: calc((var(--newGame-basic-info-size) - 50px)/2 - 5px); */
 }
 
 .content-inner-row.heading.helper {
@@ -168,8 +168,16 @@
 
 .player-split-upper {
     /* background-color: yellow; */
-    min-height: 320px;
+    min-height: 200px;
     /* overflow-y: auto; */
+}
+
+.player-split-upper.goalieRefs {
+    min-height: 80px;
+}
+
+.player-split-lower {
+    min-height: 80px;
 }
 
 .remarksFlex {
@@ -589,6 +597,11 @@ input.form-control.shadow.shorter {
     width: 50%;
 }
 
+.gameDetail-attendeeHeading {
+    font-weight: bold;
+    font-size: 0.9;
+    color: darkgray
+}
 
 /* } */
 /* 

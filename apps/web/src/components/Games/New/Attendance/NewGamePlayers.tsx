@@ -102,7 +102,9 @@ export default function NewGamePlayers( {regPlayers, nonRegPlayers, expPlayersCn
                 <div className="d-flex flex-column justify-content-start player-split-upper">
                   <div className="d-flex flex-row justify-content-between w-100">
                       <div>{PlayerSelect()}</div>
-                      <div>Registrovaní hráči: {regPlayers.length}</div>
+                      <div className="me-4 gameDetail-attendeeHeading ">
+                          Registrovaní hráči: {regPlayers.length}
+                        </div>
                   </div>
                   <div className="d-flex flex-row flex-wrap justify-content-start mt-1 p-1">
                   {
@@ -118,8 +120,8 @@ export default function NewGamePlayers( {regPlayers, nonRegPlayers, expPlayersCn
                     }
                   </div>
                 </div>
-                <div className="d-flex flex-column justify-content-start mt-4">
-                    <div className="d-flex flex-row justify-content-end">
+                <div className="d-flex flex-column justify-content-start mt-4 player-split-lower">
+                    <div className="d-flex flex-row justify-content-end me-4 gameDetail-attendeeHeading ">
                         Neregistrovaní hráči: {nonRegPlayers.length}
                     </div>
                     <div className="d-flex flex-row justify-content-start flex-wrap">
