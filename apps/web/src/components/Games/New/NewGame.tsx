@@ -13,7 +13,7 @@ import { useQuery } from "react-query"
 import { fetchIceRinks } from "puckee-common/api"
 import { AthleteBadge } from "../../AthleteBadge"
 import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../../Icons"
-import { NewGamePlayers, NewGameGoalies, NewGameReferees } from "./Attendance"
+import { NewGameParticipants, NewGameGoalies, NewGameReferees } from "./Attendance"
 
 class NewGameFormError {
     title: React.ReactNode
@@ -62,13 +62,15 @@ const NewGame = () => {
     const [goalieRenum, setGoalieRenum] = useState(game.goalie_renum.toString())
     const [refRenum, setRefRenum] = useState(game.referee_renum.toString())
 
-    const [regPlayers, setRegPlayers] = useState<IAthlete[]>([(preferredRole == AthleteRole.Player) && auth.userData.athlete])
+    
+
+    const [regPlayers, setRegPlayers] = useState<IAthlete[]>((preferredRole == AthleteRole.Player) ? [auth.userData.athlete] : [])
     const [nonRegPlayers, setNonRegPlayers] = useState<IAnonymAthlete[]>([])
 
-    const [regGoalies, setRegGoalies] = useState<IAthlete[]>([(preferredRole == AthleteRole.Goalie) && auth.userData.athlete])
+    const [regGoalies, setRegGoalies] = useState<IAthlete[]>((preferredRole == AthleteRole.Goalie) ? [auth.userData.athlete] : [])
     const [nonRegGoalies, setNonRegGoalies] = useState<IAnonymAthlete[]>([])
 
-    const [regReferees, setRegReferees] = useState<IAthlete[]>([(preferredRole == AthleteRole.Referee) && auth.userData.athlete])
+    const [regReferees, setRegReferees] = useState<IAthlete[]>((preferredRole == AthleteRole.Referee) ? [auth.userData.athlete] : [])
     const [nonRegReferees, setNonRegReferees] = useState<IAnonymAthlete[]>([])
 
     var errorsToShow = new NewGameFormError();
@@ -333,7 +335,8 @@ const NewGame = () => {
                                 Hráči v poli
                             </div>
                             <div className="content-inner-row data">
-                                <NewGamePlayers regPlayers={regPlayers} setRegPlayersCb={setRegPlayers} nonRegPlayers={nonRegPlayers} setNonRegPlayersCb={setNonRegPlayers} expPlayersCnt={Number(expPlayers)} />
+                                <NewGameParticipants role={AthleteRole.Player} registered={regPlayers} setRegistered={setRegPlayers} 
+                                    nonRegistered={nonRegPlayers} setNonRegistered={setNonRegPlayers} expParticipantsCnt={Number(expPlayers)} />
                             </div>
                         </div>
                         <div className="newGame-helpers availableGroups side">
@@ -348,8 +351,8 @@ const NewGame = () => {
                                 Brankáři
                             </div>
                             <div className="content-inner-row data">
-                                <NewGameGoalies regGoalies={regGoalies} setRegGoaliesCb={setRegGoalies} nonRegGoalies={nonRegGoalies}
-                                    setNonRegGoaliesCb={setNonRegGoalies} goalieRenum={goalieRenum} setGoalieRenumCb={setGoalieRenum} />
+                                <NewGameParticipants role={AthleteRole.Goalie} registered={regGoalies} setRegistered={setRegGoalies} 
+                                    nonRegistered={nonRegGoalies} setNonRegistered={setNonRegGoalies} expParticipantsCnt={Number(expGoalies)} />
                             </div>
                         </div>
                     </div>
@@ -361,8 +364,8 @@ const NewGame = () => {
                                 Rozhodčí
                             </div>
                             <div className="content-inner-row data">
-                                <NewGameReferees regReferees={regReferees} setRegReferresCb={setRegReferees} nonRegReferees={nonRegReferees}
-                                    setNonRegGoaliesCb={setNonRegReferees} refereeRenum={refRenum} setRefereeRenumCb={setRefRenum} />
+                                <NewGameParticipants role={AthleteRole.Referee} registered={regReferees} setRegistered={setRegReferees} 
+                                        nonRegistered={nonRegReferees} setNonRegistered={setNonRegReferees} expParticipantsCnt={Number(expReferees)} />
                             </div>
                         </div>
                     </div>

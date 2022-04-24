@@ -1,4 +1,4 @@
-export { default as NewGamePlayers} from './NewGamePlayers'
+export { default as NewGameParticipants} from './NewGameParticipants'
 export { default as NewGameGoalies} from './NewGameGoalies'
 export { default as NewGameReferees} from './NewGameReferees'
 

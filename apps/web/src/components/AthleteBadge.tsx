@@ -54,10 +54,13 @@ interface RemovableAthleteBadgeProps extends AthleteBadgeProps {
 }
 
 export function RemovableAthleteBadge( { athlete, showFollow, registered, removeCb }: RemovableAthleteBadgeProps) {
+    console.log(athlete)
     var removeCbParam: number | string
     athlete.id ? removeCbParam = athlete.id : removeCbParam = athlete.name
 
     if(!removeCbParam) {
+        console.log(athlete)
+        // console.log(athlete.name)
         throw new Error("Unable to get identification of athlete for his removal!")
     }
 

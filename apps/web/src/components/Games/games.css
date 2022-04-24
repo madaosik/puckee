@@ -65,7 +65,7 @@
 }
 
 .content-row.newGame-attendees.goalies, .content-row.newGame-attendees.referees {
-    height: 300px;
+    min-height: 300px;
 }
 
 .content-row.newGame-addGame {
