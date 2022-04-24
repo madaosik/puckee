@@ -1,4 +1,4 @@
-import { Athlete, AthleteOption, AthleteRole, IAnonymAthlete, IAthlete } from "puckee-common/types";
+import { Athlete, AthleteRole, IAnonymAthlete, IAthlete } from "puckee-common/types";
 import React, { useState, useRef, Fragment, useEffect } from "react";
 import GameRoleAttendanceSummary from "../../GameRoleAttendanceSummary";
 import makeAnimated from 'react-select/animated';
@@ -9,25 +9,29 @@ import { debounce } from "lodash";
 import { RemovableAthleteBadge } from "../../../AthleteBadge";
 import { useAuth } from "puckee-common/auth";
 import { NoSearchOptionsSolver } from "../NewSearchOptionsSolver";
-import { numberLiteralTypeAnnotation } from "@babel/types";
-
 
 interface NewGameParticipantsProps {
     role: AthleteRole
-    registered: IAthlete[]
-    nonRegistered: IAnonymAthlete[]
-    setRegistered : React.Dispatch<React.SetStateAction<IAthlete[]>>
-    setNonRegistered : React.Dispatch<React.SetStateAction<IAnonymAthlete[]>>
     expParticipantsCnt: number
+
+    registered: IAthlete[]
+    addRegHandler : (athlete: IAthlete) => void
+    removeRegHandler : (id: number) => void
+    
+    nonRegistered: IAnonymAthlete[]
+    addNonRegHandler : (name: string) => void
+    removeNonRegHandler : (name: string) => void
 }
 
 export default function NewGameParticipants( {
-                        role, 
+                        role,
+                        expParticipantsCnt, 
                         registered, 
+                        addRegHandler,
+                        removeRegHandler,
                         nonRegistered,
-                        setRegistered,
-                        setNonRegistered,
-                        expParticipantsCnt 
+                        addNonRegHandler,
+                        removeNonRegHandler
                         } : NewGameParticipantsProps ) {
 
     const [selectedAthlete, setSelectedAthlete] = useState<Athlete | unknown>(null);
@@ -45,12 +49,7 @@ export default function NewGameParticipants( {
       athleteSearchResults = playerData.filter((a : IAthlete)=> !registered.find(regA => regA.id == a.id));
     }
 
-    const handleChangePrimary = (athlete: IAthlete | unknown, actionMeta: ActionMeta<IAthlete>) => {
-      setRegistered(oldAddedRegPlayers => [...oldAddedRegPlayers, athlete])
-    };
-    
-    const removeRegParticipant = (athleteId: number | string) => setRegistered(oldAddedRegAthletes => oldAddedRegAthletes.filter(p => p.id != athleteId))
-    const removeNonRegParticipant = (name: string | number) => setNonRegistered(oldAddedNonRegAthletes => oldAddedNonRegAthletes.filter(p => p.name != name))
+    const handleChangePrimary = (athlete: IAthlete | unknown, actionMeta: ActionMeta<IAthlete>) => addRegHandler(athlete as IAthlete)
 
     const handleInputChangePrimary = (inputText: string, event: InputActionMeta) => {
       // prevent outside click from resetting inputText to ""
@@ -60,22 +59,9 @@ export default function NewGameParticipants( {
       }
     };
 
-    const addAnonymParticipant = (name: string) => {
-      if (nonRegistered.some(p => p.name == name)) {
-        return
-      }
-
-      const anonymAthlete : IAnonymAthlete = {
-        name: name,
-        added_by: auth.userData.id
-      }
-      setNonRegistered(oldAddedNonRegPlayers => [...oldAddedNonRegPlayers, anonymAthlete])
-      setInputText("")
-    }
-
-    const noOptionsSolver = (option: string, addAnonymParticipant: (name: string) => void) => {
+    const noOptionsSolver = (option: string, addHandler: (name: string) => void) => {
       if (!isLoading && option == searchText && option.length > 0)
-        return <NoSearchOptionsSolver option={option} onConfirmCb={addAnonymParticipant}/>
+        return <NoSearchOptionsSolver option={option} onConfirmCb={addHandler} inputRemovalCb={() => setInputText("")}/>
       else {
         return "Hráč nenalezen"
       }
@@ -97,7 +83,7 @@ export default function NewGameParticipants( {
     const PlayerSelect = () => {
         return (
           <Select
-            noOptionsMessage={input => noOptionsSolver(input.inputValue, addAnonymParticipant)}
+            noOptionsMessage={input => noOptionsSolver(input.inputValue, addNonRegHandler)}
             placeholder={`Hledej ${roleDescription[1]}`}
             isClearable={true}
             isLoading={isLoading}
@@ -112,12 +98,13 @@ export default function NewGameParticipants( {
         );
       }
     
+    
+
     return (
         <div className="d-flex flex-row justify-content-between newGame-basicInfo-rootBox h-100 w-100">
             <div className="d-flex flex-column justify-content-center attendeeDetails-leftCol">
-                <GameRoleAttendanceSummary role={role} cnt={registered.length} totalCnt={expParticipantsCnt}/>
+                <GameRoleAttendanceSummary role={role} cnt={registered.length + nonRegistered.length} totalCnt={expParticipantsCnt}/>
             </div>
-
 
             <div className="d-flex flex-column justify-content-start attendeeDetails-rightCol">
                 <div className={`d-flex flex-column justify-content-start player-split-upper ${role != AthleteRole.Player && "goalieRefs"}`}>
@@ -133,7 +120,9 @@ export default function NewGameParticipants( {
                       <Fragment>
                           {/* {page.items.map((game : IGame) => ( */}
                               <div className="mt-1 me-1">
-                                <RemovableAthleteBadge key={p.id} athlete={p} registered={true} showFollow={true} removeCb={removeRegParticipant}/>
+                                <RemovableAthleteBadge key={p.id} athlete={p} registered={true} showFollow={true}
+                                removeReg={removeRegHandler}
+                                />
                               </div>
                           {/* ))} */}
                       </Fragment>
@@ -151,7 +140,8 @@ export default function NewGameParticipants( {
                         <Fragment>
                             {/* {page.items.map((game : IGame) => ( */}
                                 <div className="mt-1 me-1">
-                                  <RemovableAthleteBadge key={p.name} athlete={p} registered={false} showFollow={false} removeCb={removeNonRegParticipant}/>
+                                  <RemovableAthleteBadge key={p.name} athlete={p} registered={false} showFollow={false}
+                                  removeNonReg={removeNonRegHandler}/>
                                 </div>
                             {/* ))} */}
                         </Fragment>

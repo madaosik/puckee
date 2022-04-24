@@ -50,23 +50,42 @@ export function AthleteBadge ( {athlete, registered, showFollow} : AthleteBadgeP
 // 
 
 interface RemovableAthleteBadgeProps extends AthleteBadgeProps {
-    removeCb : (id: string | number )=> void
+    removeReg?: (id: number) => void
+    removeNonReg?: (name: string) => void
 }
 
-export function RemovableAthleteBadge( { athlete, showFollow, registered, removeCb }: RemovableAthleteBadgeProps) {
-    console.log(athlete)
-    var removeCbParam: number | string
-    athlete.id ? removeCbParam = athlete.id : removeCbParam = athlete.name
+export function RemovableAthleteBadge( { athlete, showFollow, registered, removeReg, removeNonReg }: RemovableAthleteBadgeProps) {
+    // var removeCbParam : {id? : number, name? : string}
+    // athlete.id ? removeCbParam = {id: athlete.id} : removeCbParam = {name: athlete.name}
 
-    if(!removeCbParam) {
-        console.log(athlete)
-        // console.log(athlete.name)
-        throw new Error("Unable to get identification of athlete for his removal!")
-    }
+    // if(!removeCbParam) {
+    //     console.log(athlete)
+    //     // console.log(athlete.name)
+    //     throw new Error("Unable to get identification of athlete for his removal!")
+    // }
 
     var borderClassName: string = ""
     if (showFollow && !instanceOfAnonymAthlete(athlete)) {
         borderClassName = classNameBasedOnFollowStatus(athlete as IAthlete)
+    }
+
+    interface AthleteBadgeRemoveButtonProps {
+        children: JSX.Element
+    }
+    const RemoveBadgeButton = ( { children } : AthleteBadgeRemoveButtonProps ) => {
+        if (registered) {
+            return (
+                <div onClick={() => removeReg!(athlete.id as number)}>
+                    {children}
+                </div>
+            )
+        } else {
+            return (
+                <div onClick={() => removeNonReg!(athlete.name as string)}>
+                    {children}
+                </div>
+            )
+        }
     }
 
     return (
@@ -78,11 +97,15 @@ export function RemovableAthleteBadge( { athlete, showFollow, registered, remove
                 <div className="athleteBadge-athleteName">
                     {athlete.name}
                 </div>
-                <div onClick={() => removeCb(removeCbParam)}>
-                    <IconButton aria-label="delete" color="primary">
-                        <DeleteIcon />
-                    </IconButton>
-                </div>
+                {
+                    <RemoveBadgeButton children=
+                            {
+                                <IconButton aria-label="delete" color="primary">
+                                    <DeleteIcon />
+                                </IconButton>
+                            }
+                    />
+                }
             </div>
         </div>
     )

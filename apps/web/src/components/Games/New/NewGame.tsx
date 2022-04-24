@@ -14,6 +14,7 @@ import { fetchIceRinks } from "puckee-common/api"
 import { AthleteBadge } from "../../AthleteBadge"
 import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../../Icons"
 import { NewGameParticipants, NewGameGoalies, NewGameReferees } from "./Attendance"
+import SnackbarAlert, { AlertReport, AlertType } from "../../SnackbarAlert"
 
 class NewGameFormError {
     title: React.ReactNode
@@ -66,13 +67,15 @@ const NewGame = () => {
 
     const [regPlayers, setRegPlayers] = useState<IAthlete[]>((preferredRole == AthleteRole.Player) ? [auth.userData.athlete] : [])
     const [nonRegPlayers, setNonRegPlayers] = useState<IAnonymAthlete[]>([])
-
+    // console.log(nonRegPlayers)
+    // console.log("rendering")
     const [regGoalies, setRegGoalies] = useState<IAthlete[]>((preferredRole == AthleteRole.Goalie) ? [auth.userData.athlete] : [])
     const [nonRegGoalies, setNonRegGoalies] = useState<IAnonymAthlete[]>([])
 
     const [regReferees, setRegReferees] = useState<IAthlete[]>((preferredRole == AthleteRole.Referee) ? [auth.userData.athlete] : [])
     const [nonRegReferees, setNonRegReferees] = useState<IAnonymAthlete[]>([])
 
+    const [statusReport, setStatusReport] = useState<AlertReport | undefined>()
     var errorsToShow = new NewGameFormError();
 
     if (isSuccessRinks) {
@@ -134,8 +137,62 @@ const NewGame = () => {
         return <>{headerTitle}</>
     }
 
+    const addRegPlayer = (athlete: IAthlete) => {
+        // TODO check if player can be added (enough free places)
+        return setRegPlayers(oldAddedRegPlayers => [...oldAddedRegPlayers, athlete])
+    }
+
+    const addRegGoalie = (athlete: IAthlete) => {
+        // TODO check if player can be added (enough free places)
+        return setRegGoalies(oldAddedRegGoalies => [...oldAddedRegGoalies, athlete])
+    }
+    
+    const addRegReferee = (athlete: IAthlete) => {
+        // TODO check if player can be added (enough free places)
+        return setRegReferees(oldAddedRegReferees => [...oldAddedRegReferees, athlete])
+    }
+    
+    const removeRegPlayer = (athleteId: number) => setRegPlayers(oldAddedRegPlayers => oldAddedRegPlayers.filter(p => p.id != athleteId))
+    const removeRegGoalie = (athleteId: number) => setRegGoalies(oldAddedRegGoalies => oldAddedRegGoalies.filter(g => g.id != athleteId))
+    const removeRegReferee = (athleteId: number) => setRegReferees(oldAddedRegReferees => oldAddedRegReferees.filter(r => r.id != athleteId))
+
+    const addNonRegPlayer = (name: string) => {
+        // console.log(name)
+        console.log(nonRegPlayers)
+        if (nonRegPlayers.concat(nonRegGoalies, nonRegReferees).some(p => p.name == name)) {
+            setStatusReport({type: AlertType.warning, msg: `Neregistrovaný hráč ${name} již byl přidán do této hry jako brankář nebo rozhodčí!`})
+        } else {
+            setNonRegPlayers(oldNonRegPlayers => [...oldNonRegPlayers, {name: name, added_by: user.id.toString()}])
+            setStatusReport({type: AlertType.success, msg: `Neregistrovaný hráč ${name} byl úspěšně přidán do utkání!`})
+        }
+    }
+
+    const addNonRegGoalie = (name: string) => {
+        if (nonRegGoalies.concat(nonRegPlayers, nonRegReferees).some(p => p.name == name)) {
+            setStatusReport({type: AlertType.warning, msg: `Neregistrovaný brankář ${name} již byl přidán do této hry jako hráč nebo rozhodčí!`})
+        } else {
+            setNonRegGoalies(oldNonRegGoalies => [...oldNonRegGoalies, {name: name, added_by: user.id.toString()}])
+            setStatusReport({type: AlertType.success, msg: `Neregistrovaný brankář ${name} byl úspěšně přidán do utkání!`})
+        }
+    }
+
+    const addNonRegReferee = (name: string) => {
+        if (nonRegReferees.concat(nonRegPlayers, nonRegGoalies).some(p => p.name == name)) {
+            setStatusReport({type: AlertType.warning, msg: `Neregistrovaný rozhodčí ${name} již byl přidán do této hry jako brankář nebo rozhodčí!`})
+        } else {
+            setNonRegReferees(oldNonRegReferees => [...oldNonRegReferees, {name: name, added_by: user.id.toString()}])
+            setStatusReport({type: AlertType.success, msg: `Neregistrovaný rozhodčí ${name} byl úspěšně přidán do utkání!`})
+        }
+    }
+
+    // Non-registered players do not have any ID (yet), so we need to find them by name
+    const removeNonRegPlayer = (name: string) => setNonRegPlayers(oldAddedNonRegPlayers => oldAddedNonRegPlayers.filter(p => p.name != name))
+    const removeNonRegGoalie = (name: string) => setNonRegGoalies(oldAddedNonRegGoalies => oldAddedNonRegGoalies.filter(g => g.name != name))
+    const removeNonRegReferee = (name: string) => setNonRegReferees(oldAddedNonRegReferees => oldAddedNonRegReferees.filter(r => r.name != name))
+
     return (
         <>
+            {statusReport && <SnackbarAlert input={statusReport} clearingCb={setStatusReport}/> }
             <Header headerContent={newGameHeader()} />
             <VerticalMenu />
             <div className="main-content">
@@ -260,21 +317,21 @@ const NewGame = () => {
                                                 <div className="newGame-basicInfo-estPlayerCntFlex">
                                                     <div className="form-input-flex horizontal">
                                                         {/* <InputLabel content="H"/>  */}
-                                                        <div><PlayerIcon height={20} /></div>
+                                                        <div><PlayerIcon height={36} color='black'/> </div>
                                                         <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setExpPlayers(e.currentTarget.value)}
                                                             type="number" min="0" value={expPlayers} className="short content-center" />
                                                     </div>
                                                     <div className="form-input-flex horizontal">
                                                         {/* <InputLabel content="G"/>  */}
-                                                        <GoalieIcon height={20} />
+                                                        <GoalieIcon height={30} color='black' />
                                                         <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setExpGoalies(e.currentTarget.value)}
                                                             type="number" min="0" value={expGoalies} className="short content-center" />
                                                     </div>
                                                     <div className="form-input-flex horizontal">
                                                         {/* <InputLabel content="R"/> */}
-                                                        <RefereeIcon height={38} />
+                                                        <RefereeIcon height={38} color='black' />
                                                         <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setExpReferees(e.currentTarget.value)}
                                                             type="number" min="0" value={expReferees} className="short content-center" />
@@ -335,8 +392,9 @@ const NewGame = () => {
                                 Hráči v poli
                             </div>
                             <div className="content-inner-row data">
-                                <NewGameParticipants role={AthleteRole.Player} registered={regPlayers} setRegistered={setRegPlayers} 
-                                    nonRegistered={nonRegPlayers} setNonRegistered={setNonRegPlayers} expParticipantsCnt={Number(expPlayers)} />
+                                <NewGameParticipants role={AthleteRole.Player} registered={regPlayers} addRegHandler={addRegPlayer}
+                                    removeRegHandler={removeRegPlayer} nonRegistered={nonRegPlayers} addNonRegHandler={addNonRegPlayer}
+                                    removeNonRegHandler={removeNonRegPlayer} expParticipantsCnt={Number(expPlayers)} />
                             </div>
                         </div>
                         <div className="newGame-helpers availableGroups side">
@@ -351,8 +409,9 @@ const NewGame = () => {
                                 Brankáři
                             </div>
                             <div className="content-inner-row data">
-                                <NewGameParticipants role={AthleteRole.Goalie} registered={regGoalies} setRegistered={setRegGoalies} 
-                                    nonRegistered={nonRegGoalies} setNonRegistered={setNonRegGoalies} expParticipantsCnt={Number(expGoalies)} />
+                                 <NewGameParticipants role={AthleteRole.Goalie} registered={regGoalies} addRegHandler={addRegGoalie}
+                                    removeRegHandler={removeRegGoalie} nonRegistered={nonRegGoalies} addNonRegHandler={addNonRegGoalie}
+                                    removeNonRegHandler={removeNonRegGoalie} expParticipantsCnt={Number(expGoalies)} />
                             </div>
                         </div>
                     </div>
@@ -364,8 +423,9 @@ const NewGame = () => {
                                 Rozhodčí
                             </div>
                             <div className="content-inner-row data">
-                                <NewGameParticipants role={AthleteRole.Referee} registered={regReferees} setRegistered={setRegReferees} 
-                                        nonRegistered={nonRegReferees} setNonRegistered={setNonRegReferees} expParticipantsCnt={Number(expReferees)} />
+                                <NewGameParticipants role={AthleteRole.Referee} registered={regReferees} addRegHandler={addRegReferee}
+                                        removeRegHandler={removeRegReferee} nonRegistered={nonRegReferees} addNonRegHandler={addNonRegReferee}
+                                        removeNonRegHandler={removeNonRegReferee} expParticipantsCnt={Number(expReferees)} />
                             </div>
                         </div>
                     </div>
