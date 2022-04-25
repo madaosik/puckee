@@ -13,7 +13,7 @@ import { useQuery } from "react-query"
 import { fetchIceRinks } from "puckee-common/api"
 import { AthleteBadge } from "../../AthleteBadge"
 import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../../Icons"
-import { NewGameParticipants, NewGameGoalies, NewGameReferees } from "./Attendance"
+import { NewGameParticipants, NewGameGoalies, NewGameReferees, initPlayers } from "./Attendance"
 import SnackbarAlert, { AlertReport, AlertType } from "../../SnackbarAlert"
 
 class NewGameFormError {
@@ -65,7 +65,8 @@ const NewGame = () => {
 
     
 
-    const [regPlayers, setRegPlayers] = useState<IAthlete[]>((preferredRole == AthleteRole.Player) ? [auth.userData.athlete] : [])
+    // const [regPlayers, setRegPlayers] = useState<IAthlete[]>((preferredRole == AthleteRole.Player) ? [auth.userData.athlete] : [])
+    const [regPlayers, setRegPlayers] = useState<IAthlete[]>(initPlayers())
     const [nonRegPlayers, setNonRegPlayers] = useState<IAnonymAthlete[]>([])
     // console.log(nonRegPlayers)
     // console.log("rendering")
@@ -137,19 +138,45 @@ const NewGame = () => {
         return <>{headerTitle}</>
     }
 
+    const isPlaceForRole = (role: AthleteRole) : boolean => {
+        switch (role) {
+            case (AthleteRole.Player):
+                return (regPlayers.length + nonRegPlayers.length) < Number(expPlayers)
+            case (AthleteRole.Goalie):
+                return (regGoalies.length + nonRegGoalies.length) < Number(expGoalies)
+            case (AthleteRole.Referee):
+                return (regReferees.length + nonRegReferees.length) < Number(expReferees)
+            default:
+                throw new Error("Unexpected athlete role has been provided!")
+        }
+    }
+
     const addRegPlayer = (athlete: IAthlete) => {
         // TODO check if player can be added (enough free places)
-        return setRegPlayers(oldAddedRegPlayers => [...oldAddedRegPlayers, athlete])
+        if(isPlaceForRole(AthleteRole.Player)) {
+            return setRegPlayers(oldAddedRegPlayers => [...oldAddedRegPlayers, athlete])
+        } else {
+            setStatusReport({type: AlertType.error, msg: `Hráče ${athlete.name} nelze přidat pro nedostatek kapacity!`})
+        }
+        
     }
 
     const addRegGoalie = (athlete: IAthlete) => {
         // TODO check if player can be added (enough free places)
-        return setRegGoalies(oldAddedRegGoalies => [...oldAddedRegGoalies, athlete])
+        if(isPlaceForRole(AthleteRole.Goalie)) {
+            return setRegGoalies(oldAddedRegGoalies => [...oldAddedRegGoalies, athlete])
+        } else {
+            setStatusReport({type: AlertType.error, msg: `Brankáře ${athlete.name} nelze přidat pro nedostatek kapacity!`})
+        }
     }
     
     const addRegReferee = (athlete: IAthlete) => {
         // TODO check if player can be added (enough free places)
-        return setRegReferees(oldAddedRegReferees => [...oldAddedRegReferees, athlete])
+        if(isPlaceForRole(AthleteRole.Referee)) {
+            return setRegReferees(oldAddedRegReferees => [...oldAddedRegReferees, athlete])
+        } else {
+            setStatusReport({type: AlertType.error, msg: `Rozhodčího ${athlete.name} nelze přidat pro nedostatek kapacity!`})
+        }
     }
     
     const removeRegPlayer = (athleteId: number) => setRegPlayers(oldAddedRegPlayers => oldAddedRegPlayers.filter(p => p.id != athleteId))
@@ -157,11 +184,13 @@ const NewGame = () => {
     const removeRegReferee = (athleteId: number) => setRegReferees(oldAddedRegReferees => oldAddedRegReferees.filter(r => r.id != athleteId))
 
     const addNonRegPlayer = (name: string) => {
-        // console.log(name)
-        console.log(nonRegPlayers)
+        
         if (nonRegPlayers.concat(nonRegGoalies, nonRegReferees).some(p => p.name == name)) {
             setStatusReport({type: AlertType.warning, msg: `Neregistrovaný hráč ${name} již byl přidán do této hry jako brankář nebo rozhodčí!`})
-        } else {
+        } else if (!isPlaceForRole(AthleteRole.Player)) {
+            setStatusReport({type: AlertType.error, msg: `Neregistrovaného hráče ${name} nelze přidat pro nedostatek kapacity!`})
+        } 
+        else {
             setNonRegPlayers(oldNonRegPlayers => [...oldNonRegPlayers, {name: name, added_by: user.id.toString()}])
             setStatusReport({type: AlertType.success, msg: `Neregistrovaný hráč ${name} byl úspěšně přidán do utkání!`})
         }
@@ -170,6 +199,8 @@ const NewGame = () => {
     const addNonRegGoalie = (name: string) => {
         if (nonRegGoalies.concat(nonRegPlayers, nonRegReferees).some(p => p.name == name)) {
             setStatusReport({type: AlertType.warning, msg: `Neregistrovaný brankář ${name} již byl přidán do této hry jako hráč nebo rozhodčí!`})
+        } else if (!isPlaceForRole(AthleteRole.Goalie)) {
+            setStatusReport({type: AlertType.error, msg: `Neregistrovaného brankáře ${name} nelze přidat pro nedostatek kapacity!`})
         } else {
             setNonRegGoalies(oldNonRegGoalies => [...oldNonRegGoalies, {name: name, added_by: user.id.toString()}])
             setStatusReport({type: AlertType.success, msg: `Neregistrovaný brankář ${name} byl úspěšně přidán do utkání!`})
@@ -179,6 +210,8 @@ const NewGame = () => {
     const addNonRegReferee = (name: string) => {
         if (nonRegReferees.concat(nonRegPlayers, nonRegGoalies).some(p => p.name == name)) {
             setStatusReport({type: AlertType.warning, msg: `Neregistrovaný rozhodčí ${name} již byl přidán do této hry jako brankář nebo rozhodčí!`})
+        } else if (!isPlaceForRole(AthleteRole.Referee)) {
+            setStatusReport({type: AlertType.error, msg: `Neregistrovaného rozhodčího ${name} nelze přidat pro nedostatek kapacity!`})
         } else {
             setNonRegReferees(oldNonRegReferees => [...oldNonRegReferees, {name: name, added_by: user.id.toString()}])
             setStatusReport({type: AlertType.success, msg: `Neregistrovaný rozhodčí ${name} byl úspěšně přidán do utkání!`})
@@ -205,10 +238,10 @@ const NewGame = () => {
                                 Základní údaje
                             </div>
                             <div className="content-inner-row data">
-                                <div className="newGame-basicInfo-rootBox">
+                                <div className="d-flex flex-column h-100">
                                     {/* ------------------------------ */}
                                     {/* First row in basic info */}
-                                    <div className="newGame-basicInfo-row">
+                                    <div className="d-flex flex-row justify-content-between newGame-basicInfo-row">
                                         <div className="newGame-basicInfo-col flexStart">
                                             <div className="form-input-flex">
                                                 <InputLabel content="Titulek utkání" />
@@ -236,7 +269,7 @@ const NewGame = () => {
                                     {/* ------------------------------ */}
                                     {/* ------------------------------ */}
                                     {/* Second row in basic info */}
-                                    <div className="newGame-basicInfo-row">
+                                    <div className="d-flex flex-row justify-content-between pt-3 newGame-basicInfo-row">
                                         <div className="newGame-basicInfo-col">
                                             <div className="newGame-basicInfo-row detailed">
                                                 <div className="form-input-flex">
@@ -311,8 +344,8 @@ const NewGame = () => {
                                     {/* ------------------------------ */}
                                     {/* ------------------------------ */}
                                     {/* Third row in basic info */}
-                                    <div className="newGame-basicInfo-row last">
-                                        <div className="newGame-basicInfo-row last subRow">
+                                    <div className="d-flex flex-column justify-content-evenly newGame-basicInfo-row last">
+                                        <div className="d-flex flex-row justify-content-between last subRow">
                                             <div className="newGame-basicInfo-col verticalEnd">
                                                 <div className="newGame-basicInfo-estPlayerCntFlex">
                                                     <div className="form-input-flex horizontal">

@@ -18,18 +18,19 @@ export async function fetchAthletes ({queryKey, pageParam = 1} : FetchAllPlayers
     }
 }
 
-export async function searchAthleteByName (name: string, role: AthleteRole, requestingId: number)
+export async function searchAthleteByNameAndRole (name: string, role: AthleteRole, requestingId: number)
 {
   const response = await axios.get(
-        `${API_BASE}/athlete/search?name=${name}&role_id=${role}&requesting_id=${requestingId}`,
+        `${API_BASE}/athlete/search?name=${name}&role_id=${role}&requesting_id=${requestingId}&followers_only=1&opt_out_mode=1`,
         axiosConfig
         )
   return response.data
 }
 
 
-export default function useAthleteSearch(name: string, role: AthleteRole, requestingId: number) {
-    return useQuery(["game", name, role, requestingId], () => searchAthleteByName(name, role, requestingId),
+
+export default function useAthleteFollowersSearch(name: string, role: AthleteRole, requestingId: number) {
+    return useQuery(["game", name, role, requestingId], () => searchAthleteByNameAndRole(name, role, requestingId),
               {
                 refetchOnWindowFocus: false,
                 enabled: Boolean(name)
