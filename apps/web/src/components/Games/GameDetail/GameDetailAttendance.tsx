@@ -40,7 +40,7 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                 </div>
                 {/* Goalies and referees row */}
                 <div className="d-flex flex-row mt-2 gameDetail-attendance-goaliesReferees">
-                    <div className="d-flex flex-row justify-content-evenly gameDetail-goalieSection">
+                    <div className="d-flex flex-row justify-content-evenly w-50">
                         {/* Column containing large goalie icon */}
                         <div className="d-flex flex-column justify-content-center ms-2">
                             <GameRoleAttendanceSummary role={AthleteRole.Goalie} game={game}/>
@@ -58,7 +58,7 @@ export default function GameDetailAttendance ({ game }: GameDetailBasicInfoProps
                         </div>
                     </div>
                     {/* Column containing large referee icon */}
-                    <div className="d-flex flex-row justify-content-evenly gameDetail-refereeSection">
+                    <div className="d-flex flex-row justify-content-evenly w-50">
                         <div className="d-flex flex-column justify-content-center">
                             <GameRoleAttendanceSummary role={AthleteRole.Referee} game={game}/>
                         </div>

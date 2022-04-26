@@ -28,7 +28,7 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                     {/* Prvni radek se tremi sloupci (cas, organizator, pozvanky*/}
                     <div className="d-flex flex-row justify-content-between gameDetail-basicInfo-timeDateRemarks">
                         <div className='d-flex flex-row justify-content-evenly gameDetail-basicInfo-orgDetails'>
-                            <div className='d-flex flex-column justify-content-start pt-1 gameDetail-basicInfo-dateTime'>
+                            <div className='d-flex flex-column justify-content-start pt-1 flex-3'>
                                 <div className='d-flex flex-row mt-1'>
                                     <div className='me-2'><MdDateRange size={24}/></div>
                                     <div>{game.dateString({year: 'numeric'})}</div>
@@ -44,8 +44,8 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                                     <div>{isSuccess ? data.name : "Načítám"}</div>
                                 </div>
                             </div>
-                            <div className='d-flex flex-column justify-content-start gameDetail-basicInfo-orgLoc'>
-                                <div className='d-flex flex-row gameDetail-orgSection'>
+                            <div className='d-flex flex-column justify-content-start flex-4'>
+                                <div className='d-flex flex-row mh-100'>
                                     <div className='pt-2 me-2'><MdOutlineManageAccounts size={28}/></div>
                                     <div className="d-flex flex-column flex-wrap gameDetail-orgBadges">
                                         {game.organizers.map(o => <div className="mb-1 me-1"><AthleteBadge registered={true} athlete={o}/></div>)}
@@ -58,7 +58,7 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                             </div>
                         </div>
                         {/* Treti sloupec (poznamky) */}
-                        <div className="d-flex flex-row justify-content-start me-1 gameDetail-basicInfo-remarks">
+                        <div className="d-flex flex-row justify-content-start me-1 flex-4">
                             <div className="d-flex flex-column pt-2 justify-content-start">
                                 <div className='me-1'>
                                     <AiOutlineFileText size={24}/>
@@ -77,7 +77,7 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                             <div><SkillPucks skillLevel={game.exp_skill} puckSize={24} iconKey={game.id + 'detail-exp-skill'}/></div>
                         </div>
                         {/* Druhy sloupec (organizatori) */}
-                        <div className="d-flex flex-row justify-content-evenly gameDetail-basicInfo-attendanceSec">
+                        <div className="d-flex flex-row justify-content-evenly flex-5">
                             <div className="d-flex flex-row">
                                 <div className="d-flex flex-column justify-content-center me-2"><PlayerIcon color="black" height={40}/></div>
                                 <div className='d-flex flex-column justify-content-center'>{game.players.length + game.anonym_players.length}/{game.exp_players_cnt}</div>
@@ -92,7 +92,7 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                             </div>
                         </div>
                         {/* Treti sloupec (poznamky) */}
-                        <div className="d-flex flex-column align-items-center gameDetail-basicInfo-skill">
+                        <div className="d-flex flex-column align-items-center flex-3">
                             <div>Reálná úroveň</div>
                             <div><SkillPucks skillLevel={realGameSkill} puckSize={24} iconKey={game.id + 'detail-exp-skill'}/></div>
                         </div>

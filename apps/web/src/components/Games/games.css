@@ -99,28 +99,23 @@
     color: darkgray;
 }
 
-.newGame-basicInfo-row {
-    flex: 1;
-    padding-bottom: 10px;
+.bottom-border{
+    /* flex: 1; */
     border-bottom: 1px solid var(--app-color-box-headers);
 }
 
-.newGame-basicInfo-col {
-    width: 48%;
-    display: flex;
-    flex-flow: column;
-    justify-content: space-evenly;
-}
 
 .newGame-basicInfo-col.flexStart {
     justify-content: flex-start;
 }
 
-/* .newGame-basicInfo-col.flexStart.fullHeight {
-    justify-content: flex-start;
-    height: 100%;
-} */
+.input-group.width-40 {
+    width: 40%;
+}
 
+.dateForm input{
+    max-width: 160px;
+}
 
 .newGame-basicInfo-row.last {
     border-bottom: 0px;
@@ -129,8 +124,6 @@
 
 .newGame-basicInfo-row.last.subRow {
     border-bottom: 0px;
-    /* flex-flow: row;
-    justify-content: space-between; */
     height: 48%;
 
 }
@@ -156,16 +149,8 @@
     height: 100%;
 }
 
-.newGame-basicInfo-col.flexStart textarea {
-    flex: 1 0 auto;
-}
-
-/* Players, goalies and referees layout */
-
 .player-split-upper {
-    /* background-color: yellow; */
     min-height: 200px;
-    /* overflow-y: auto; */
 }
 
 .player-split-upper.goalieRefs {
@@ -182,18 +167,6 @@
 
 .form-group.no-mb {
     margin-bottom: 0px;
-}
-
-.form-input-flex {
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-.expand {
-    /* display: ; */
-    flex: 1
 }
 
 .playerContent {
@@ -220,24 +193,6 @@ label.form-input-label {
 
 .form-input-input {
     flex: 3;
-}
-/* 
-.newGame-playerBadges {
-    flex: 1 0 auto;
-} */
-
-/* .expPlayerCntBox {
-    display: flex;
-    flex-flow: row;
-    width: 30%;
-    justify-content: space-between;
-} */
-
-.newGame-basicInfo-col.verticalEnd {
-    justify-content: flex-end;
-    /* background-color: yellow; */
-    /* height: 100%; */
-    /* width: 100%; */
 }
 
 .newGame-basicInfo-estPlayerCntFlex {
@@ -293,34 +248,27 @@ input.form-control.shadow.shorter {
 .itemInList-col.nameAndExpSkill {
     align-items: flex-start;
     flex: 3;
-    /* width: 180px; */
     min-width: 190px;
     font-size: 0.85rem;
     font-weight: bold;
-    /* background-color: yellow; */
 }
 
 .itemInList-col.dateTimeLoc {
-    /* width: 145px; */
-    /* min-width: 150px; */
     display: flex;
     flex: 5;
     flex-flow: column;
     justify-content: space-evenly;
-    /* background-color: red; */
 }
 
 .itemInList-col.dateTimeLoc-row {
     display: flex;
     flex-flow: row;
     justify-content: flex-start;
-    /* align-items: flex-start; */
     margin: 0px;
     width: 100%;
 }
 
 .itemInList-col.dateTimeLoc-row.icon {   
-    /* width: 5%; */
     margin-right: 0.1rem;
     flex: 1
 }
@@ -346,8 +294,6 @@ input.form-control.shadow.shorter {
     flex-flow: row;
     flex: 5;
     min-width: 140px;
-    /* width: 130px; */
-    /* background-color: blue; */
 }
 
 .itemInList-col.attendanceCnt {
@@ -383,8 +329,6 @@ input.form-control.shadow.shorter {
     min-width: 80px;
     flex: 2;
     min-height: 100%;
-    /* background-color: aqua; */
-    /* flex: 1 */
 }
 
 .gameListAttending {
@@ -407,12 +351,10 @@ input.form-control.shadow.shorter {
 
 .itemInList-col.detailArrow {
     flex:1;
-    /* background-color: violet; */
 }
 
 .itemInList-col.detailArrow:hover {
     color: var(--app-color-darkest);
-    /* border: 1px solid var(--app-color-darkest); */
 }
 
 .itemInList-col a {
@@ -437,12 +379,6 @@ input.form-control.shadow.shorter {
     color: black;
     font-weight: bold;
 }
-
-/* .itemInList-skillPucks {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-} */
 
 .gameDetail.attendanceStatus {
     display: flex;
@@ -472,23 +408,13 @@ input.form-control.shadow.shorter {
     padding-bottom: 10px;
 }
 
-/* .content-row.gameDetail-attendeesChat { */
-    /* min-height: 500px; */
-/* } */
-
 .gameDetail-attendees {
     width: 59%;
-    /* flex: 1; */
-    /* height: 100%; */
 }
 
 .gameDetail-chat {
     width: 40%;
 }
-
-/* .gameDetail-attendanceChatWrapper { */
-    /* min-height: 750px; */
-/* } */
 
 .gameDetail-chatContent {
     max-height: 850px;
@@ -501,13 +427,10 @@ input.form-control.shadow.shorter {
 }
 
 .gameDetail-attendeesContent {
-    /* flex: auto; */
     max-height: 850px;
-    /* min-height: 500px; */
     flex: 1;
     display: flex;
     flex-direction: column;
-    /* overflow-y: auto; */
 }
 
 .gameDetail-players-box {
@@ -526,26 +449,6 @@ input.form-control.shadow.shorter {
     flex: 7;
     height: 100px;
     max-height: 140px;
-    /* background-color: cyan; */
-}
-
-.gameDetail-basicInfo-remarks {
-    /* margin-top: 1rem; */
-    flex: 4;
-}
-
-.gameDetail-basicInfo-dateTime {
-    flex: 3;
-    /* background-color: rebeccapurple; */
-}
-
-.gameDetail-orgSection {
-    max-height: 100%;
-}
-
-.gameDetail-basicInfo-orgLoc {
-    flex: 4;
-    /* background-color: cyan; */
 }
 
 .gameDetail-basicInfo-remarksContent {
@@ -554,15 +457,6 @@ input.form-control.shadow.shorter {
     overflow-y: auto;
 }
 
-.gameDetail-basicInfo-attendanceSec {
-    flex: 5;
-    /* background-color: red; */
-}
-
-.gameDetail-basicInfo-skill {
-    flex: 3;
-    /* background-color: aqua; */
-}
 
 .gameDetail-attendeeCntDesc {
     font-size: 1.8rem;
@@ -571,13 +465,6 @@ input.form-control.shadow.shorter {
     text-align: center;
 }
 
-.attendeeDetails-leftCol {
-    flex: 1
-}
-
-.attendeeDetails-rightCol {
-    flex: 8
-}
 
 .gameDetail-attendance-goaliesReferees {
     min-height: 250px;
@@ -585,24 +472,8 @@ input.form-control.shadow.shorter {
     overflow-y: auto;
 }
 
-.gameDetail-goalieSection {
-    width: 50%;
-}
-
-.gameDetail-refereeSection {
-    width: 50%;
-}
-
 .gameDetail-attendeeHeading {
     font-weight: bold;
     font-size: 0.9;
     color: darkgray
 }
-
-/* } */
-/* 
-.content-row.gameDetail-basicInfo {
-    background-color: aqua;
-}
- */
-/* .content-row.gameDetail-  */

@@ -102,7 +102,7 @@ export default function NewGameParticipants( {
 
     return (
         <div className="d-flex flex-row justify-content-between newGame-basicInfo-rootBox h-100 w-100">
-            <div className="d-flex flex-column justify-content-center attendeeDetails-leftCol">
+            <div className="d-flex flex-column justify-content-center flex-1">
                 <GameRoleAttendanceSummary role={role} cnt={registered.length + nonRegistered.length} totalCnt={expParticipantsCnt}/>
             </div>
 

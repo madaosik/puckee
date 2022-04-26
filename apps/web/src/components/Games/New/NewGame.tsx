@@ -241,9 +241,9 @@ const NewGame = () => {
                                 <div className="d-flex flex-column h-100">
                                     {/* ------------------------------ */}
                                     {/* First row in basic info */}
-                                    <div className="d-flex flex-row justify-content-between newGame-basicInfo-row">
-                                        <div className="newGame-basicInfo-col flexStart">
-                                            <div className="form-input-flex">
+                                    <div className="d-flex flex-row justify-content-between pb-3 bottom-border">
+                                        <div className="d-flex flex-column justify-content-between flex-1 me-3">
+                                            <div className="d-flex flex-column justify-content-start mb-2">
                                                 <InputLabel content="Titulek utkání" />
                                                 <FormInput
                                                     onChange={(e: React.FormEvent<HTMLInputElement>) => updateGameTitle(e.currentTarget.value)}
@@ -258,152 +258,173 @@ const NewGame = () => {
                                                 <InputLabel content="Soukromé utkání"/>
                                             </div> */}
                                         </div>
-                                        <div className="newGame-basicInfo-col flexStart">
-                                            <label style={{ color: 'darkgrey' }}>Poznámky</label>
-                                            <FormTextArea
+                                        <div className="d-flex flex-column justify-content-start flex-1 ms-3">
+                                            <InputLabel content="Poznámky"/>
+                                            <FormTextArea className="h-100"
                                                 onChange={(e: React.FormEvent<HTMLTextAreaElement>) => setRemarks(e.currentTarget.value)}
                                                 value={remarks} />
+  
                                         </div>
                                     </div>
                                     {/* End of first row in basic info */}
                                     {/* ------------------------------ */}
                                     {/* ------------------------------ */}
                                     {/* Second row in basic info */}
-                                    <div className="d-flex flex-row justify-content-between pt-3 newGame-basicInfo-row">
-                                        <div className="newGame-basicInfo-col">
-                                            <div className="newGame-basicInfo-row detailed">
-                                                <div className="form-input-flex">
+                                    <div className="d-flex flex-column justify-content-evenly pt-3 pb-3 bottom-border">
+                                        {/* First subrow */}
+                                        <div className="d-flex flex-row mb-3 flex-1">
+                                            <div className="d-flex flex-row flex-1 me-3">
+                                                <div className="d-flex flex-column justify-content-start mb-2">
                                                     <InputLabel content="Místo konání" />
                                                     <div className="form-input-input"><GameLocSelect /></div>
                                                 </div>
                                             </div>
-                                            <div className="newGame-basicInfo-row detailed">
-                                                <div className="newGame-basicInfo-row detailed input">
-                                                    <div className="form-input-flex">
-                                                        <InputLabel content="Cena pronájmu ledu" />
-                                                        <div className="input-group">
-                                                            <FormInput type="number" min="0" value={pitchPrice} className="content-right"
-                                                                onChange={(e: React.FormEvent<HTMLInputElement>) => setPitchPrice(e.currentTarget.value)} />
-                                                            <div className="input-group-append">
-                                                                <span className="input-group-text shadow rounded">Kč/h</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="newGame-basicInfo-row detailed input">
-                                                    <div className="form-input-flex">
-                                                        <InputLabel content="Ostatní náklady" />
-                                                        <div className="input-group">
-                                                            <FormInput type="number" min="0" value={otherCosts} className="content-right"
-                                                                onChange={(e: React.FormEvent<HTMLInputElement>) => setOtherCosts(e.currentTarget.value)} />
-                                                            <div className="input-group-append">
-                                                                <span className="input-group-text shadow rounded">Kč</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="newGame-basicInfo-col">
-                                            <div className="newGame-basicInfo-row detailed">
-                                                <div className="newGame-basicInfo-row detailed input">
-                                                    <div className="form-input-flex">
+                                            <div className="d-flex flex-row flex-1 ms-3">
+                                                <div className="d-flex flex-column justify-content-start mb-2 me-3 flex-1 dateForm">
                                                         <InputLabel content="Datum" />
                                                         <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setGameDate(e.currentTarget.value)}
                                                             type="date" value={gameDate} />
-                                                    </div>
                                                 </div>
-                                                <div className="newGame-basicInfo-row detailed input">
-                                                    {/* opakovani utkani */}
+                                                <div className="d-flex flex-column justify-content-start mb-2 ms-3 flex-2">
+                                                    {/* opakovani */}
                                                 </div>
                                             </div>
-                                            <div className="newGame-basicInfo-row detailed">
-                                                <div className="newGame-basicInfo-row detailed input">
-                                                    <div className="form-input-flex">
-                                                        <InputLabel content="Čas začátku" />
+                                        </div>
+                                        {/* Second subrow */}
+                                        <div className="d-flex flex-row flex-1">
+                                            <div className="d-flex flex-row flex-1 me-3">
+                                                <div className="d-flex flex-column justify-content-between mb-2 me-3">
+                                                    <InputLabel content="Cena pronájmu ledu" />
+                                                    <div className="input-group">
+                                                        <FormInput type="number" min="0" value={pitchPrice} className="content-right"
+                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setPitchPrice(e.currentTarget.value)} />
+                                                        <div className="input-group-append">
+                                                            <span className="input-group-text shadow rounded">Kč/h</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="d-flex flex-column justify-content-between mb-2 ms-3">
+                                                    <InputLabel content="Ostatní náklady" />
+                                                    <div className="input-group">
+                                                        <FormInput type="number" min="0" value={otherCosts} className="content-right"
+                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setOtherCosts(e.currentTarget.value)} />
+                                                        <div className="input-group-append">
+                                                            <span className="input-group-text shadow rounded">Kč</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="d-flex flex-row flex-1 ms-3">
+                                                <div className="d-flex flex-column justify-content-between flex-1 mb-2 me-3">
+                                                    <InputLabel content="Čas začátku" />
+                                                    <div className="input-group">
                                                         <FormInput
                                                             onChange={(e: React.FormEvent<HTMLInputElement>) => setStartTime(e.currentTarget.value)}
                                                             type="time" value={startTime} step="600" />
                                                         {errors.startTime}
                                                     </div>
                                                 </div>
-                                                <div className="newGame-basicInfo-row detailed input">
-                                                    <div className="form-input-flex">
+                                                <div className="d-flex flex-column justify-content-between flex-1 mb-2 ms-3">
                                                         <InputLabel content="Čas konce" />
-                                                        <FormInput
-                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => updateEndTime(e.currentTarget.value)}
-                                                            type="time" value={endTime} step="600" />
-                                                        {errors.endTime}
-                                                    </div>
+                                                        <div className="input-group">
+                                                            <FormInput
+                                                                onChange={(e: React.FormEvent<HTMLInputElement>) => updateEndTime(e.currentTarget.value)}
+                                                                type="time" value={endTime} step="600" />
+                                                            {errors.endTime}
+                                                        </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    {/* End of second row in basic info */}
-                                    {/* ------------------------------ */}
-                                    {/* ------------------------------ */}
-                                    {/* Third row in basic info */}
-                                    <div className="d-flex flex-column justify-content-evenly newGame-basicInfo-row last">
-                                        <div className="d-flex flex-row justify-content-between last subRow">
-                                            <div className="newGame-basicInfo-col verticalEnd">
-                                                <div className="newGame-basicInfo-estPlayerCntFlex">
-                                                    <div className="form-input-flex horizontal">
-                                                        {/* <InputLabel content="H"/>  */}
-                                                        <div><PlayerIcon height={36} color='black'/> </div>
-                                                        <FormInput
-                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setExpPlayers(e.currentTarget.value)}
-                                                            type="number" min="0" value={expPlayers} className="short content-center" />
+
+
+                                    <div className="d-flex flex-column justify-content-evenly flex-1">
+                                        <div className="d-flex flex-row justify-content-center align-items-start mt-2 flex-1">
+                                            {/* First half of the row for referees and goalies */}
+                                            <div className="d-flex flex-row justify-content-evenly h-100 me-3 flex-1">
+                                                <div className="d-flex flex-column justify-content-center">
+                                                    <div className="mb-1">
+                                                        <InputLabel content="Požadované speciální role a jejich odměny" />
                                                     </div>
-                                                    <div className="form-input-flex horizontal">
-                                                        {/* <InputLabel content="G"/>  */}
-                                                        <GoalieIcon height={30} color='black' />
-                                                        <FormInput
-                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setExpGoalies(e.currentTarget.value)}
-                                                            type="number" min="0" value={expGoalies} className="short content-center" />
-                                                    </div>
-                                                    <div className="form-input-flex horizontal">
-                                                        {/* <InputLabel content="R"/> */}
-                                                        <RefereeIcon height={38} color='black' />
-                                                        <FormInput
-                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setExpReferees(e.currentTarget.value)}
-                                                            type="number" min="0" value={expReferees} className="short content-center" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="newGame-basicInfo-col verticalEnd">
-                                                <div className="flex-hCenter">
-                                                    <div className="reduceToHalfFlex">
-                                                        <div className="form-input-flex">
-                                                            <div className="columnCenterFlex">
-                                                                <InputLabel content="Odhadovaná cena/hráč" />
-                                                            </div>
-                                                            <div className="input-group">
-                                                                <FormInput type="number" min="0" value={expPrice} className="content-right"
-                                                                    onChange={(e: React.FormEvent<HTMLInputElement>) => setExpPrice(e.currentTarget.value)} />
-                                                                <div className="input-group-append">
-                                                                    <span className="input-group-text shadow rounded">Kč</span>
+                                                    <div>
+                                                        <div className="d-flex flex-row justify-content-between flex-1">
+                                                            {/* Goalies */}
+                                                            <div className="d-flex flex-row justify-content-evenly me-2 flex-2">
+                                                                <div className="d-flex flex-column justify-content-center align-items-center flex-1">
+                                                                    <GoalieIcon height={45} color='black'/>
                                                                 </div>
+                                                                <div className="d-flex flex-column ms-2 flex-2">
+                                                                    <div className="mb-1 input-group">
+                                                                        <FormInput type="number" min="0" value={expGoalies} className="content-right"
+                                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setExpGoalies(e.currentTarget.value)} />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text shadow rounded">ks</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="mt-1 input-group">
+                                                                        <FormInput type="number" min="0" value={goalieRenum} className="content-right"
+                                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setGoalieRenum(e.currentTarget.value)} />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text shadow rounded">Kč</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            {/* Referees */}
+                                                            <div className="d-flex flex-row justify-content-between ms-2 flex-2">
+                                                                <div className="d-flex flex-column justify-content-evenly flex-1">
+                                                                    <RefereeIcon height={45} color='black' />
+                                                                </div>
+                                                                <div className="d-flex flex-column flex-2 ms-2">
+                                                                    <div className="mb-1 input-group">
+                                                                        <FormInput type="number" min="0" value={expReferees} className="content-right"
+                                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setExpReferees(e.currentTarget.value)} />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text shadow rounded">ks</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className="input-group mt-1">
+                                                                        <FormInput type="number" min="0" value={refRenum} className="content-right"
+                                                                            onChange={(e: React.FormEvent<HTMLInputElement>) => setRefRenum(e.currentTarget.value)} />
+                                                                        <div className="input-group-append">
+                                                                            <span className="input-group-text shadow rounded">Kč</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>  
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {/* Second half of the row for players */}
+                                            <div className="d-flex flex-column justify-content-start align-items-center h-100 ms-3">
+                                                <div className="d-flex flex-column justify-content-start flex-2">
+                                                    <label style={{color: 'darkgrey'}}>Odhadovaná cena pro hráče</label>
+                                                </div>
+                                                <div className="d-flex flex-row justify-content-center flex-3">
+                                                    <div>
+                                                        <PlayerIcon height={45} color='black' />
+                                                    </div>
+                                                    <div className="input-group width-40">
+                                                            <FormInput type="number" min="0" value={expPrice} className="content-right"
+                                                                onChange={(e: React.FormEvent<HTMLInputElement>) => setExpPrice(e.currentTarget.value)} />
+                                                            <div className="input-group-append">
+                                                                <span className="input-group-text shadow rounded">Kč</span>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="newGame-basicInfo-row last subRow pucks">
-                                            <div className="form-input-flex">
-                                                <InputLabel content="Očekávaná úroveň" />
-                                                {/* <div className="newGame-basicInfo-pucksHeading">
-                                                    <div className="noFormLabel"></div>
-                                                </div> */}
-                                                <div className="form-input-input">
+                                        <div className="d-flex flex-row justify-content-center flex-1">
+                                            <div className="d-flex flex-column justify-content-center align-items-center mb-2">
+                                                 <label style={{color: 'darkgrey'}}>Očekávaná úroveň</label>
+                                                <div className="d-flex flex-column justify-content-center">
                                                     <SkillPucksSlider currentSkill={skillIndex} skillLevelCb={updateSkillCb} puckSize={40} iconKey={"new-game-skill"} />
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    {/* End of third row in basic info */}
-                                    {/* ------------------------------ */}
                                 </div>
                             </div>
                         </div>
