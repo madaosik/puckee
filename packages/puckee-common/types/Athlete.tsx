@@ -9,8 +9,23 @@ export enum AthleteRole {
   Organizer
 }
 
+export enum AthleteRoleCZ {
+  INVALID,
+  User,
+  Player = "hráč",
+  Goalie = "brankář",
+  Referee = "rozhodčí",
+}
+
 export type SelectedAthleteRole = {value: number, label: string}
 export type AthleteRoleOption = SelectedAthleteRole | unknown
+
+
+export interface IGameAnonymParticipantsIDAPI {
+  athleteName?: string
+  athleteId?: number
+}
+
 
 type AthleteRoleType = {
   id: number

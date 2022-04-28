@@ -1,4 +1,5 @@
 import Tooltip from '@mui/material/Tooltip'
+import { NOTIFICATION, useNotifications } from 'puckee-common/context/NotificationsContext'
 import { AthleteRole, Game } from 'puckee-common/types'
 import React, { SVGProps } from 'react'
 import { Link } from 'react-router-dom'
@@ -13,7 +14,15 @@ interface RoleSelectorProps {
 
 export const RoleIconSelector = ( { game, role, RoleIcon, rememberSelectedCb,  isInvertedColor} : RoleSelectorProps ) => {
   const isFull = game.isFullForRole(role)
-  const selectorCb = () => isFull ? console.log(`Game ${game.name} is full!`) : rememberSelectedCb(role)
+  const { setNotification } = useNotifications()
+
+  const selectorCb = () => {
+    if (isFull) {
+      setNotification({message: `Pro roli '${AthleteRole[role]}' už na utkání není místo!`, variant: NOTIFICATION.ALERT, timeout: 4000})
+    } else {
+      rememberSelectedCb(role)
+    }
+  }
 
   const renderIcon = () : JSX.Element => {
     if (isFull) {

@@ -28,7 +28,7 @@ export const FormTextArea  = ({ className, ...props } : any )  => {
     )
 }
 
-export const InputLabel = ( { content, ...props } : any) => <label {...props} className="form-input-label">{content}</label>
+export const InputLabel = ( { content, ...props } : any) => <label {...props} className="form-input-label flex-none">{content}</label>
 
 interface ButtonProps {
     ref?: (node?: Element | null | undefined) => void,

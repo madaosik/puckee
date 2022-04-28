@@ -17,7 +17,7 @@ interface ChangeablePuckProps extends PuckProps {
 export const Puck = ( {size, active, puckKey, index} : PuckProps ) => {
     return (
         <FaHockeyPuck size={size}
-                    color={active ? "#000000" : "#dcdcdc"  }
+                    color={active ? "#002D63" : "#dcdcdc"  }
                     key={puckKey + ":level-" + index}
                     />
     )
@@ -26,7 +26,7 @@ export const Puck = ( {size, active, puckKey, index} : PuckProps ) => {
 export const ChangeablePuck = ( {onClickCb, ...props} : ChangeablePuckProps ) => {
     return (
             <FaHockeyPuck size={props.size}
-                        color={props.active ? "#000000" : "#dcdcdc" }
+                        color={props.active ? "#002D63" : "#dcdcdc" }
                         key={props.puckKey + ":level-" + props.index}
                         onClick={() => onClickCb(props.index)}/>
     )

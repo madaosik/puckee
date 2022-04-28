@@ -1,5 +1,5 @@
-import React, { useEffect } from "react"
-import { Link } from "react-router-dom"
+import React, { useEffect, useState } from "react"
+import { Link, useLocation } from "react-router-dom"
 import { Button } from "../FormElements"
 import { GameFilters } from "./GameFilters"
 import { fetchGames, fetchIceRinks } from "puckee-common/api";
@@ -12,7 +12,10 @@ import { Loading } from "../../pages";
 import { Header } from "../Header";
 import VerticalMenu from "../VerticalMenu";
 
-const Games : React.FC = () => {
+
+export default function Games ()
+{
+    const location = useLocation()
     var rinks : IceRink[] | undefined = undefined
     const { error: errorRinks, data: dataRinks, isSuccess: isSuccessRinks }
         = useQuery("icerink", fetchIceRinks);
@@ -38,12 +41,9 @@ const Games : React.FC = () => {
         }
       }, [inView])
 
+
     if (isSuccessRinks) {
         rinks = (dataRinks as IIceRink[]).map((r : IIceRink) => (new IceRink().deserialize(r)))
-    }
-
-    const getRink = (location_id : number) => {
-        return 
     }
 
     return (
@@ -128,5 +128,3 @@ const Games : React.FC = () => {
             </>
     )
 }
-
-export default Games

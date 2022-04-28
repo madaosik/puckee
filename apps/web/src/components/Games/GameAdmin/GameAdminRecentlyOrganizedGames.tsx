@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function RecentlyOrganizedGames (){
+export default function GameAdminRecentlyOrganizedGames (){
     return (
         <div className="content-inner-box">
                <div className="content-inner-row heading helper">

@@ -1,4 +1,4 @@
-import { AnonymAthlete, Athlete, AthleteType, IAnonymAthlete, IAthlete, instanceOfAnonymAthlete } from "puckee-common/types";
+import { AnonymAthlete, Athlete, AthleteRole, AthleteType, IAnonymAthlete, IAthlete, instanceOfAnonymAthlete } from "puckee-common/types";
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import Avatar from '@mui/material/Avatar'
@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 
 interface AthleteBadgeProps {
     athlete: AthleteType
+    role: AthleteRole
     registered: boolean
     showFollow: boolean
 }
@@ -50,11 +51,11 @@ export function AthleteBadge ( {athlete, registered, showFollow} : AthleteBadgeP
 // 
 
 interface RemovableAthleteBadgeProps extends AthleteBadgeProps {
-    removeReg?: (id: number) => void
-    removeNonReg?: (name: string) => void
+    removeReg?: (id: number, role: AthleteRole) => void
+    removeNonReg?: (name: string, role: AthleteRole) => void
 }
 
-export function RemovableAthleteBadge( { athlete, showFollow, registered, removeReg, removeNonReg }: RemovableAthleteBadgeProps) {
+export function RemovableAthleteBadge( { athlete, showFollow, role, registered, removeReg, removeNonReg }: RemovableAthleteBadgeProps) {
     // var removeCbParam : {id? : number, name? : string}
     // athlete.id ? removeCbParam = {id: athlete.id} : removeCbParam = {name: athlete.name}
 
@@ -75,13 +76,13 @@ export function RemovableAthleteBadge( { athlete, showFollow, registered, remove
     const RemoveBadgeButton = ( { children } : AthleteBadgeRemoveButtonProps ) => {
         if (registered) {
             return (
-                <div onClick={() => removeReg!(athlete.id as number)}>
+                <div onClick={() => removeReg!(athlete.id as number, role)}>
                     {children}
                 </div>
             )
         } else {
             return (
-                <div onClick={() => removeNonReg!(athlete.name as string)}>
+                <div onClick={() => removeNonReg!(athlete.name as string, role)}>
                     {children}
                 </div>
             )

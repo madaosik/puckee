@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function AvailableGroups ()
+export default function GameAdminAvailableGroups ()
 {
     return (
         <div className="content-inner-box">

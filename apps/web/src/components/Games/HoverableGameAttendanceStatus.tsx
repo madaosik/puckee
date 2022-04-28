@@ -7,6 +7,7 @@ import { re } from "../../../node_modulesOLD/semver/internal/re"
 import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
 import { queryClient } from "../../../App"
 import { Button } from "../FormElements"
+import { NOTIFICATION, useNotifications } from "puckee-common/context/NotificationsContext"
 
 interface HoverableGameAttendanceStatusProps {
     game: Game
@@ -19,6 +20,7 @@ interface HoverableGameAttendanceStatusProps {
 export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game, user, joinBtnClass } : HoverableGameAttendanceStatusProps) => {
     const [isHovered, setIsHovered] = useState(false)
     const [gameRole, setGameRole] = useState<AthleteRole | undefined>(game.participantRole(user))
+    const { setNotification } = useNotifications()
 
 
     let config = {
@@ -36,6 +38,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game,
                 queryClient.invalidateQueries('games')
                 queryClient.invalidateQueries(['game', game.id.toString()])
                 setGameRole(parseInt(response.data.role_id))
+                setNotification({message: `Byl jsi úspěšně přihlášen na utkání '${game.name}' jako '${AthleteRole[response.data.role_id]}!`, variant: NOTIFICATION.SUCCESS, timeout: 4000})
             },
             onError: (error) => {
                 console.error(error)
@@ -51,9 +54,11 @@ export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game,
                 queryClient.invalidateQueries('games')
                 queryClient.invalidateQueries(['game', game.id.toString()])
                 setGameRole(undefined)
+                setNotification({message: `Odhlášení z utkání '${game.name}' proběhlo úspěšně`, variant: NOTIFICATION.SUCCESS, timeout: 4000})
             },
         onError: (error) => {
             console.error(error)
+            setNotification({message: "Nepodařilo se odhlásit z utkání!", variant: NOTIFICATION.ERROR, timeout: 4000})
         }
     })
 

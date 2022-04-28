@@ -1,3 +1,3 @@
 export { default as Games } from './Games'
-export { NewGame } from './New'
+export { GameAdminForm } from './GameAdmin'
 export { GameDetail } from './GameDetail'

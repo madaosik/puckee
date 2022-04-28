@@ -1,55 +1,81 @@
-import React, { useState } from "react"
-import { FinancialEstimate, AvailableGroups, RecentlyOrganizedGames } from "."
+import React, { useEffect, useState } from "react"
+import { GameAdminParticipants, GameAdminFinancialEstimate, GameAdminAvailableGroups, GameAdminRecentlyOrganizedGames, initPlayers } from "."
 import { Button, ErrorReport, FormTextArea } from "../../FormElements"
 import { SkillPucksSlider } from "../../SkillPucks/SkillPucksSlider"
-import { Athlete, AthleteRole, Game, GameLocOption, IAnonymAthlete, IAthlete, IceRink, IIceRink } from "puckee-common/types"
+import { Athlete, AthleteRole, Game, GameLocOption, IAnonymAthlete, IAthlete, IceRink, IGame, IGameAnonymParticipantsAPI, IGameAnonymParticipantsIDAPI, IGameAPI, IGameParticipantsAPI, IIceRink, SelectedGameLoc } from "puckee-common/types"
 import makeAnimated from 'react-select/animated';
 import Select, { ActionMeta } from 'react-select';
 import { FormInput, InputLabel } from "../../FormElements"
 import { useAuth } from "puckee-common/auth"
 import { Header } from "../../Header"
 import VerticalMenu from "../../VerticalMenu"
-import { useQuery } from "react-query"
-import { fetchIceRinks } from "puckee-common/api"
+import { useMutation, useQuery } from "react-query"
+import { API_BASE, axiosConfig, fetchGameById, fetchIceRinks, useFetchGameById } from "puckee-common/api"
 import { AthleteBadge } from "../../AthleteBadge"
 import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../../Icons"
-import { NewGameParticipants, NewGameGoalies, NewGameReferees, initPlayers } from "./Attendance"
-import SnackbarAlert, { AlertReport, AlertType } from "../../SnackbarAlert"
+import { queryClient } from "../../../../App"
+import axios from "axios"
+import { useNavigate, useParams } from "react-router-dom"
+import { NOTIFICATION, useNotifications } from "puckee-common/context/NotificationsContext"
+import { gameLocOptions } from "puckee-common/utils"
+// import { Loading } from "../../../pages"
+import CircularProgress from '@mui/material/CircularProgress';
 
 class NewGameFormError {
     title: React.ReactNode
     startTime: React.ReactNode
     endTime: React.ReactNode
+    location: React.ReactNode
     constructor() {
         this.title = <ErrorReport />
         this.startTime = <ErrorReport />
         this.endTime = <ErrorReport />
+        this.location = <ErrorReport />
     }
 }
 
-const NewGame = () => {
+export default function GameAdminForm()
+{
+    const { id } = useParams()
+    const isAddMode = !id;
+    const auth = useAuth()
+
     const { error: errorRinks, data: dataRinks, isSuccess: isSuccessRinks } = useQuery("icerink", fetchIceRinks);
 
-    if (errorRinks) {
-        console.log("Error fetching rinks: " + errorRinks.message)
+    var locOptions: GameLocOption[] | undefined = undefined
+    var locationToUpdate: GameLocOption | undefined = undefined
+    if (isSuccessRinks) {
+        const rinksArray = (dataRinks as IIceRink[]).map((r: IIceRink) => (new IceRink().deserialize(r)))
+        locOptions = rinksArray.map(r => r.generateLocOption())
     }
-    const auth = useAuth()
+
+    const { data: gameData, isLoading: isLoadingGame, isSuccess: isSuccessGame } = useQuery(["game", id, auth.userData.athlete.id], () => fetchGameById(id!, auth.userData.athlete.id),
+        {
+            enabled: !isAddMode && isSuccessRinks
+        },
+    );
+
+
+    // const auth = useAuth()
+    const navigate = useNavigate()
+    const { setNotification } = useNotifications()
 
     const user = new Athlete().deserialize(auth.userData.athlete)
     const preferredRole = user.preferredRole()
     const [game, setGame] = useState(new Game(user))
 
     const [errors, setErrors] = useState(new NewGameFormError())
+    const [formErrors, setFormErrors] = useState(false)
 
     const [headerTitle, setHeaderTitle] = useState("Nové utkání")
     const [gameTitle, setGameTitle] = useState(game.name)
     const [remarks, setRemarks] = useState(game.remarks)
-    const [organizers, setOrganizers] = useState<IAthlete[]>([auth.userData.athlete])
+    const [organizers, setOrganizers] = useState<IAthlete[]>(isSuccessGame ? [auth.userData.athlete] : game.organizers)
     const [privateGame, setPrivateGame] = useState<boolean>(game.is_private)
 
-    var locOptions: GameLocOption[] | undefined = undefined
-    const [selectedLoc, setSelectedLoc] = useState<GameLocOption | unknown>(null)
+    const [selectedLoc, setSelectedLoc] = useState<GameLocOption | unknown>(isSuccessGame ? null : locationToUpdate)
     const [gameDate, setGameDate] = useState(game.date.toISOString().substring(0, 10))
+    // const [pitchPrice, setPitchPrice] = useState(isSuccessGame ? selectedLoc.price_per_hour : "0")
     const [pitchPrice, setPitchPrice] = useState("0")
     const [otherCosts, setOtherCosts] = useState("0")
     const [startTime, setStartTime] = useState("")
@@ -62,7 +88,7 @@ const NewGame = () => {
 
     const [goalieRenum, setGoalieRenum] = useState(game.goalie_renum.toString())
     const [refRenum, setRefRenum] = useState(game.referee_renum.toString())
-
+    const [isPrivate, setIsPrivate] = useState(false)
     
 
     // const [regPlayers, setRegPlayers] = useState<IAthlete[]>((preferredRole == AthleteRole.Player) ? [auth.userData.athlete] : [])
@@ -75,18 +101,47 @@ const NewGame = () => {
 
     const [regReferees, setRegReferees] = useState<IAthlete[]>((preferredRole == AthleteRole.Referee) ? [auth.userData.athlete] : [])
     const [nonRegReferees, setNonRegReferees] = useState<IAnonymAthlete[]>([])
+    
+    // Component is used as an edit form
+    useEffect(() => {
+        if (isSuccessGame) {
+            setHeaderTitle(gameData.name)
+            setGameTitle(gameData.name)
+            setRemarks(gameData.remarks)
+            setOrganizers(gameData.organizers)
+            setIsPrivate(gameData.is_private)
+            console.log(locOptions)
+            const getIceRinkOption = (location_id: number): GameLocOption => locOptions!.find((locOption) => locOption.value == location_id)
+            var iceRinkOption = getIceRinkOption(gameData.location_id)
+            setSelectedLoc(iceRinkOption)
+            setPitchPrice(iceRinkOption.price_per_hour)
+            setOtherCosts(gameData.other_costs)
+            setGameDate(gameData.date)
+            setStartTime(gameData.start_time)
+            setEndTime(gameData.end_time)
+            setSkillIndex(gameData.exp_skill)
+            setExpPlayers(gameData.exp_goalies_cnt)
+            setExpGoalies(gameData.exp_goalies_cnt)
+            setExpReferees(gameData.exp_referees_cnt)
+            setExpPrice(gameData.est_price)
+            setGoalieRenum(gameData.goalie_renum)
+            setRefRenum(gameData.referee_renum)
+            setRegPlayers(gameData.players)
+            setNonRegPlayers(gameData.anonym_players)
+            setRegGoalies(gameData.goalies)
+            setNonRegGoalies(gameData.anonym_goalies)
+            setRegReferees(gameData.referees)
+            setNonRegReferees(gameData.anonym_referees)
+        }
+    },[gameData])
 
-    const [statusReport, setStatusReport] = useState<AlertReport | undefined>()
     var errorsToShow = new NewGameFormError();
 
-    if (isSuccessRinks) {
-        const rinksArray = (dataRinks as IIceRink[]).map((r: IIceRink) => (new IceRink().deserialize(r)))
-        locOptions = rinksArray.map(r => r.generateLocOption())
-    }
-
-    // useEffect(() => {
-    //     window.scrollTo(0, 0)
-    //   },[errorsToShow])
+    useEffect(() => {
+        if(formErrors) {
+            window.scrollTo(0, 0)
+        }
+      },[errorsToShow])
 
     const handleSelectionUpdate = (option: readonly GameLocOption[] | unknown, actionMeta: ActionMeta<GameLocOption>) => {
         setSelectedLoc(option)
@@ -120,112 +175,260 @@ const NewGame = () => {
         );
     }
 
+
+    const createGameMutation = useMutation((newGame : IGameAPI) => {
+        return axios.post(`${API_BASE}/game`, JSON.stringify(newGame), axiosConfig)
+      },
+        {
+            onSuccess: (response) => {
+                queryClient.invalidateQueries('games')
+                navigate('/games')
+                setNotification({message: 'Utkání bylo úspěšně vytvořeno!', variant: NOTIFICATION.SUCCESS, timeout: 4000})
+            },
+            onError: (error) => {
+                console.error(error)
+            }
+        }
+    )
+    
+    const updateGameMutation = useMutation((updatedGame : IGameAPI) => {
+        return axios.put(`${API_BASE}/game`, JSON.stringify(updatedGame), axiosConfig)
+      },
+        {
+            onSuccess: (response) => {
+                queryClient.invalidateQueries('games')
+                queryClient.invalidateQueries(['game', gameData.id])
+                setNotification({message: 'Utkání bylo úspěšně aktualizováno!', variant: NOTIFICATION.SUCCESS, timeout: 4000})
+            },
+            onError: (error) => {
+                console.error(error)
+            }
+        }
+    )
+
+    const addAthleteMutation = useMutation((addGameRole : IGameParticipantsAPI | IGameAnonymParticipantsAPI) => {
+        return axios.post(`${API_BASE}/game/${gameData.id}/participants`, JSON.stringify(addGameRole), axiosConfig)
+      },
+        {
+            onSuccess: (response) => {
+                queryClient.invalidateQueries('games')
+                queryClient.invalidateQueries(['game', gameData.id])
+            },
+            onError: (error) => {
+                console.error(error)
+            }
+        }
+    )
+
+    const removeRoleMutation = useMutation( (removeRole: IGameAnonymParticipantsIDAPI) => {
+        return axios.delete(`${API_BASE}/game/${gameData.id}/participants/${removeRole.athleteId ? removeRole.athleteId : removeRole.athleteName}`)
+    },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('games')
+                queryClient.invalidateQueries(['game', gameData.id])
+                setNotification({message: `Odhlášení z utkání '${gameData.name}' proběhlo úspěšně`, variant: NOTIFICATION.SUCCESS, timeout: 4000})
+            },
+        onError: (error) => {
+            console.error(error)
+            setNotification({message: "Nepodařilo se odhlásit z utkání!", variant: NOTIFICATION.ERROR, timeout: 4000})
+        }
+    })
+
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
+        var errorFlag = false
         if (gameTitle === "") {
-            errorsToShow.title = <ErrorReport msg="Zadej název utkání!" />
+            errorsToShow.title = <ErrorReport msg="Chybí název utkání!" />
+            errorFlag = true
         }
         if (startTime === "") {
             errorsToShow.startTime = <ErrorReport msg="Kdy budete začínat?" />
+            errorFlag = true
         }
         if (endTime === "") {
             errorsToShow.endTime = <ErrorReport msg="Kdy budete končit?" />
+            errorFlag = true
         }
+
+        if (selectedLoc == null) {
+            errorsToShow.location = <ErrorReport msg="Kde budete hrát?" />
+            errorFlag = true
+        }
+        
         setErrors(errorsToShow)
+
+        if (errorFlag) {
+            setNotification({message: "Formulář obsahuje chyby!", variant: NOTIFICATION.ERROR, timeout: 4000})
+            return
+        }
+
+        if (isAddMode) {
+            createGameMutation.mutate(
+                {
+                    name: gameTitle,
+                    exp_players_cnt: Number(expPlayers),
+                    exp_goalies_cnt: Number(expGoalies),
+                    exp_referees_cnt: Number(expReferees),
+                    location_id: selectedLoc.value,
+                    est_price: Number(expPrice),
+                    remarks: remarks,
+                    date: gameDate,
+                    start_time: `${startTime}:00`,
+                    end_time: `${endTime}:00`,
+                    other_costs: Number(otherCosts),
+                    is_private: isPrivate,
+                    goalie_renum: Number(goalieRenum),
+                    referee_renum: Number(refRenum),
+                    exp_skill: skillIndex,
+                    
+                    players: regPlayers.map((p) => p.id),
+                    anonym_players: nonRegPlayers.map((p) => p.name),
+                    organizers: organizers.map((p) => p.id),
+                    goalies: regGoalies.map((p) => p.id),
+                    anonym_goalies: nonRegGoalies.map((p) => p.name),
+                    referees: regReferees.map((p) => p.id),
+                    anonym_referees: nonRegReferees.map((p) => p.name),
+                }
+            )
+        } else {
+            updateGameMutation.mutate( {
+                    name: gameTitle,
+                    exp_players_cnt: Number(expPlayers),
+                    exp_goalies_cnt: Number(expGoalies),
+                    exp_referees_cnt: Number(expReferees),
+                    location_id: selectedLoc.value,
+                    est_price: Number(expPrice),
+                    remarks: remarks,
+                    date: gameDate,
+                    start_time: `${startTime}:00`,
+                    end_time: `${endTime}:00`,
+                    other_costs: Number(otherCosts),
+                    is_private: isPrivate,
+                    goalie_renum: Number(goalieRenum),
+                    referee_renum: Number(refRenum),
+                    exp_skill: skillIndex,
+            })
+        }
+
     }
 
     const newGameHeader = () => {
         return <>{headerTitle}</>
     }
 
-    const isPlaceForRole = (role: AthleteRole) : boolean => {
+    interface IActionMap {
+        set: {
+            reg: (value: React.SetStateAction<IAthlete[]>) => void
+            anonym: (value: React.SetStateAction<IAnonymAthlete[]>) => void
+        }
+        isPlace: boolean
+        name: string
+    }
+
+    const actionMap = (role: AthleteRole) : IActionMap => {
         switch (role) {
             case (AthleteRole.Player):
-                return (regPlayers.length + nonRegPlayers.length) < Number(expPlayers)
+                return { 
+                        set: {
+                            reg: setRegPlayers,
+                            anonym: setNonRegPlayers
+                        },
+                        isPlace: (regPlayers.length + nonRegPlayers.length) < Number(expPlayers),
+                        name: "Hráče"
+                        }
             case (AthleteRole.Goalie):
-                return (regGoalies.length + nonRegGoalies.length) < Number(expGoalies)
+                return { 
+                        set: {
+                            reg: setRegGoalies,
+                            anonym: setNonRegGoalies
+                        },
+                        isPlace: (regGoalies.length + nonRegGoalies.length) < Number(expGoalies),
+                        name: "Brankáře"
+                        }
             case (AthleteRole.Referee):
-                return (regReferees.length + nonRegReferees.length) < Number(expReferees)
+                return { 
+                        set: {
+                            reg: setRegReferees,
+                            anonym: setNonRegReferees
+                        },
+                        isPlace: (regReferees.length + nonRegReferees.length) < Number(expReferees),
+                        name: "Rozhodčího"
+                        }
             default:
                 throw new Error("Unexpected athlete role has been provided!")
         }
     }
 
-    const addRegPlayer = (athlete: IAthlete) => {
-        // TODO check if player can be added (enough free places)
-        if(isPlaceForRole(AthleteRole.Player)) {
-            return setRegPlayers(oldAddedRegPlayers => [...oldAddedRegPlayers, athlete])
+    const reportFull = (roleMap : IActionMap, athlete: IAthlete | IAnonymAthlete) => {
+        setNotification({message: `${roleMap.name} ${athlete.name} nelze přidat pro nedostatek kapacity!`, variant: NOTIFICATION.ERROR, timeout: 4000})
+    }
+
+    const addRegParticipant = (athlete: IAthlete, role: AthleteRole) => {
+        const roleMap = actionMap(role)
+        if(!roleMap.isPlace) {
+            return reportFull(roleMap, athlete)
+        }
+
+        if(isAddMode) {
+            return roleMap.set.reg(oldAddedRegAthletes => [...oldAddedRegAthletes, athlete])
         } else {
-            setStatusReport({type: AlertType.error, msg: `Hráče ${athlete.name} nelze přidat pro nedostatek kapacity!`})
+            return addAthleteMutation.mutate({athlete_id: athlete.id, athlete_role: AthleteRole.Player})
         }
-        
     }
 
-    const addRegGoalie = (athlete: IAthlete) => {
-        // TODO check if player can be added (enough free places)
-        if(isPlaceForRole(AthleteRole.Goalie)) {
-            return setRegGoalies(oldAddedRegGoalies => [...oldAddedRegGoalies, athlete])
+    const removeRegParticipant = (id: number, role: AthleteRole) => {
+        const roleMap = actionMap(role)
+        if(isAddMode) {
+            roleMap.set.reg(oldAddedRegAthletes => oldAddedRegAthletes.filter(a => a.id != id))
         } else {
-            setStatusReport({type: AlertType.error, msg: `Brankáře ${athlete.name} nelze přidat pro nedostatek kapacity!`})
+            removeRoleMutation.mutate({athleteId: id})
         }
     }
-    
-    const addRegReferee = (athlete: IAthlete) => {
-        // TODO check if player can be added (enough free places)
-        if(isPlaceForRole(AthleteRole.Referee)) {
-            return setRegReferees(oldAddedRegReferees => [...oldAddedRegReferees, athlete])
+
+    const addAnonymParticipant = (athlete: IAnonymAthlete, role: AthleteRole) => {
+        const roleMap = actionMap(role)
+        if(!roleMap.isPlace) {
+            return reportFull(roleMap, athlete)
+        }
+
+        if (nonRegPlayers.concat(nonRegGoalies, nonRegReferees).some(p => p.name == athlete.name)) {
+            return setNotification({message: `Neregistrovaný hráč ${name} již byl přidán do této hry jako brankář nebo rozhodčí!`, variant: NOTIFICATION.ALERT, timeout: 4000})
+        }
+
+        if(isAddMode) {
+            return roleMap.set.anonym(oldAddedRegAthletes => [...oldAddedRegAthletes, athlete])
         } else {
-            setStatusReport({type: AlertType.error, msg: `Rozhodčího ${athlete.name} nelze přidat pro nedostatek kapacity!`})
-        }
-    }
-    
-    const removeRegPlayer = (athleteId: number) => setRegPlayers(oldAddedRegPlayers => oldAddedRegPlayers.filter(p => p.id != athleteId))
-    const removeRegGoalie = (athleteId: number) => setRegGoalies(oldAddedRegGoalies => oldAddedRegGoalies.filter(g => g.id != athleteId))
-    const removeRegReferee = (athleteId: number) => setRegReferees(oldAddedRegReferees => oldAddedRegReferees.filter(r => r.id != athleteId))
-
-    const addNonRegPlayer = (name: string) => {
-        
-        if (nonRegPlayers.concat(nonRegGoalies, nonRegReferees).some(p => p.name == name)) {
-            setStatusReport({type: AlertType.warning, msg: `Neregistrovaný hráč ${name} již byl přidán do této hry jako brankář nebo rozhodčí!`})
-        } else if (!isPlaceForRole(AthleteRole.Player)) {
-            setStatusReport({type: AlertType.error, msg: `Neregistrovaného hráče ${name} nelze přidat pro nedostatek kapacity!`})
-        } 
-        else {
-            setNonRegPlayers(oldNonRegPlayers => [...oldNonRegPlayers, {name: name, added_by: user.id.toString()}])
-            setStatusReport({type: AlertType.success, msg: `Neregistrovaný hráč ${name} byl úspěšně přidán do utkání!`})
+            return addAthleteMutation.mutate({athlete_name: athlete.name, athlete_role: AthleteRole.Player})
         }
     }
 
-    const addNonRegGoalie = (name: string) => {
-        if (nonRegGoalies.concat(nonRegPlayers, nonRegReferees).some(p => p.name == name)) {
-            setStatusReport({type: AlertType.warning, msg: `Neregistrovaný brankář ${name} již byl přidán do této hry jako hráč nebo rozhodčí!`})
-        } else if (!isPlaceForRole(AthleteRole.Goalie)) {
-            setStatusReport({type: AlertType.error, msg: `Neregistrovaného brankáře ${name} nelze přidat pro nedostatek kapacity!`})
+    const removeAnonymParticipant = (name: string, role: AthleteRole) => {
+        const roleMap = actionMap(role)
+        if(isAddMode) {
+            roleMap.set.anonym(oldAddedAnonymAthletes => oldAddedAnonymAthletes.filter(a => a.name != name))
         } else {
-            setNonRegGoalies(oldNonRegGoalies => [...oldNonRegGoalies, {name: name, added_by: user.id.toString()}])
-            setStatusReport({type: AlertType.success, msg: `Neregistrovaný brankář ${name} byl úspěšně přidán do utkání!`})
+            removeRoleMutation.mutate({athleteName: name})
         }
     }
 
-    const addNonRegReferee = (name: string) => {
-        if (nonRegReferees.concat(nonRegPlayers, nonRegGoalies).some(p => p.name == name)) {
-            setStatusReport({type: AlertType.warning, msg: `Neregistrovaný rozhodčí ${name} již byl přidán do této hry jako brankář nebo rozhodčí!`})
-        } else if (!isPlaceForRole(AthleteRole.Referee)) {
-            setStatusReport({type: AlertType.error, msg: `Neregistrovaného rozhodčího ${name} nelze přidat pro nedostatek kapacity!`})
-        } else {
-            setNonRegReferees(oldNonRegReferees => [...oldNonRegReferees, {name: name, added_by: user.id.toString()}])
-            setStatusReport({type: AlertType.success, msg: `Neregistrovaný rozhodčí ${name} byl úspěšně přidán do utkání!`})
-        }
+    if(isLoadingGame) {
+        return (
+                <>
+                    <Header headerContent={<></>} />
+                    <VerticalMenu />
+                    <div className="main-content">
+                        <div className="content-container">
+                            <div className="d-flex flex-column flex-1 justify-content-center align-items-center">
+                                <CircularProgress size={80}/>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )
     }
-
-    // Non-registered players do not have any ID (yet), so we need to find them by name
-    const removeNonRegPlayer = (name: string) => setNonRegPlayers(oldAddedNonRegPlayers => oldAddedNonRegPlayers.filter(p => p.name != name))
-    const removeNonRegGoalie = (name: string) => setNonRegGoalies(oldAddedNonRegGoalies => oldAddedNonRegGoalies.filter(g => g.name != name))
-    const removeNonRegReferee = (name: string) => setNonRegReferees(oldAddedNonRegReferees => oldAddedNonRegReferees.filter(r => r.name != name))
-
     return (
         <>
-            {statusReport && <SnackbarAlert input={statusReport} clearingCb={setStatusReport}/> }
             <Header headerContent={newGameHeader()} />
             <VerticalMenu />
             <div className="main-content">
@@ -263,7 +466,7 @@ const NewGame = () => {
                                             <FormTextArea className="h-100"
                                                 onChange={(e: React.FormEvent<HTMLTextAreaElement>) => setRemarks(e.currentTarget.value)}
                                                 value={remarks} />
-  
+
                                         </div>
                                     </div>
                                     {/* End of first row in basic info */}
@@ -277,6 +480,7 @@ const NewGame = () => {
                                                 <div className="d-flex flex-column justify-content-start mb-2">
                                                     <InputLabel content="Místo konání" />
                                                     <div className="form-input-input"><GameLocSelect /></div>
+                                                    {errors.location}
                                                 </div>
                                             </div>
                                             <div className="d-flex flex-row flex-1 ms-3">
@@ -294,7 +498,7 @@ const NewGame = () => {
                                         {/* Second subrow */}
                                         <div className="d-flex flex-row flex-1">
                                             <div className="d-flex flex-row flex-1 me-3">
-                                                <div className="d-flex flex-column justify-content-between mb-2 me-3">
+                                                <div className="d-flex flex-column justify-content-start align-items-start mb-2 me-3">
                                                     <InputLabel content="Cena pronájmu ledu" />
                                                     <div className="input-group">
                                                         <FormInput type="number" min="0" value={pitchPrice} className="content-right"
@@ -304,7 +508,7 @@ const NewGame = () => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="d-flex flex-column justify-content-between mb-2 ms-3">
+                                                <div className="d-flex flex-column mb-2 ms-3">
                                                     <InputLabel content="Ostatní náklady" />
                                                     <div className="input-group">
                                                         <FormInput type="number" min="0" value={otherCosts} className="content-right"
@@ -316,7 +520,7 @@ const NewGame = () => {
                                                 </div>
                                             </div>
                                             <div className="d-flex flex-row flex-1 ms-3">
-                                                <div className="d-flex flex-column justify-content-between flex-1 mb-2 me-3">
+                                                <div className="d-flex flex-column flex-1 mb-2 me-3">
                                                     <InputLabel content="Čas začátku" />
                                                     <div className="input-group">
                                                         <FormInput
@@ -325,7 +529,7 @@ const NewGame = () => {
                                                         {errors.startTime}
                                                     </div>
                                                 </div>
-                                                <div className="d-flex flex-column justify-content-between flex-1 mb-2 ms-3">
+                                                <div className="d-flex flex-column flex-1 mb-2 ms-3">
                                                         <InputLabel content="Čas konce" />
                                                         <div className="input-group">
                                                             <FormInput
@@ -418,7 +622,7 @@ const NewGame = () => {
                                         </div>
                                         <div className="d-flex flex-row justify-content-center flex-1">
                                             <div className="d-flex flex-column justify-content-center align-items-center mb-2">
-                                                 <label style={{color: 'darkgrey'}}>Očekávaná úroveň</label>
+                                                <label style={{color: 'darkgrey'}}>Očekávaná úroveň</label>
                                                 <div className="d-flex flex-column justify-content-center">
                                                     <SkillPucksSlider currentSkill={skillIndex} skillLevelCb={updateSkillCb} puckSize={40} iconKey={"new-game-skill"} />
                                                 </div>
@@ -430,10 +634,10 @@ const NewGame = () => {
                         </div>
                         <div className="newGame-helpers side">
                             <div className="newGame-recentlyOrganized">
-                                <RecentlyOrganizedGames />
+                                <GameAdminRecentlyOrganizedGames />
                             </div>
                             <div className="newGame-financialEstimate">
-                                <FinancialEstimate />
+                                <GameAdminFinancialEstimate />
                             </div>
                         </div>
                     </div>
@@ -446,13 +650,13 @@ const NewGame = () => {
                                 Hráči v poli
                             </div>
                             <div className="content-inner-row data">
-                                <NewGameParticipants role={AthleteRole.Player} registered={regPlayers} addRegHandler={addRegPlayer}
-                                    removeRegHandler={removeRegPlayer} nonRegistered={nonRegPlayers} addNonRegHandler={addNonRegPlayer}
-                                    removeNonRegHandler={removeNonRegPlayer} expParticipantsCnt={Number(expPlayers)} />
+                                <GameAdminParticipants role={AthleteRole.Player} registered={regPlayers} addRegHandler={addRegParticipant}
+                                    removeRegHandler={removeRegParticipant} nonRegistered={nonRegPlayers} addNonRegHandler={addAnonymParticipant}
+                                    removeNonRegHandler={removeAnonymParticipant} expParticipantsCnt={Number(expPlayers)} />
                             </div>
                         </div>
                         <div className="newGame-helpers availableGroups side">
-                            <AvailableGroups />
+                            <GameAdminAvailableGroups />
                         </div>
                     </div>
                     {/* ------------------------------ */}
@@ -463,9 +667,9 @@ const NewGame = () => {
                                 Brankáři
                             </div>
                             <div className="content-inner-row data">
-                                 <NewGameParticipants role={AthleteRole.Goalie} registered={regGoalies} addRegHandler={addRegGoalie}
-                                    removeRegHandler={removeRegGoalie} nonRegistered={nonRegGoalies} addNonRegHandler={addNonRegGoalie}
-                                    removeNonRegHandler={removeNonRegGoalie} expParticipantsCnt={Number(expGoalies)} />
+                                <GameAdminParticipants role={AthleteRole.Goalie} registered={regGoalies} addRegHandler={addRegParticipant}
+                                    removeRegHandler={removeRegParticipant} nonRegistered={nonRegGoalies} addNonRegHandler={addAnonymParticipant}
+                                    removeNonRegHandler={removeAnonymParticipant} expParticipantsCnt={Number(expGoalies)} />
                             </div>
                         </div>
                     </div>
@@ -477,18 +681,20 @@ const NewGame = () => {
                                 Rozhodčí
                             </div>
                             <div className="content-inner-row data">
-                                <NewGameParticipants role={AthleteRole.Referee} registered={regReferees} addRegHandler={addRegReferee}
-                                        removeRegHandler={removeRegReferee} nonRegistered={nonRegReferees} addNonRegHandler={addNonRegReferee}
-                                        removeNonRegHandler={removeNonRegReferee} expParticipantsCnt={Number(expReferees)} />
+                                <GameAdminParticipants role={AthleteRole.Referee} registered={regReferees} addRegHandler={addRegParticipant}
+                                        removeRegHandler={removeRegParticipant} nonRegistered={nonRegReferees} addNonRegHandler={addAnonymParticipant}
+                                        removeNonRegHandler={removeAnonymParticipant} expParticipantsCnt={Number(expReferees)} />
                             </div>
                         </div>
                     </div>
                     {/* ------------------------------ */}
                     <div className="content-row newGame-addGame">
                         <div className="addGame-buttonPart main">
-                            {/* <Link to={"/games"}> */}
-                            <Button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} className="btn btn-primary btn-lg" caption="Vytvořit utkání" />
-                            {/* </Link> */}
+                            {isAddMode ?
+                                <Button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} className="btn btn-primary btn-lg" caption="Vytvořit utkání" />
+                                :
+                                <Button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e)} className="btn btn-primary btn-lg" caption="Aktualizovat utkání" />
+                            }
                         </div>
                     </div>
                 </div>
@@ -496,7 +702,5 @@ const NewGame = () => {
         </>
     )
 }
-
-export default NewGame
 
 

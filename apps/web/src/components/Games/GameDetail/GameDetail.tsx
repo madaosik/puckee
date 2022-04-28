@@ -1,4 +1,4 @@
-import { fetchGameById } from "puckee-common/api/game"
+import { useFetchGameById } from "puckee-common/api/game"
 import { useAuth } from "puckee-common/auth"
 import { Athlete, Game } from "puckee-common/types"
 import React, { useEffect } from "react"
@@ -21,11 +21,10 @@ export default function GameDetail () {
     const { id } = useParams<GameParams>()
     const auth = useAuth()
     const currentUser = new Athlete().deserialize(auth.userData.athlete)
-    const { error, isError, isIdle, isLoading, data, isSuccess } = useQuery(["game", id, currentUser.id],
-                                                                    () => fetchGameById(id!, currentUser.id));
-    useEffect(() => {
-        window.scrollTo(0, 0)
-      },[])
+    const { error, isError, isIdle, isLoading, data, isSuccess } = useFetchGameById(Number(id!), currentUser.id)
+    // useEffect(() => {
+    //     window.scrollTo(0, 0)
+    //   },[])
 
     const renderHeader = () => {
         if (isLoading || isIdle) return <Header />

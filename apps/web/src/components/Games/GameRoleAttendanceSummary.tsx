@@ -24,7 +24,7 @@ export default function GameRoleAttendanceSummary( {role, game, cnt, totalCnt} :
                 currentCount = cnt!
                 expCount = totalCnt!
             }
-            icon = <PlayerIcon color={currentCount == expCount ? "#dc3545" : greyColor} height={70}/>
+            icon = <PlayerIcon color={currentCount == expCount ? "#000000" : greyColor} height={70}/>
             break;
         }
         case (AthleteRole.Goalie): {
@@ -35,7 +35,7 @@ export default function GameRoleAttendanceSummary( {role, game, cnt, totalCnt} :
                 currentCount = cnt!
                 expCount = totalCnt!
             }
-            icon = <GoalieIcon color={currentCount == expCount ? "#dc3545" : greyColor} height={70}/>
+            icon = <GoalieIcon color={currentCount == expCount ? "#000000" : greyColor} height={70}/>
             break;
         }
         case (AthleteRole.Referee): {
@@ -46,7 +46,7 @@ export default function GameRoleAttendanceSummary( {role, game, cnt, totalCnt} :
                 currentCount = cnt!
                 expCount = totalCnt!
             }
-            icon = <RefereeIcon color={currentCount == expCount ? "#dc3545" : greyColor} height={65}/>
+            icon = <RefereeIcon color={currentCount == expCount ? "#000000" : greyColor} height={65}/>
             break;
         }
         default: {
@@ -62,7 +62,7 @@ export default function GameRoleAttendanceSummary( {role, game, cnt, totalCnt} :
             <div className="d-flex flex-column justify-content-center">{icon}</div>
             {/* </div> */}
             <div className="gameDetail-attendeeCntDesc">
-                <div className={currentCount == expCount ? "text-danger" : greyColor}>
+                <div className={currentCount == expCount ? "text-dark" : greyColor}>
                     {currentCount}/{expCount}
                 </div>
             </div>

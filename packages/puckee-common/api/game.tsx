@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useQuery } from "react-query"
 import { API_BASE, axiosConfig } from '.'
 
 export async function fetchGames ({pageParam = 5})
@@ -11,9 +12,15 @@ export async function fetchGames ({pageParam = 5})
   }
 }
 
+export async function createGame()
+{
+  const response = await axios.post(`${API_BASE}/game`, )
+}
+
 export async function fetchGameById (gameId: string, userId: number)
 {
-  if (!gameId) throw new Error("Could not access game id from route!")
   const response = await axios.get(`${API_BASE}/game/${gameId}?requesting_id=${userId}`, axiosConfig)
   return response.data
 }
+
+export const useFetchGameById = (gameId: string, userId: number) => useQuery(["game", gameId, userId], () => fetchGameById(gameId, userId));

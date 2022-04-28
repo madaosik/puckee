@@ -1,8 +1,10 @@
-import { IAthlete } from 'puckee-common/types';
+export { default as GameAdminForm } from './GameAdminForm'
+export { default as GameAdminAvailableGroups } from './GameAdminAvailableGroups'
+export { default as GameAdminRecentlyOrganizedGames } from './GameAdminRecentlyOrganizedGames'
+export { default as GameAdminFinancialEstimate } from './GameAdminFinancialEstimate'
+export { default as GameAdminParticipants } from './GameAdminParticipants'
 
-export { default as NewGameParticipants} from './NewGameParticipants'
-export { default as NewGameGoalies} from './NewGameGoalies'
-export { default as NewGameReferees} from './NewGameReferees'
+import { IAthlete } from 'puckee-common/types';
 
 export const selectCustomStyles = {
     control: (base: any) => ({

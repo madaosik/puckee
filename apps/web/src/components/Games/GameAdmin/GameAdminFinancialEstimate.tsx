@@ -1,6 +1,6 @@
 import React from "react"
 
-export default function FinancialEstimate () {
+export default function GameAdminFinancialEstimate () {
     return (
         <div className="content-inner-box">
                 <div className="content-inner-row heading helper">

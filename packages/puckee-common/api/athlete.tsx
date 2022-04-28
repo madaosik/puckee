@@ -28,7 +28,6 @@ export async function searchAthleteByNameAndRole (name: string, role: AthleteRol
 }
 
 
-
 export default function useAthleteFollowersSearch(name: string, role: AthleteRole, requestingId: number) {
     return useQuery(["game", name, role, requestingId], () => searchAthleteByNameAndRole(name, role, requestingId),
               {

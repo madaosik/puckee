@@ -2,6 +2,7 @@ import { Athlete, AthleteRole } from "puckee-common/types"
 import React from "react"
 import { SkillPucks } from "../SkillPucks/SkillPucks"
 import { IoPersonOutline } from 'react-icons/io5'
+import { GoalieIcon, PlayerIcon } from "../../Icons"
 
 interface AthleteListSkillRatingProps {
     athlete: Athlete
@@ -43,8 +44,8 @@ export const AthleteListSkillRating = ( { athlete, displayedRole} : AthleteListS
                 </div>
 
                 <div className="d-flex flex-row justify-content-center roleIcon">
-                    {displayedRole == AthleteRole.Player && "H"}
-                    {displayedRole == AthleteRole.Goalie && "B"}
+                    {displayedRole == AthleteRole.Player && <div><PlayerIcon color="#002D63" height={18}/></div>}
+                    {displayedRole == AthleteRole.Goalie && <div><GoalieIcon color="#002D63" height={18}/></div>}
                 </div>
         </div>
     )

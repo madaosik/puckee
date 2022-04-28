@@ -21,10 +21,7 @@ export interface IGame {
     referee_renum: number,
     exp_skill: number,
     creation_time: string,
-    last_updated: string
-    total_places: number,
-    location: string,
-    start: string,
+    last_updated?: string
     
     players: IAthlete[],
     anonym_players : IAnonymAthlete[],
@@ -34,6 +31,37 @@ export interface IGame {
     referees: IAthlete[],
     anonym_referees : IAnonymAthlete[],
   }
+
+
+export interface IGameAPI {
+    id?: number,
+    name: string,
+    exp_players_cnt: number,
+    exp_goalies_cnt: number,
+    exp_referees_cnt: number,
+    location_id: number,
+    est_price: number,
+    remarks: string,
+    date: string,
+    start_time: string,
+    end_time: string,
+    other_costs: number,
+    is_private: boolean,
+
+    goalie_renum: number,
+    referee_renum: number,
+    exp_skill: number,
+    creation_time?: string,
+    last_updated?: string
+    players?: number[],
+    anonym_players? : string[],
+    organizers?: number[],
+    goalies?: number[],
+    anonym_goalies? : string[],
+    referees?: number[],
+    anonym_referees?: string[],
+}
+
 
 export class Game implements Serializable<Game> {
   id: number
@@ -193,7 +221,12 @@ export type GameDay = {
 }
 
 export interface IGameParticipantsAPI {
-  athlete_id: number,
+  athlete_id?: number,
+  athlete_role: number
+}
+
+export interface IGameAnonymParticipantsAPI {
+  athlete_name?: string,
   athlete_role: number
 }
 

@@ -34,14 +34,16 @@ const GameInList = ( {gameData, icerink}: GameInListProps ) => {
                 <Avatar {...stringAvatar(game.organizers[0].name, 40)} />
             </div>
             <div className="itemInList-col nameAndExpSkill">
-                <div>
+                <div style={{'color': '#002D63'}}>
                     {game.name}
                 </div>
                 <div className="itemInList-col expSkillAndOrg">
                     <SkillPucks className="itemInList-col expSkill" skillLevel={game.exp_skill} puckSize={18} iconKey={'game-' + game.id + '-puck'}/>
                     {game.organizers[0].id == user.id &&
                             <div className="itemInList-col org">
-                                <FiEdit2 size={18}/>
+                                <Link to={"/games/" + game.id + "/edit"}>
+                                    <FiEdit2 size={18}/>
+                                </Link>
                             </div>
                     }
                 </div>
@@ -60,19 +62,19 @@ const GameInList = ( {gameData, icerink}: GameInListProps ) => {
             <div className="itemInList-col attendance">
                 <div className="itemInList-col attendanceCnt">
                     <div>
-                        {game.players.length + '/' + game.exp_players_cnt}
+                        {(game.players.length + game.anonym_players.length) + '/' + game.exp_players_cnt}
                     </div>
                     <div>
-                        {game.goalies.length + '/' + game.exp_goalies_cnt}
+                        {(game.goalies.length + game.anonym_goalies.length)  + '/' + game.exp_goalies_cnt}
                     </div>
                     <div>
-                        {game.referees.length + '/' + game.exp_referees_cnt}
+                        {(game.referees.length + game.anonym_referees.length)  + '/' + game.exp_referees_cnt}
                     </div>
                 </div>
                 <div className="itemInList-col attendanceRoleIcon">
-                    <div><PlayerIcon color="black" height={18}/></div>
-                    <div><GoalieIcon color="black" height={18}/></div>
-                    <div><RefereeIcon color="black" height={18}/></div>
+                    <div><PlayerIcon color="#002D63" height={18}/></div>
+                    <div><GoalieIcon color="#002D63" height={18}/></div>
+                    <div><RefereeIcon color="#002D63" height={18}/></div>
                 </div>
                 <div className="itemInList-col attendanceMoney">
                     <div><FinancialsInGameList role={AthleteRole.Player} value={game.est_price}/></div>

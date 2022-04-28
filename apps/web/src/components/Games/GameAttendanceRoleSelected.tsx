@@ -23,7 +23,7 @@ interface GameAttendanceRoleSelectedProps {
     //     </div>
     // )
 export const GameAttendanceRoleSelected = ( { role, isInvertedColor } : GameAttendanceRoleSelectedProps) => {
-    const color = isInvertedColor ? "white" : "black"
+    const color = isInvertedColor ? "white" : "#002D63"
     return (
         <div className="gameListAttending">
             <div className="gameListAttending-description">JDU</div>

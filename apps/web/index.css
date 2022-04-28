@@ -52,6 +52,7 @@ body {
   display: flex;
   font-weight: 400;
   font-family: 'Fira Sans', sans-serif;
+  color: var(--app-color-darkest);
 }
 
 /* .container-xxl.fixed { */
@@ -181,6 +182,7 @@ body {
     grid-area: header-end / menubar-end / footer-end / content-end;
     margin: 10px 0px 0px 10px;
     z-index: 0;
+    color: #002D63;
   }
 
 
@@ -549,6 +551,10 @@ label {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.form-input-label.flex-none {
+  flex: none;
 }
 
 .flex-1 {
