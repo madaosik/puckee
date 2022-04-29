@@ -37,6 +37,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game,
             onSuccess: (response) => {
                 queryClient.invalidateQueries('games')
                 queryClient.invalidateQueries(['game', game.id.toString()])
+                queryClient.invalidateQueries("gameByAthleteId")
                 setGameRole(parseInt(response.data.role_id))
                 setNotification({message: `Byl jsi úspěšně přihlášen na utkání '${game.name}' jako '${AthleteRole[response.data.role_id]}!`, variant: NOTIFICATION.SUCCESS, timeout: 4000})
             },
@@ -53,6 +54,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game,
             onSuccess: () => {
                 queryClient.invalidateQueries('games')
                 queryClient.invalidateQueries(['game', game.id.toString()])
+                queryClient.invalidateQueries("gameByAthleteId")
                 setGameRole(undefined)
                 setNotification({message: `Odhlášení z utkání '${game.name}' proběhlo úspěšně`, variant: NOTIFICATION.SUCCESS, timeout: 4000})
             },

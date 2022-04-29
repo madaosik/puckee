@@ -1,32 +1,26 @@
-import { useAppSelector } from "puckee-common/redux"
-import { Athlete, AthleteRole, attendanceRole, Game, IAthlete, IGame } from "puckee-common/types"
-import { getDateFromString, removeSeconds } from "puckee-common/utils"
-import React, { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
-import { SkillPucks } from "../SkillPucks/SkillPucks"
-import { CgProfile}  from 'react-icons/cg'
-import { FiEdit2 } from 'react-icons/fi'
-import { IoMdArrowDropright } from 'react-icons/io'
-import { FinancialsInGameList } from "./FinancialsInGameList"
-import { GameAttendanceRoleStatus } from "./GameAttendanceRoleStatus"
-import { MdAccessTime, MdLocationOn } from 'react-icons/md'
-import { HoverableGameAttendanceStatus } from "./HoverableGameAttendanceStatus"
-import { useAuth } from "puckee-common/auth"
-import { GoalieIcon, PlayerIcon, RefereeIcon } from "../../Icons"
 import Avatar from "@mui/material/Avatar"
 import { stringAvatar } from 'puckee-common/utils/avatar'
+import { Athlete, AthleteRole, Game, IceRink, IGame } from "puckee-common/types"
+import React from "react"
+import { SkillPucks } from "../SkillPucks/SkillPucks"
+import { Link } from "react-router-dom"
+import { FiEdit2 } from "react-icons/fi"
+import { MdAccessTime, MdLocationOn } from "react-icons/md"
+import { PlayerIcon, GoalieIcon, RefereeIcon } from "../../Icons"
+import { FinancialsInGameList } from "../Games/FinancialsInGameList"
+import { HoverableGameAttendanceStatus } from "../Games/HoverableGameAttendanceStatus"
+import { IoMdArrowDropright } from "react-icons/io"
 
-interface GameInListProps {
-    gameData: IGame
-    icerink: any
+interface DashboardNearestGameProps {
+    user: Athlete
+    gameObj: IGame
+    icerink: IceRink
 }
 
-const GameInList = ( {gameData, icerink}: GameInListProps ) => {
-    const auth = useAuth()
-    const game = new Game().deserialize(gameData)
-    const user = new Athlete().deserialize(auth.userData.athlete)
-
-    return (
+export default function DashboardNearestGame( { user, icerink, gameObj } : DashboardNearestGameProps)
+{
+    const game = new Game().deserialize(gameObj)
+    return(
         <div className="itemInList">
             <div className="itemInList-col profilePhoto">
                 {/* <Avatar {...stringAvatar(athlete.name)} /> */}
@@ -95,5 +89,3 @@ const GameInList = ( {gameData, icerink}: GameInListProps ) => {
         </div>
     )
 }
-
-export default GameInList

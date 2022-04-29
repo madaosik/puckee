@@ -1,6 +1,6 @@
 import React from "react"
 import { MightInterestYou } from "./MightInterestYou"
-import { MyNearestGames } from "./MyNearestGames"
+import MyNearestGames from "./MyNearestGames"
 import { MyCalendar } from "./MyCalendar"
 import { Header } from "../Header"
 import VerticalMenu from "../VerticalMenu"

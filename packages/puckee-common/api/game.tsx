@@ -2,6 +2,10 @@ import axios from 'axios'
 import { useQuery } from "react-query"
 import { API_BASE, axiosConfig } from '.'
 
+export interface IQueryEnable {
+  enabled: boolean
+}
+
 export async function fetchGames ({pageParam = 5})
 {
   const response = await axios.get(`${API_BASE}/game?page_id=${pageParam}&per_page=10`, axiosConfig)
@@ -23,10 +27,20 @@ export async function fetchGameById (gameId: string, userId: number, attendance:
   return response.data
 }
 
-export const useFetchGameById = (gameId: string, userId: number, attendance: boolean) => useQuery(["game", gameId, userId], () => fetchGameById(gameId, userId, attendance));
+export const useFetchGameById = (gameId: string, userId: number, attendance: boolean) => 
+    useQuery(["game", gameId, userId], () => fetchGameById(gameId, userId, attendance));
 
 export async function fetchGameParticipantsById (gameId: string, userId: number)
 {
   const response = await axios.get(`${API_BASE}/game/${gameId}/participants?requesting_id=${userId}`, axiosConfig)
   return response.data
 }
+
+async function fetchGameByAthleteId(userId: number, gameLimit: number)
+{
+  const response = await axios.get(`${API_BASE}/game/user/${userId}?game_limit=${gameLimit}`, axiosConfig)
+  return response.data
+}
+
+export const useFetchGameByAthleteId = (userId: number, gameLimit: number, enableConfig: IQueryEnable) =>
+    useQuery(["gameByAthleteId", userId, gameLimit], () => fetchGameByAthleteId(userId, gameLimit), enableConfig);
