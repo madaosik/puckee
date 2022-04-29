@@ -21,7 +21,7 @@ export default function GameDetail () {
     const { id } = useParams<GameParams>()
     const auth = useAuth()
     const currentUser = new Athlete().deserialize(auth.userData.athlete)
-    const { error, isError, isIdle, isLoading, data, isSuccess } = useFetchGameById(Number(id!), currentUser.id)
+    const { error, isError, isIdle, isLoading, data, isSuccess } = useFetchGameById(id!, currentUser.id, true)
     // useEffect(() => {
     //     window.scrollTo(0, 0)
     //   },[])

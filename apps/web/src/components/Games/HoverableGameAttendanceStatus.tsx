@@ -47,7 +47,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game,
     )
 
     const removeRoleMutation = useMutation( () => {
-        return axios.delete(`${API_BASE}/game/${game.id}/participants/${user.id}`)
+        return axios.delete(`${API_BASE}/game/${game.id}/participants?athlete_id=${user.id}`)
     },
         {
             onSuccess: () => {

@@ -68,6 +68,10 @@
     min-height: 300px;
 }
 
+/* .content-row.updateBtnRow {
+    height: 100px;
+} */
+
 .content-row.newGame-addGame {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -75,6 +79,10 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+}
+
+.cssa {
+    max-width: 50%;
 }
 
 .addGame-buttonPart {

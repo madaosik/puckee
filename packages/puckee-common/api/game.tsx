@@ -17,10 +17,16 @@ export async function createGame()
   const response = await axios.post(`${API_BASE}/game`, )
 }
 
-export async function fetchGameById (gameId: string, userId: number)
+export async function fetchGameById (gameId: string, userId: number, attendance: boolean)
 {
-  const response = await axios.get(`${API_BASE}/game/${gameId}?requesting_id=${userId}`, axiosConfig)
+  const response = await axios.get(`${API_BASE}/game/${gameId}?requesting_id=${userId}&attendance=${attendance}`, axiosConfig)
   return response.data
 }
 
-export const useFetchGameById = (gameId: string, userId: number) => useQuery(["game", gameId, userId], () => fetchGameById(gameId, userId));
+export const useFetchGameById = (gameId: string, userId: number, attendance: boolean) => useQuery(["game", gameId, userId], () => fetchGameById(gameId, userId, attendance));
+
+export async function fetchGameParticipantsById (gameId: string, userId: number)
+{
+  const response = await axios.get(`${API_BASE}/game/${gameId}/participants?requesting_id=${userId}`, axiosConfig)
+  return response.data
+}

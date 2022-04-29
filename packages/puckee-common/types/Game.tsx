@@ -42,7 +42,6 @@ export interface IGameAPI {
     location_id: number,
     est_price: number,
     remarks: string,
-    date: string,
     start_time: string,
     end_time: string,
     other_costs: number,
@@ -100,9 +99,18 @@ export class Game implements Serializable<Game> {
     this.est_price = 0
     this.remarks = ''
 
-    var today = new Date()
-    this.date = new Date()
-    this.date.setDate(today.getDate() + 2)
+    var currDate = new Date()
+    this.start_time = new Date()
+    this.start_time.setDate(currDate.getDate() + 2)
+    this.start_time.setHours(7)
+    this.start_time.setMinutes(0)
+    this.start_time.setSeconds(0)
+
+    this.end_time = new Date()
+    this.end_time.setDate(currDate.getDate() + 2)
+    this.end_time.setHours(8)
+    this.end_time.setMinutes(15)
+    this.end_time.setSeconds(0)
 
     this.other_costs = 0
     this.is_private = false
@@ -132,9 +140,9 @@ export class Game implements Serializable<Game> {
     this.location_id = Number(data.location_id)
     this.est_price = Number(data.est_price)
     this.remarks = data.remarks
-    this.date = new Date(data.date)
-    this.start_time = new Date(`1970-01-01T${data.start_time}Z`)
-    this.end_time = new Date(`1970-01-01T${data.end_time}Z`)
+    // this.date = new Date(data.date)
+    this.start_time = new Date(data.start_time)
+    this.end_time = new Date(data.end_time)
     this.other_costs = Number(data.other_costs)
     this.is_private = Boolean(data.is_private)
 
@@ -209,7 +217,28 @@ export class Game implements Serializable<Game> {
   dateString = (config?: Record<string, string>) : string => {
     var dateStringConfig : Record<string,string> = {weekday: 'short', day:'numeric', month: 'numeric'}
     for (let key in config) dateStringConfig[key] = config[key]
-    return this.date.toLocaleString('cs-CZ', dateStringConfig)
+    return this.start_time.toLocaleString('cs-CZ', dateStringConfig)
+  }
+
+  static dateInputString = (datetime: Date) : string => {
+    const year = datetime.getFullYear()
+    const month = String(datetime.getMonth() + 1).padStart(2, "0")
+    const day = String(datetime.getDate() ).padStart(2, "0")
+    return `${year}-${month}-${day}`
+  }
+
+  static timeInputString = (datetime: Date) : string => {
+    const hours = String(datetime.getHours()).padStart(2, "0")
+    const minutes = String(datetime.getMinutes()).padStart(2, "0")
+    return `${hours}:${minutes}`
+  }
+
+  static datetimeAPIstring = (dateString: string, timeString: string) => {
+    console.log(dateString)
+    console.log(timeString)
+    const [year, month, day] = dateString.split('-')
+    const [hours, minutes] = timeString.split(':')
+    return `${year}-${month}-${day}T${hours}:${minutes}:00`
   }
 }
 
@@ -227,7 +256,8 @@ export interface IGameParticipantsAPI {
 
 export interface IGameAnonymParticipantsAPI {
   athlete_name?: string,
-  athlete_role: number
+  athlete_role: number,
+  requesting_id?: number
 }
 
 
