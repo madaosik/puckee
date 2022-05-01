@@ -25,7 +25,9 @@ const GameInList = ( {gameData, icerink}: GameInListProps ) => {
     const auth = useAuth()
     const game = new Game().deserialize(gameData)
     const user = new Athlete().deserialize(auth.userData.athlete)
-
+    if(gameData.id == 173) {
+        console.log(gameData)
+    }
     return (
         <div className="itemInList">
             <div className="itemInList-col profilePhoto">
@@ -84,6 +86,8 @@ const GameInList = ( {gameData, icerink}: GameInListProps ) => {
             </div>
             <HoverableGameAttendanceStatus
                     isInvertedColor={false}
+                    showAttDesc={false}
+                    showMoney={false}
                     game={game}
                     user={user}
                     classStr="itemInList-col attendanceStatus"

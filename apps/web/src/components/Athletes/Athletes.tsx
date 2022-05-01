@@ -1,3 +1,4 @@
+import CircularProgress from "@mui/material/CircularProgress"
 import axios from "axios"
 import { fetchAthletes } from "puckee-common/api"
 import { useAuth } from "puckee-common/auth"
@@ -53,7 +54,9 @@ const Athletes : React.FC = () => {
                             </div>
                             <div className="content">
                                     {status === 'loading' || status === 'idle' ? (
-                                        <p>Loading...</p>
+                                        <div className="d-flex flex-column flex-1 justify-content-center align-items-center h-100">
+                                            <CircularProgress size={60}/>
+                                        </div>
                                     ) : status === 'error' ? (
                                         <span>Error: {error.message}</span>
                                     ) : (

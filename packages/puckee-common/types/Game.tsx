@@ -220,6 +220,21 @@ export class Game implements Serializable<Game> {
     return this.start_time.toLocaleString('cs-CZ', dateStringConfig)
   }
 
+  findFollowed = (id: number, role: AthleteRole) => {
+    switch (role) {
+      case AthleteRole.Organizer:
+        return this.organizers.filter(a => a.follow)
+      case AthleteRole.Player:
+        return this.players.filter(a => a.follow)
+      case AthleteRole.Goalie:
+        return this.goalies.filter(a => a.follow)
+      case AthleteRole.Referee:
+        return this.referees.filter(a => a.follow)
+      default:
+        throw new Error(`Unknown role has been provided: ${role}`)
+    }
+  }
+
   static dateInputString = (datetime: Date) : string => {
     const year = datetime.getFullYear()
     const month = String(datetime.getMonth() + 1).padStart(2, "0")

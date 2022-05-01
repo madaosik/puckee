@@ -1,3 +1,4 @@
+import CircularProgress from "@mui/material/CircularProgress"
 import { useFetchGameById } from "puckee-common/api/game"
 import { useAuth } from "puckee-common/auth"
 import { Athlete, Game } from "puckee-common/types"
@@ -36,6 +37,8 @@ export default function GameDetail () {
                         statusContent={
                         <div className="d-flex flex-row justify-content-center">
                             <HoverableGameAttendanceStatus
+                                showMoney={false}
+                                showAttDesc={false}
                                 isInvertedColor={true}
                                 game={game}
                                 user={currentUser}
@@ -51,7 +54,11 @@ export default function GameDetail () {
     }
 
     const renderContent = () => {
-        if (isLoading || isIdle) return <Loading/>
+        if (isLoading || isIdle) return (
+            <div className="d-flex flex-column h-100 justify-content-center align-items-center">
+                <CircularProgress size={60}/>
+            </div>
+            )
         if (isError) return <p>{error.message}</p>
 
         const game = new Game().deserialize(data)

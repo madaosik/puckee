@@ -497,6 +497,11 @@ label {
 
 /* List pages styles */
 
+
+.bottomBorder {
+  border-bottom: 1px solid var(--app-color-bckg);
+}
+
  .itemInList {
   display: flex;
   flex-direction: row;

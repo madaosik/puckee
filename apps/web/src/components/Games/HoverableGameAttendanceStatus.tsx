@@ -12,12 +12,14 @@ import { NOTIFICATION, useNotifications } from "puckee-common/context/Notificati
 interface HoverableGameAttendanceStatusProps {
     game: Game
     isInvertedColor: boolean
+    showAttDesc: boolean
+    showMoney: boolean
     user: Athlete
     classStr: string
     joinBtnClass: string
 }
 
-export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game, user, joinBtnClass } : HoverableGameAttendanceStatusProps) => {
+export const HoverableGameAttendanceStatus = ({ classStr, showAttDesc, showMoney, isInvertedColor, game, user, joinBtnClass } : HoverableGameAttendanceStatusProps) => {
     const [isHovered, setIsHovered] = useState(false)
     const [gameRole, setGameRole] = useState<AthleteRole | undefined>(game.participantRole(user))
     const { setNotification } = useNotifications()
@@ -35,9 +37,9 @@ export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game,
       },
         {
             onSuccess: (response) => {
-                queryClient.invalidateQueries('games')
-                queryClient.invalidateQueries(['game', game.id.toString()])
-                queryClient.invalidateQueries("gameByAthleteId")
+                queryClient.invalidateQueries('game')
+                // queryClient.invalidateQueries(['game', game.id.toString()])
+                // queryClient.invalidateQueries("gameByAthleteId")
                 setGameRole(parseInt(response.data.role_id))
                 setNotification({message: `Byl jsi úspěšně přihlášen na utkání '${game.name}' jako '${AthleteRole[response.data.role_id]}!`, variant: NOTIFICATION.SUCCESS, timeout: 4000})
             },
@@ -52,9 +54,9 @@ export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game,
     },
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('games')
-                queryClient.invalidateQueries(['game', game.id.toString()])
-                queryClient.invalidateQueries("gameByAthleteId")
+                queryClient.invalidateQueries('game')
+                // queryClient.invalidateQueries(['game', game.id.toString()])
+                // queryClient.invalidateQueries("gameByAthleteId")
                 setGameRole(undefined)
                 setNotification({message: `Odhlášení z utkání '${game.name}' proběhlo úspěšně`, variant: NOTIFICATION.SUCCESS, timeout: 4000})
             },
@@ -89,7 +91,7 @@ export const HoverableGameAttendanceStatus = ({ classStr, isInvertedColor, game,
     const roleStatusSelector = () => {
         return (
             <div className={classStr} onMouseEnter={hoverCb} onMouseLeave={unHoverCb}>
-                <GameAttendanceRoleStatus isInvertedColor={isInvertedColor} game={game} joinBtnClass={joinBtnClass} role={gameRole} roleSetter={updateGameStatus}/>
+                <GameAttendanceRoleStatus showAttDesc={showAttDesc} showMoney={showMoney} isInvertedColor={isInvertedColor} game={game} joinBtnClass={joinBtnClass} role={gameRole} roleSetter={updateGameStatus}/>
             </div>
         )
     }

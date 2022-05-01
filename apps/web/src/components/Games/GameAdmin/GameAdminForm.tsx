@@ -202,7 +202,7 @@ export default function GameAdminForm()
                 queryClient.invalidateQueries('games')
                 queryClient.invalidateQueries(['game', gameData.id])
                 if (redirectAfterSuccess) {
-                    navigate('/games')
+                    navigate(-1)
                 }
                 setNotification({message: 'Utkání bylo úspěšně aktualizováno!', variant: NOTIFICATION.SUCCESS, timeout: 4000})
             },

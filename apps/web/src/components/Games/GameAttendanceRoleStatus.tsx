@@ -9,12 +9,14 @@ import { Button } from "../FormElements"
 interface GameAttendanceRoleStatusProps {
     game: Game
     isInvertedColor: boolean
+    showMoney: boolean
+    showAttDesc: boolean
     role: AthleteRole | undefined
     roleSetter: (role: AthleteRole | undefined) => void
     joinBtnClass: string
 }
 
-export const GameAttendanceRoleStatus = ( { isInvertedColor, game, role, roleSetter, joinBtnClass } : GameAttendanceRoleStatusProps) => {
+export const GameAttendanceRoleStatus = ( { isInvertedColor, game, showMoney, showAttDesc, role, roleSetter, joinBtnClass } : GameAttendanceRoleStatusProps) => {
     const auth = useAuth()
     const user = new Athlete().deserialize(auth.userData.athlete)
     const [roleInSelection, setRoleInSelection] = useState(false)
@@ -52,7 +54,7 @@ export const GameAttendanceRoleStatus = ( { isInvertedColor, game, role, roleSet
     if (role) 
     {
         // return <GameAttendanceRoleSelected selectToggle={toggleSelection} role={role}/>
-        return <GameAttendanceRoleSelected isInvertedColor={isInvertedColor} role={role}/>
+        return <GameAttendanceRoleSelected game={game} showMoney={showMoney} showAttDesc={showAttDesc} isInvertedColor={isInvertedColor} role={role}/>
     }
     // If there is no role assigned, show the "Join button"
     else 

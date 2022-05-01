@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 
-export const API_BASE = 'http://127.0.0.1:5000/api'
+export const API_BASE = 'http://192.168.0.188:5000/api'
 export const axiosConfig = {
   headers: {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
   },
-  timeout: 2000
+  timeout: 5000
 }
 
 export * from './game'

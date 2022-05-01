@@ -11,6 +11,7 @@ import GameInList from "./GameInList";
 import { Loading } from "../../pages";
 import { Header } from "../Header";
 import VerticalMenu from "../VerticalMenu";
+import CircularProgress from "@mui/material/CircularProgress";
 
 
 export default function Games ()
@@ -27,7 +28,7 @@ export default function Games ()
     const {status, data, error, isFetching, isFetchingNextPage, isFetchingPreviousPage,
         fetchNextPage, fetchPreviousPage, hasNextPage, hasPreviousPage, refetch
       } = useInfiniteQuery(
-        'games', fetchGames,
+        'game', fetchGames,
         {
           getPreviousPageParam: firstPage => firstPage.previous_id ?? undefined,
           getNextPageParam: lastPage => lastPage.next_id ?? undefined,
@@ -75,8 +76,9 @@ export default function Games ()
                                 </div>
                                 <div className="content">
                                     {status === 'loading' || status === 'idle' ? (
-                                        // <p>N...</p>
-                                        <Loading/>
+                                        <div className="d-flex flex-column flex-1 justify-content-center align-items-center h-100">
+                                            <CircularProgress size={60}/>
+                                        </div>
                                     ) : status === 'error' ? (
                                         <span>Error: {error.message}</span>
                                     ) : (

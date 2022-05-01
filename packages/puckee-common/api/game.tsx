@@ -21,6 +21,14 @@ export async function createGame()
   const response = await axios.post(`${API_BASE}/game`, )
 }
 
+export async function fetchGameParticipantsById (gameId: string, userId: number)
+{
+  const response = await axios.get(`${API_BASE}/game/${gameId}/participants?requesting_id=${userId}`, axiosConfig)
+  return response.data
+}
+
+// ================================================================================================================================
+
 export async function fetchGameById (gameId: string, userId: number, attendance: boolean)
 {
   const response = await axios.get(`${API_BASE}/game/${gameId}?requesting_id=${userId}&attendance=${attendance}`, axiosConfig)
@@ -30,11 +38,8 @@ export async function fetchGameById (gameId: string, userId: number, attendance:
 export const useFetchGameById = (gameId: string, userId: number, attendance: boolean) => 
     useQuery(["game", gameId, userId], () => fetchGameById(gameId, userId, attendance));
 
-export async function fetchGameParticipantsById (gameId: string, userId: number)
-{
-  const response = await axios.get(`${API_BASE}/game/${gameId}/participants?requesting_id=${userId}`, axiosConfig)
-  return response.data
-}
+
+// ================================================================================================================================
 
 async function fetchGameByAthleteId(userId: number, gameLimit: number)
 {
@@ -43,4 +48,15 @@ async function fetchGameByAthleteId(userId: number, gameLimit: number)
 }
 
 export const useFetchGameByAthleteId = (userId: number, gameLimit: number, enableConfig: IQueryEnable) =>
-    useQuery(["gameByAthleteId", userId, gameLimit], () => fetchGameByAthleteId(userId, gameLimit), enableConfig);
+    useQuery(["game", userId, gameLimit], () => fetchGameByAthleteId(userId, gameLimit), enableConfig);
+
+
+// ================================================================================================================================
+async function fetchFolloweeGamesByAthleteId(userId: number, gameLimit: number)
+{
+  const response = await axios.get(`${API_BASE}/game/user/${userId}/followees?game_limit=${gameLimit}`, axiosConfig)
+  return response.data
+}
+
+export const useFetchFolloweeGamesByAthleteId = (userId: number, gameLimit: number, enableConfig: IQueryEnable) =>
+    useQuery(["game", "followee_games", userId, gameLimit], () => fetchFolloweeGamesByAthleteId(userId, gameLimit), enableConfig);
