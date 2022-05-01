@@ -40,7 +40,7 @@ const SignInForm = () => {
     }
 
     return (
-        <div className="loginWrapper">
+        <div className="loginWrapper shadow">
             <form onSubmit={handleLogin}>
                 <h3 style={{ marginBottom: "1rem" }}>Přihlášení</h3>
                 <div className="form-group">
@@ -65,7 +65,7 @@ const SignInForm = () => {
                 { 
                     status === 'loading' ? <div className="loading"><span>Přihlašování...</span></div>
                         :
-                    <Button className="btn btn-primary btn-lg" type="submit" caption="Jdu!"/>
+                    <Button className="btn btn-primary btn-lg" type="submit" caption="Přihlásit se"/>
                 }
 
                 {/* <p className="forgot-password text-right">

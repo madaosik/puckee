@@ -81,11 +81,11 @@ export default function SignUpForm() {
     }
 
     return (
-        <div className='signup-accessData-wrapper'>
+        <div className='d-flex flex-column signup-accessData-wrapper'>
                 <div className="signUp-title">Registrace nového hráče</div>
-                <div className="signUp-loginInfo-content">
-                    <div className="content-inner-box">
-                        <div className="content-inner-row data signUp-accessData">
+                <div className="d-flex flex-column w-100 justify-content-center">
+                    <div className="content-inner-box w-100">
+                        <div className="d-flex flex-column p-5 rounded signUp-accessData bg-white shadow">
                             <form onSubmit={handleSignUp}>  
                                 <div className="form-group">
                                     <label className="form-label">E-mail</label>

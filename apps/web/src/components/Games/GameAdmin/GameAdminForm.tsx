@@ -184,7 +184,7 @@ export default function GameAdminForm()
       },
         {
             onSuccess: (response) => {
-                queryClient.invalidateQueries('games')
+                queryClient.invalidateQueries('game')
                 navigate('/games')
                 setNotification({message: 'Utkání bylo úspěšně vytvořeno!', variant: NOTIFICATION.SUCCESS, timeout: 4000})
             },
@@ -199,8 +199,7 @@ export default function GameAdminForm()
       },
         {
             onSuccess: (response) => {
-                queryClient.invalidateQueries('games')
-                queryClient.invalidateQueries(['game', gameData.id])
+                queryClient.invalidateQueries('game')
                 if (redirectAfterSuccess) {
                     navigate(-1)
                 }
@@ -218,7 +217,7 @@ export default function GameAdminForm()
       },
         {
             onSuccess: (response) => {
-                queryClient.invalidateQueries('games')
+                queryClient.invalidateQueries('game')
                 queryClient.invalidateQueries(['participants', id, auth.userData.athlete.id, false])
             },
             onError: (error) => {
@@ -233,15 +232,36 @@ export default function GameAdminForm()
     },
         {
             onSuccess: () => {
-                queryClient.invalidateQueries('games')
+                queryClient.invalidateQueries('game')
                 queryClient.invalidateQueries(['participants', id, auth.userData.athlete.id, false])
                 setNotification({message: `Odhlášení z utkání '${gameData.name}' proběhlo úspěšně`, variant: NOTIFICATION.SUCCESS, timeout: 4000})
             },
-        onError: (error) => {
-            console.error(error)
-            setNotification({message: "Nepodařilo se odhlásit z utkání!", variant: NOTIFICATION.ERROR, timeout: 4000})
-        }
+            onError: (error) => {
+                console.error(error)
+                setNotification({message: "Nepodařilo se odhlásit z utkání!", variant: NOTIFICATION.ERROR, timeout: 4000})
+            }
     })
+
+
+    const deleteGameMutation = useMutation( () => {
+            return axios.delete(`${API_BASE}/game/${gameData.id}`)
+        },
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries('game')
+                setNotification({message: `Utkání '${gameData.name}' bylo úspěšně zrušeno!`, variant: NOTIFICATION.SUCCESS, timeout: 4000})
+                navigate(-1)
+            },
+            onError: (error) => {
+                console.error(error)
+                setNotification({message: "Nepodařilo se zrušit utkání!", variant: NOTIFICATION.ERROR, timeout: 4000})
+            }
+        }
+    )
+
+    // const handleDeletion = (e: React.MouseEvent<HTMLButtonElement>, redirect: boolean) => {
+
+    // }
 
     const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>, redirect: boolean) => {
         e.preventDefault()
@@ -480,7 +500,7 @@ export default function GameAdminForm()
                                             </div>
                                             <div style={{ flex: '1 0 auto' }}>
                                                 <InputLabel content="Organizátoři" />
-                                                <AthleteBadge showFollow={true} athlete={auth.userData.athlete} registered={true} />
+                                                <AthleteBadge role={AthleteRole.Organizer} showFollow={true} athlete={auth.userData.athlete} registered={true} />
                                             </div>
                                             {/* <div style={{ flex: '1 0 auto' }}>
                                                 <InputLabel content="Soukromé utkání"/>
@@ -674,8 +694,11 @@ export default function GameAdminForm()
                         </div>
                     </div>
                     {!isAddMode &&
-                        <div className="d-flex flex-row content-row updateBtnRow">
-                            <div className="d-flex flex-row justify-content-end main">
+                        <div className="d-flex flex-row main">
+                            <div className="d-flex flex-row justify-content-start flex-1">
+                                <Button onClick={(e: React.MouseEvent<HTMLButtonElement>) => deleteGameMutation.mutate()} className="btn btn-danger" caption="Zrušit utkání" />
+                            </div>
+                            <div className="d-flex flex-1 flex-row justify-content-end">
                                 <div className="me-2">
                                     <Button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleSubmit(e, false)} className="btn btn-primary" caption="Uložit" />
                                 </div>

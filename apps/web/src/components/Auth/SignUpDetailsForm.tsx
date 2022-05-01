@@ -63,9 +63,9 @@ export default function SignUpDetailsForm() {
 
         const sliderId = "signup-slider-" + role
         return (
-            <div className="signUp-skillSlider">
+            <div className="d-flex flex-1 flex-column align-items-center justify-content-start">
                 {type} schopnosti:
-                <SkillPucksSlider puckSize={44} className="signUpPucks" 
+                <SkillPucksSlider puckSize={44} className="d-flex" 
                         iconKey={sliderId} currentSkill={currentSkill}
                         skillLevelCb={updateRoleSkill} />
                 <SkillDescription skillValue={skillIndex}/>
@@ -102,9 +102,25 @@ export default function SignUpDetailsForm() {
     }
 
     return (
-        <div className="signUpWrapper">
-            <form onSubmit={handleSignUp}>
-                <div className="signUp-title">Něco málo o Tobě</div>
+            <div className="signUpWrapper">
+                <form onSubmit={handleSignUp}>
+                    <div className='d-flex flex-row justify-content-center'>
+                        <div className="signUp-title">
+                            Něco málo o Tobě
+                        </div>
+                        <div className='ms-3'>
+                            <Link to={"/games"}>
+                                <Button className="btn btn-outline-primary" type="submit" caption="Přeskočit"/>
+                            </Link>
+                        </div>
+                    </div>
+                    {/* <div className='signUp-regBtnSection'>
+                        <div className='signUp-regBtn'>
+                            <Link to={"/games"}>
+                                <Button className="btn btn-outline-primary" type="submit" caption="Přeskočit"/>
+                            </Link>
+                        </div>
+                    </div> */}
                     <div className="signUp-content details">
                         <div className="signUp-main">
                             <div className="content-inner-box">
@@ -132,20 +148,20 @@ export default function SignUpDetailsForm() {
                             </div>
                         </div>
                         <div className="signUp-roles">
-                            <div className="signUp-roleSelectorSection">
+                            {/* <div className="signUp-roleSelectorSection">
                                 <div className="content-inner-box">
                                     <div className="content-inner-row data signUp-accessData">
  
                                     </div>
                                 </div>
-                            </div>
-                            <div className="signUp-roleSkillSection">
+                            </div> */}
+                            <div className="d-flex flex-1">
                                 <div className="content-inner-box">
                                     <div className="content-inner-row heading">
                                         Hokejová zdatnost
                                     </div>
-                                    <div className="content-inner-row data">
-                                        <div className="signUp-skillSliders">
+                                    <div className="d-flex flex-column flex-1 bg-white bottomRadius">
+                                        <div className="d-flex flex-column flex-1 justify-content-evenly pt-3">
                                             {isSelected("Player") && <RoleSkill role={AthleteRole.Player} currentSkill={perfLevelPlayer} updateSkillCb={updatePlayerSkill}/>}
                                             {isSelected("Goalie") && <RoleSkill role={AthleteRole.Goalie} currentSkill={perfLevelGoalie} updateSkillCb={updateGoalieSkill}/>}
                                         </div>
@@ -157,7 +173,7 @@ export default function SignUpDetailsForm() {
                     <div className='signUp-regBtnSection'>
                         <div className='signUp-regBtn'>
                             <Link to={"/games"}>
-                                <Button className="btn btn-primary" type="submit" caption="Přeskočit a pokračovat na přehled utkání"/>
+                                <Button className="btn btn-primary" type="submit" caption="Uložit a pokračovat na přehled utkání"/>
                             </Link>
                         </div>
                     </div>

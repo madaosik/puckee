@@ -57,27 +57,13 @@
     width: 75%;
 }
 
-.signUp-skillSliders {
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.signUp-skillSlider {
-    flex: 1 0 auto;
-    /* margin-top: 20px; */
-    /* height: 100%; */
-}
-
 .signUp-content.details{
     min-height: 35vh;
 } 
 
 .signup-accessData-wrapper {
-    display: flex;
-    flex-flow: column;
-    min-width: 35vh;
+    min-width: 35%;
+    border-radius: 15px;
 }
 
 .content-inner-row.data.signUp-personalInfo {
@@ -119,7 +105,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 50%;
+    /* width: 50%; */
 }
 
 .roleMultiSelect {

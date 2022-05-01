@@ -58,7 +58,7 @@ const UserBadge = ( { userName, userEmail } : UserBadgeType ) => {
     return (
         <>
             <div className="unverifiedUserReport">
-                {userEmail && "Neověřený uživatel"}
+                {userEmail && ""}
             </div>
             <div className="userProfileToken">
                 <div className="userBadgeButton">

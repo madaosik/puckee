@@ -3,6 +3,7 @@ import { useFetchFolloweeGamesByAthleteId } from "puckee-common/api"
 import { Athlete, IceRink, IGame } from "puckee-common/types"
 import React from "react"
 import LoremIpsum from "react-lorem-ipsum"
+import { Link } from "react-router-dom"
 import GameInList from "../Games/GameInList"
 import FolloweesInGame from "./FolloweesInGame"
 
@@ -14,8 +15,16 @@ interface MightInterestYouProps {
 export default function MightInterestYou( {user, icerinks} : MightInterestYouProps)
 {
     const { status, error, isSuccess, isFetching, data } = useFetchFolloweeGamesByAthleteId(user.id, 10, {enabled: true})
-
+    console.log(user)
     const renderGames = () => {
+        // User has not yet finalized registration process
+        if (user.roles.length == 1) {
+            return (
+                <div className="d-flex flex-column justify-content-center align-items-center flex-1 w-100">
+                    <div>Po <Link to={"/profile"}>dokončení registrace</Link> zde uvidíš přehled utkání hráčů, které sleduješ.</div>
+                </div>
+            )
+        }
         if (data.length > 0) {
             return data.map((g: IGame) => (
                 <React.Fragment key={'mightInterest-' + g.id}>

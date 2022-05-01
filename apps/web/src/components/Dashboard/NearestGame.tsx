@@ -21,7 +21,7 @@ export default function NearestGame( { user, icerink, gameObj } : DashboardNeare
 {
     const game = new Game().deserialize(gameObj)
     return(
-        <div className="d-flex flex-row justify-content-between align-items-center mb-2 p-1 pb-3 bottomBorder nearestGame">
+        <div className="d-flex flex-row justify-content-between align-items-center mb-1 p-1 pb-3 bottomBorder nearestGame">
             <div className="d-flex flex-column justify-content-center me-1 flex-1">
                 {/* <Avatar {...stringAvatar(athlete.name)} /> */}
                 {/* <CgProfile size={40}/> */}

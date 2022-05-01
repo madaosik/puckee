@@ -19,6 +19,15 @@ export default function MyNearestGames( { user, icerinks } : MyNearestGamesProps
     const { status, isError, error, isIdle, isFetching, data} = useFetchGameByAthleteId(user.id, 3, {enabled: true})
     // console.log(games)
     const renderGames = () => {
+        // User has not yet finalized registration process
+        if(user.roles.length == 1) {
+            return (
+                <div className="d-flex flex-column justify-content-center align-items-center flex-1 w-100">
+                    <div>Nejsi zatím přihlášen na žádné utkání!</div>
+                    <div>Pro dokončení registrace navštiv <Link to="/profile">hráčský profil</Link>.</div>
+                </div>
+            )
+        }
         if (data.length > 0) {
             return data.map((g: IGame) => (
                 <React.Fragment key={'nearest-' + g.id}>

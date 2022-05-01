@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import { Navigate, useLocation } from 'react-router-dom'
-import { Credentials, IAthlete } from 'puckee-common/types'
+import { AthleteRole, Credentials, IAthlete } from 'puckee-common/types'
 import { API_BASE } from 'puckee-common/api'
   
 interface AuthContextType {
