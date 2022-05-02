@@ -24,7 +24,6 @@ export const HoverableGameAttendanceStatus = ({ classStr, showAttDesc, showMoney
     const [gameRole, setGameRole] = useState<AthleteRole | undefined>(game.participantRole(user))
     const { setNotification } = useNotifications()
 
-
     let config = {
         headers: {
             'Content-Type': 'application/json',

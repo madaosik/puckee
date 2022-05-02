@@ -61,7 +61,7 @@ export const APIAuthProvider = {
         .catch(function (error) {
           if (error.response) {
             // The request was made and the server responded with a status code
-            callback(error.status, error.response.data)
+            callback(error.sJSONtatus, error.response.data)
           } else if (error.request) {
             // The request was made but no response was received
             callback(-1, {'message': 'Chyba připojení k síti!'})

@@ -13,7 +13,9 @@ export const MyCalendar : React.FC = () => {
                 <h4>Kalendář</h4>
             </div>
             <div className="content-inner-row data">
-                <Calendar onChange={()=> {}} showWeekNumbers value={value} />
+                <div className="d-flex flex-column mh-60">
+                    <Calendar onChange={()=> {}} showWeekNumbers value={value} />
+                </div>
             </div>
         </div>
     )

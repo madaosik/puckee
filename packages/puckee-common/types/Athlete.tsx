@@ -27,9 +27,17 @@ export interface IGameAnonymParticipantsIDAPI {
 }
 
 
-type AthleteRoleType = {
+export type AthleteRoleType = {
   id: number
   skill_level: number
+}
+
+export interface ISignupDetailsAPI {
+  id: number
+  name: string
+  surname: string
+  birth_month: string
+  roles: AthleteRoleType[] 
 }
 
 type FollowStatus = {
@@ -41,6 +49,7 @@ export interface IAthlete {
   id: number
   email: string
   name: string
+  surname: string
   password: string | undefined
   roles: AthleteRoleType[]
   follow: FollowStatus | undefined
@@ -59,6 +68,7 @@ export class Athlete implements Serializable<Athlete> {
     id: number
     email: string
     name: string
+    surname: string
     password: undefined
     last_login: Date
     last_update: Date
@@ -71,6 +81,7 @@ export class Athlete implements Serializable<Athlete> {
       this.id = Number(data.id)
       this.email = data.email
       this.name = data.name
+      this.surname = data.surname
       this.last_login = new Date(data.last_login)
       this.last_update = new Date(data.last_update)
       this.roles = data.roles

@@ -24,7 +24,7 @@ export default function MyNearestGames( { user, icerinks } : MyNearestGamesProps
             return (
                 <div className="d-flex flex-column justify-content-center align-items-center flex-1 w-100">
                     <div>Nejsi zatím přihlášen na žádné utkání!</div>
-                    <div>Pro dokončení registrace navštiv <Link to="/profile">hráčský profil</Link>.</div>
+                    <div>Pro dokončení registrace navštiv <Link to="/profile">osobní profil</Link>.</div>
                 </div>
             )
         }

@@ -63,11 +63,15 @@
 
 .signup-accessData-wrapper {
     min-width: 35%;
-    border-radius: 15px;
+    
+}
+
+.signup-accessData {
+    border-radius: 25px;
 }
 
 .content-inner-row.data.signUp-personalInfo {
-    border-radius: 10px;
+    border-radius: 0px 0px 10px 10px;
     padding: 20px;
     display: flex;
     flex-direction: column;

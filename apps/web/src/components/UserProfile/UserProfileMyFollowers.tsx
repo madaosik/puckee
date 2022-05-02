@@ -7,7 +7,7 @@ export const UserProfileMyFollowers : React.FC = () => {
                 <h6>Sledující</h6>
             </div>
             <div className="content-inner-row data">
-                <p>Seznam lidí</p>
+                {/* <p>Seznam lidí</p> */}
             </div>
         </div>
     )

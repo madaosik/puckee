@@ -7,7 +7,7 @@ export const UserProfileGamesPlayed : React.FC = () => {
                 <h6>Odehraná utkání</h6>
             </div>
             <div className="content-inner-row data">
-                <p>Tabulkový výpis utkání</p>
+                {/* <p>Tabulkový výpis utkání</p> */}
             </div>
         </div>
     )

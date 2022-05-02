@@ -18,22 +18,19 @@ import { stringAvatar } from 'puckee-common/utils/avatar'
 
 interface GameInListProps {
     gameData: IGame
+    currentUser: Athlete
     icerink: any
 }
 
-const GameInList = ( {gameData, icerink}: GameInListProps ) => {
-    const auth = useAuth()
+const GameInList = ( {gameData, currentUser, icerink}: GameInListProps ) => {
     const game = new Game().deserialize(gameData)
-    const user = new Athlete().deserialize(auth.userData.athlete)
-    if(gameData.id == 173) {
-        console.log(gameData)
-    }
+
     return (
         <div className="itemInList">
             <div className="itemInList-col profilePhoto">
                 {/* <Avatar {...stringAvatar(athlete.name)} /> */}
                 {/* <CgProfile size={40}/> */}
-                <Avatar {...stringAvatar(game.organizers[0].name, 40)} />
+                <Avatar {...stringAvatar(`${game.organizers[0].name} ${game.organizers[0].surname}`, 40)} />
             </div>
             <div className="itemInList-col nameAndExpSkill">
                 <div style={{'color': '#002D63'}}>
@@ -41,7 +38,7 @@ const GameInList = ( {gameData, icerink}: GameInListProps ) => {
                 </div>
                 <div className="itemInList-col expSkillAndOrg">
                     <SkillPucks className="itemInList-col expSkill" skillLevel={game.exp_skill} puckSize={18} iconKey={'game-' + game.id + '-puck'}/>
-                    {game.organizers[0].id == user.id &&
+                    {game.organizers[0].id == currentUser.id &&
                             <div className="itemInList-col org">
                                 <Link to={"/games/" + game.id + "/edit"}>
                                     <FiEdit2 size={18}/>
@@ -89,7 +86,7 @@ const GameInList = ( {gameData, icerink}: GameInListProps ) => {
                     showAttDesc={false}
                     showMoney={false}
                     game={game}
-                    user={user}
+                    user={currentUser}
                     classStr="itemInList-col attendanceStatus"
                     joinBtnClass="btn btn-sm btn-block btn-outline-primary rounded"
             />

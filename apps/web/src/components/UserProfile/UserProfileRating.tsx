@@ -7,7 +7,7 @@ export const UserProfileRating : React.FC = () => {
                 <h6>Hodnocení</h6>
             </div>
             <div className="content-inner-row data">
-                <p>Obsah hodnocení</p>
+                {/* <p>Obsah hodnocení</p> */}
             </div>
         </div>
     )

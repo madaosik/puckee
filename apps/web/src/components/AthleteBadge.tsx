@@ -30,6 +30,8 @@ const classNameBasedOnFollowStatus = (athlete: Athlete | IAthlete ) : string => 
 }
 
 export function AthleteBadge ( {athlete, registered, showFollow} : AthleteBadgeProps ) {
+    const name = registered ? `${athlete.name} ${athlete.surname}`: athlete.name
+    
     var borderClassName: string | null = null
     if (showFollow && !instanceOfAnonymAthlete(athlete)) {
         borderClassName = classNameBasedOnFollowStatus(athlete as IAthlete)
@@ -38,10 +40,10 @@ export function AthleteBadge ( {athlete, registered, showFollow} : AthleteBadgeP
     return (
         <div className={`d-flex flex-row justify-content-between align-items-center shadow athleteBadge-wrapper ${borderClassName}`}>
             <div className="ms-2">
-                { athleteAvatar(registered, athlete.name) }
+                { athleteAvatar(registered, name) }
             </div>
             <div className="d-flex flex-row justify-content-end ms-2 pe-2">
-                <div className="athleteBadge-athleteName">{athlete.name}</div>
+                <div className="athleteBadge-athleteName">{name}</div>
             </div>
 
         </div>

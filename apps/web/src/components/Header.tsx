@@ -6,6 +6,7 @@ import SplitButton from 'react-bootstrap/SplitButton'
 import { Athlete, IAthlete } from "puckee-common/types"
 import { useAuth } from "puckee-common/auth"
 import { queryClient } from "../../App"
+import { Button } from "./FormElements"
 
 export interface HeaderProps {
     headerContent?: JSX.Element
@@ -36,7 +37,7 @@ export const Header = ( { headerContent, statusContent } : HeaderProps) => {
                     {statusContent}
                     {
                         user.name ?
-                        <UserBadge userName={user.name}/>
+                        <UserBadge userName={`${user.name} ${user.surname}`}/>
                         :
                         <UserBadge userEmail={user.email}/>
                     }
@@ -57,8 +58,18 @@ const UserBadge = ( { userName, userEmail } : UserBadgeType ) => {
 
     return (
         <>
-            <div className="unverifiedUserReport">
-                {userEmail && ""}
+            <div className="d-flex flex-row w-100 justify-content-end">
+                {
+                    userEmail && 
+                    (
+                        <div className="d-flex flex-row w-100 justify-content-end">
+                            <Button className="btn btn-outline-warning"
+                            caption="Dokončit registraci"
+                            onClick={() => navigate("/profile", { state: {from: location.pathname} })}
+                            />
+                        </div>
+                    )
+                }
             </div>
             <div className="userProfileToken">
                 <div className="userBadgeButton">

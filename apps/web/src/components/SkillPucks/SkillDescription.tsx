@@ -9,12 +9,29 @@ export const SkillDescription = ( { skillValue } : SkillDescriptionProps ) => {
     
     const playerSkillDescription = [
         "Vyber počet puků výše",
-        "1 - Neumíš nic", "2 - Umíš něco", "3 - Hraješ slušně",
-        "4 - Nadprůměrný", "5 - Velmi výrazný", "6 - Mezi amatéry excelentní"
+        "1 - Jsi úplně na začátku", 
+        "2 - Hraješ jen pár měsíců",
+        "3 - Tvá hra je solidní",
+        "4 - Jsi nadprůměrně schopný",
+        "5 - Na amatérském ledě jsi velmi výrazný",
+        "6 - Mezi amatéry jsi excelentní"
     ]
     return (
         <>
-            { skillValue >= 0 && playerSkillDescription[skillValue] }
+            { 
+                skillValue > 0 ?
+                    (
+                        <div className="mt-2 fw-bolder">
+                            { playerSkillDescription[skillValue] }
+                        </div>
+                    ) 
+                    :
+                    (
+                        <div className="mt-2">
+                            { playerSkillDescription[skillValue] }
+                        </div>
+                    )
+            }
         </>
     )
 }

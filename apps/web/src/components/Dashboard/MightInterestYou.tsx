@@ -15,12 +15,11 @@ interface MightInterestYouProps {
 export default function MightInterestYou( {user, icerinks} : MightInterestYouProps)
 {
     const { status, error, isSuccess, isFetching, data } = useFetchFolloweeGamesByAthleteId(user.id, 10, {enabled: true})
-    console.log(user)
     const renderGames = () => {
         // User has not yet finalized registration process
         if (user.roles.length == 1) {
             return (
-                <div className="d-flex flex-column justify-content-center align-items-center flex-1 w-100">
+                <div className="d-flex flex-column justify-content-center align-items-center h-100 w-100">
                     <div>Po <Link to={"/profile"}>dokončení registrace</Link> zde uvidíš přehled utkání hráčů, které sleduješ.</div>
                 </div>
             )
@@ -30,7 +29,7 @@ export default function MightInterestYou( {user, icerinks} : MightInterestYouPro
                 <React.Fragment key={'mightInterest-' + g.id}>
                     <>
                         <FolloweesInGame key={'follGame-' + g.id} user={user} gameObj={g}/>
-                        <GameInList key={'mightInterest-' + g.id} icerink={icerinks!.find(r => r.id == g.location_id)} gameData={g}/>
+                        <GameInList currentUser={user} key={'mightInterest-' + g.id} icerink={icerinks!.find(r => r.id == g.location_id)} gameData={g}/>
                     </>
                 </React.Fragment>
                 )
@@ -71,7 +70,7 @@ export default function MightInterestYou( {user, icerinks} : MightInterestYouPro
                     )
                     :
                     (
-                        <div className="d-flex flex-column flex-1 justify-content-center mh-100">
+                        <div className="d-flex flex-column flex-1 justify-content-center h-100">
                             { renderGames() }
                          </div>
                     )

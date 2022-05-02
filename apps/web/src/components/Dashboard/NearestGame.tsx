@@ -25,7 +25,7 @@ export default function NearestGame( { user, icerink, gameObj } : DashboardNeare
             <div className="d-flex flex-column justify-content-center me-1 flex-1">
                 {/* <Avatar {...stringAvatar(athlete.name)} /> */}
                 {/* <CgProfile size={40}/> */}
-                <Avatar {...stringAvatar(game.organizers[0].name, 50)} />
+                <Avatar {...stringAvatar(`${game.organizers[0].name} ${game.organizers[0].surname}`, 50)} />
             </div>
             <div className="d-flex flex-column justify-content-center align-items-center me-2 flex-5">
                 <div style={{'color': '#002D63', 'fontWeight': 'bold', 'fontSize': '0.95rem'}}>

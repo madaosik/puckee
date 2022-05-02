@@ -5,6 +5,8 @@ import { GameAttendanceRoleSelector } from "./GameAttendanceRoleSelector"
 import { GameAttendanceRoleSelected } from "./GameAttendanceRoleSelected"
 import { useAuth } from "puckee-common/auth"
 import { Button } from "../FormElements"
+import { NOTIFICATION, useNotifications } from "puckee-common/context/NotificationsContext"
+import Tooltip from "@mui/material/Tooltip"
 
 interface GameAttendanceRoleStatusProps {
     game: Game
@@ -19,6 +21,9 @@ interface GameAttendanceRoleStatusProps {
 export const GameAttendanceRoleStatus = ( { isInvertedColor, game, showMoney, showAttDesc, role, roleSetter, joinBtnClass } : GameAttendanceRoleStatusProps) => {
     const auth = useAuth()
     const user = new Athlete().deserialize(auth.userData.athlete)
+    const isOnlyUser = user.uniqueRole() == AthleteRole.User ? true: false
+    const { setNotification } = useNotifications()
+
     const [roleInSelection, setRoleInSelection] = useState(false)
     
     const setRole = (role: AthleteRole | undefined): void => {
@@ -60,6 +65,22 @@ export const GameAttendanceRoleStatus = ( { isInvertedColor, game, showMoney, sh
     else 
     {
         // return <Link to={"#"} onClick={() => showAttendanceSelector()}>Přihlásit se</Link>
-        return <Button caption={"Přihlásit"} className={joinBtnClass} onClick={() => showAttendanceSelector()}/>
+        if (isOnlyUser) {
+            return(
+                <Tooltip title={`Před přihlášením na utkání je třeba dokončit registraci v osobním profilu!`} followCursor>
+                    <div onClick={ () => setNotification({message: `Před přihlášením na utkání je třeba dokončit registraci v osobním profilu!`, variant: NOTIFICATION.ALERT, timeout: 4000}) }>
+                        <Button caption={"Přihlásit"} className={joinBtnClass} onClick={() => showAttendanceSelector()} disabled/>
+                    </div>
+                </Tooltip>
+            )
+        } else {
+            return <Button caption={"Přihlásit"} className={joinBtnClass} onClick={() => showAttendanceSelector()}/>
+                // <Tooltip title={`Před přihlášením na utkání je třeba dokončit registraci v osobním profilu!`} followCursor>
+                //     <div><RoleIcon color={isInvertedColor ? "white" : "black"} height={35}/></div>
+                // </Tooltip>
+                
+                // )
+        }
+
     }
 }

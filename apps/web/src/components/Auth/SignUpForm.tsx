@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Button, ErrorReport, FormInput } from '../FormElements';
 import { Credentials } from 'puckee-common/types';
 import { useAuth } from 'puckee-common/auth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { SignInFormError } from './SignInForm';
 
 const eMailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -22,6 +22,7 @@ export default function SignUpForm() {
     const [password, setPassword] = useState("");
     const [passwordRepeated, setPasswordRepeated] = useState("");
     const [errors, setErrors] = useState(new SignUpFormError())
+    const location = useLocation()
 
     const handleSignUp = (e: React.FormEvent) => {
         e.preventDefault()
@@ -60,7 +61,7 @@ export default function SignUpForm() {
             } 
             else {
                 // let from = location.state?.from?.pathname || "/";
-                navigate("/sign-up-details")
+                navigate("/sign-up-details", { state: {from: location.pathname} })
             }
         }))
         // dispatch(signUp(cred))
@@ -85,7 +86,7 @@ export default function SignUpForm() {
                 <div className="signUp-title">Registrace nového hráče</div>
                 <div className="d-flex flex-column w-100 justify-content-center">
                     <div className="content-inner-box w-100">
-                        <div className="d-flex flex-column p-5 rounded signUp-accessData bg-white shadow">
+                        <div className="d-flex flex-column p-5 signUp-accessData rounded-3 bg-white shadow">
                             <form onSubmit={handleSignUp}>  
                                 <div className="form-group">
                                     <label className="form-label">E-mail</label>

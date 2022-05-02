@@ -10,17 +10,17 @@ interface FolloweesInGameProps {
 export default function FolloweesInGame( {user, gameObj} : FolloweesInGameProps)
 {
     const game = new Game().deserialize(gameObj)
-    const followedOrganizers = game.findFollowed(user.id, AthleteRole.Organizer).map(a => a.name)
-    const followedPlayers = game.findFollowed(user.id, AthleteRole.Player).map(a => a.name)
-    const followedGoalies = game.findFollowed(user.id, AthleteRole.Goalie).map(a => a.name)
-    const followedReferees = game.findFollowed(user.id, AthleteRole.Referee).map(a => a.name)
+    const followedOrganizers = game.findFollowed(user.id, AthleteRole.Organizer).map(a => `${a.name} ${a.surname}`)
+    const followedPlayers = game.findFollowed(user.id, AthleteRole.Player).map(a => `${a.name} ${a.surname}`)
+    const followedGoalies = game.findFollowed(user.id, AthleteRole.Goalie).map(a => `${a.name} ${a.surname}`)
+    const followedReferees = game.findFollowed(user.id, AthleteRole.Referee).map(a => `${a.name} ${a.surname}`)
     
     const followedParticipantsLen = followedPlayers.length + followedGoalies.length + followedReferees.length 
-    
+
     const renderParticipants = (role: AthleteRole) => {
         var participantsStr: string = ""
         if (role == AthleteRole.Player) participantsStr = followedPlayers.join(", ")
-        else if (role == AthleteRole.Goalie) participantsStr = followedPlayers.join(", ")
+        else if (role == AthleteRole.Goalie) participantsStr = followedGoalies.join(", ")
         else participantsStr = followedReferees.join(", ")
 
         return (

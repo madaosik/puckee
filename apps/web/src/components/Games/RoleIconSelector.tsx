@@ -35,7 +35,7 @@ export const RoleIconSelector = ( { game, role, RoleIcon, rememberSelectedCb,  i
       return (
         <Link to="#">
           <Tooltip title={`Přihlásit se jako ${AthleteRole[role]}`} followCursor>
-            <div><RoleIcon color={isInvertedColor ? "white" : "black"} height={35}/></div>
+            <div><RoleIcon color={isInvertedColor ? "white" : "var(--app-color-darkest)"} height={35}/></div>
           </Tooltip>
         </Link>
       )

@@ -2,11 +2,12 @@ import React from 'react';
 
 interface ErrorMsgProps {
     msg?: string
+    className?: string
 }
 
-export const ErrorReport = ({msg} : ErrorMsgProps) => {
+export const ErrorReport = ({msg, className} : ErrorMsgProps) => {
     return (
-        <div className="formInputError">{msg}</div>
+        <div className={`formInputError ${className}`}>{msg}</div>
     )
 }
 
@@ -39,11 +40,12 @@ interface ButtonProps {
     iconClass?: string,
     disabled?: boolean,
     onClick?: React.MouseEventHandler<HTMLButtonElement>
+    onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>
 }
 
-export const Button: React.FC<ButtonProps>= ({ ref, caption, type, disabled, className, onClick, iconClass }): JSX.Element => {
+export const Button: React.FC<ButtonProps>= ({ ref, caption, type, disabled, className, onClick, onMouseEnter, iconClass }): JSX.Element => {
     return ( 
-        <button className={className} type={type} onClick={onClick} disabled={disabled} ref={ref}>
+        <button className={className} type={type} onClick={onClick} onMouseEnter={onMouseEnter} disabled={disabled} ref={ref}>
                 {/* <i className="bi bi-plus-lg"></i> */}
                 {/* <i className={iconClass}></i> */}
             {/* <svg className={iconClass}></svg> */}

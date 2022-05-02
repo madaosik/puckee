@@ -89,13 +89,14 @@ export const AthleteInList = ( {athleteObj, currentUser}: AthleteInListProps ) =
         changeFollowModeMutation.mutate( {opt_out_mode: e.target.checked} )
     }
 
+    const fullName = `${athlete.name} ${athlete.surname}`
     return (
         <div className="itemInList playersList">
             <div className="itemInList-col profilePhoto">
-                <Avatar {...stringAvatar(athlete.name, 40)} />
+                <Avatar {...stringAvatar(fullName, 40)} />
             </div>
             <div className="itemInList-col athleteName">
-                {athlete.name}
+                {fullName}
             </div>
             <div className="itemInList-col athleteSkills">
                 {athlete.hasRole(AthleteRole.Player) && 

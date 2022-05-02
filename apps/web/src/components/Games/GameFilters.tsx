@@ -7,7 +7,7 @@ export const GameFilters : React.FC = () => {
                 <h6>Filtry</h6>
             </div>
             <div className="content-inner-row data">
-                <p>Filtry</p>
+                {/* <p>Filtry</p> */}
             </div>
         </div>
     )

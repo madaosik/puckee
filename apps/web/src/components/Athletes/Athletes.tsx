@@ -45,7 +45,7 @@ const Athletes : React.FC = () => {
             <div className="main-content">
                 <div className="content-container">
                     <div className="content-row searchBar">
-                        <p>Vyhledávací lišta</p>
+                        {/* <p>Vyhledávací lišta</p> */}
                     </div>
                     <div className="content-row columns">
                         <div className="leftContentColumn">
