@@ -92,7 +92,7 @@ export default function GameAdminForm()
     const [isPrivate, setIsPrivate] = useState(false)
     
 
-    const [regPlayers, setRegPlayers] = useState<IAthlete[]>(initPlayers())
+    const [regPlayers, setRegPlayers] = useState<IAthlete[]>([])
     const [nonRegPlayers, setNonRegPlayers] = useState<IAnonymAthlete[]>([])
     const [regGoalies, setRegGoalies] = useState<IAthlete[]>((preferredRole == AthleteRole.Goalie) ? [auth.userData.athlete] : [])
     const [nonRegGoalies, setNonRegGoalies] = useState<IAnonymAthlete[]>([])

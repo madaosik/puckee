@@ -7,7 +7,6 @@ export default function GameAdminRecentlyOrganizedGames (){
                     <h6>Nedávno organizované</h6>
                 </div>
                 <div className="content-inner-row data helper">
-                    <p>Hry</p>
                 </div>
         </div>
     )

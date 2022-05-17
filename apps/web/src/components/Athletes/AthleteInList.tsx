@@ -2,7 +2,6 @@ import axios from "axios"
 import { API_BASE } from "puckee-common/api"
 import { Athlete, AthleteRole, IAthlete, IAthleteFollowAPI } from "puckee-common/types"
 import React, { useState } from "react"
-import { IoPersonCircleOutline } from "react-icons/io5"
 import { useMutation } from "react-query"
 import { queryClient } from "../../../App"
 import { AthleteListSkillRating } from "./AthleteListSkillRating"
@@ -121,25 +120,7 @@ export const AthleteInList = ( {athleteObj, currentUser}: AthleteInListProps ) =
                     <FollowButton currentUser={currentUser} athlete={athlete} followCb={follow}/>
                 }
             </div>
-        {/* <div className="itemInList-col detailArrow">
-            <Link to={"#"}><IoMdArrowDropright size={30}/></Link>
-        </div> */}
     </div>
-    
-
-    
-    // <p
-    //     style={{
-    //         border: '1px solid gray',
-    //         borderRadius: '5px',
-    //         padding: '2rem 1rem',
-    //         background: `hsla(${athlete.id * 30}, 60%, 80%, 1)`,
-    //     }}
-    //     key={athlete.id}
-    //     >
-    //     {athlete.name}
-    //     {/* {game.date} */}
-    // </p>
     )
 }
                                             

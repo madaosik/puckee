@@ -50,7 +50,6 @@ export function AthleteBadge ( {athlete, registered, showFollow} : AthleteBadgeP
     )
 }
 
-// 
 
 interface RemovableAthleteBadgeProps extends AthleteBadgeProps {
     removeReg?: (id: number, role: AthleteRole) => void
@@ -58,14 +57,7 @@ interface RemovableAthleteBadgeProps extends AthleteBadgeProps {
 }
 
 export function RemovableAthleteBadge( { athlete, showFollow, role, registered, removeReg, removeNonReg }: RemovableAthleteBadgeProps) {
-    // var removeCbParam : {id? : number, name? : string}
-    // athlete.id ? removeCbParam = {id: athlete.id} : removeCbParam = {name: athlete.name}
-
-    // if(!removeCbParam) {
-    //     console.log(athlete)
-    //     // console.log(athlete.name)
-    //     throw new Error("Unable to get identification of athlete for his removal!")
-    // }
+    const name = registered ? `${athlete.name} ${athlete.surname}`: athlete.name
 
     var borderClassName: string = ""
     if (showFollow && !instanceOfAnonymAthlete(athlete)) {
@@ -94,11 +86,11 @@ export function RemovableAthleteBadge( { athlete, showFollow, role, registered, 
     return (
         <div className={`d-flex flex-row justify-content-between align-items-center shadow athleteBadge-wrapper removable ${borderClassName}`}>
             <div className="ms-2">
-                { athleteAvatar(registered, athlete.name) }
+                { athleteAvatar(registered, name) }
             </div>
             <div className="d-flex flex-row justify-content-end ms-2 pe-2">
                 <div className="athleteBadge-athleteName">
-                    {athlete.name}
+                    {name}
                 </div>
                 {
                     <RemoveBadgeButton children=

@@ -9,12 +9,8 @@ interface FollowingButtonProps {
     followModeSwitchCb: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const FollowingButton = ( { sectionClass, unfollowCb, optOutModeActive, followModeSwitchCb }: FollowingButtonProps ) => {
+export const FollowingButton = ( { sectionClass, unfollowCb, optOutModeActive, followModeSwitchCb }: FollowingButtonProps ) => {    
     const [isHovered, setIsHovered] = useState(false)
-
-    // const handleChange = (event: any) => {
-    // setState({ ...state, [event.target.name]: event.target.checked });
-    // };
 
     return (
             <div className={sectionClass}>

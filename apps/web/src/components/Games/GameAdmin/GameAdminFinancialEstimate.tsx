@@ -7,7 +7,6 @@ export default function GameAdminFinancialEstimate () {
                     <h6>Orientační kalkulace</h6>
                 </div>
                 <div className="content-inner-row data helper">
-                    <p>Kalkulace</p>
                 </div>
         </div>
     )

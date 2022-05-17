@@ -93,7 +93,7 @@ export default function GameAdminParticipants( {
             inputValue={inputText}
             value={selectedAthlete}
             options={athleteSearchResults}
-            getOptionLabel={athlete => athlete.name}
+            getOptionLabel={athlete => `${athlete.name} ${athlete.surname}`}
             onChange={handleChangePrimary}
             onInputChange={handleInputChangePrimary}
             styles={selectCustomStyles}
@@ -102,7 +102,7 @@ export default function GameAdminParticipants( {
       }
     
     
-
+    console.log(registered)
     return (
         <div className="d-flex flex-row justify-content-between newGame-basicInfo-rootBox h-100 w-100">
             <div className="d-flex flex-column justify-content-center flex-1">

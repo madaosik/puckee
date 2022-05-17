@@ -8,7 +8,7 @@ export default function GameAdminAvailableGroups ()
                     Skupiny
                 </div>
                 <div className="content-inner-row data helper">
-                    <p>Výpis skupin</p>
+                    {/* <p>Výpis skupin</p> */}
                 </div>
         </div>
     )

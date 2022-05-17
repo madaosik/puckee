@@ -426,8 +426,8 @@ input.form-control.shadow.shorter {
 }
 
 .gameDetail-chatContent {
-    max-height: 850px;
-    height: 100%;
+    height: 755px;
+    /* max-height: 100%; */
 }
 
 .gameDetail-chat-box {

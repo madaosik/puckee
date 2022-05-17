@@ -9,7 +9,7 @@ import { AuthProvider, RequireAuth } from 'puckee-common/auth'
 import { NotificationsProvider } from 'puckee-common/context/NotificationsContext'
 import Notifications from './src/components/Notifications'
 
-function Puckee() {
+export default function Puckee() {
   return (
       <div className="App">
         <NotificationsProvider>
@@ -47,5 +47,3 @@ function Puckee() {
 const NoMatch = () => {
   return <h1>Stránka nenalezena!</h1>;
 }
-
-export default Puckee

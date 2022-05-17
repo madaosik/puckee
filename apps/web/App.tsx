@@ -18,7 +18,7 @@ function App () {
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Puckee />
-            <ReactQueryDevtools initialIsOpen={true} />
+            {/* <ReactQueryDevtools initialIsOpen={true} /> */}
           </BrowserRouter>   
         </QueryClientProvider>
     </React.StrictMode>

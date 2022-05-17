@@ -72,7 +72,7 @@ export default function GameDetailBasicInfo ( { game } : GameDetailBasicInfoProp
                     {/* Druhy radek se tremi sloupci (uroven atd) */}
                     <div className="d-flex flex-row justify-content-between mt-2">
                         {/* Prvni sloupec (cas, datum) */}
-                        <div className="d-flex flex-column align-items-center gameDetail-basicInfo-skill">
+                        <div className="d-flex flex-column align-items-center flex-3">
                             <div>Očekávaná úroveň</div>
                             <div><SkillPucks skillLevel={game.exp_skill} puckSize={24} iconKey={game.id + 'detail-exp-skill'}/></div>
                         </div>
